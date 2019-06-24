@@ -11,10 +11,17 @@ Get dockerized.
 - redis
 - phpmyadmin
 
+## Clone the repository and its submodules
+```
+$ git clone https://github.com/sohelaman/dockerized.git
+$ cd dockerized
+$ git submodule init
+$ git submodule update
+```
+
 ## Setup environment
 - Make a copy of the example.env file as .env
 ```
-$ cd dockerized
 $ cp example.env .env
 ```
 - Make necessary changes to the variables inside the .env file
