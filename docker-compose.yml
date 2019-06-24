@@ -1,0 +1,82 @@
+version: "3"
+
+services:
+  alpine:
+    image: alpine:latest
+    container_name: 'dockerized-alpine'
+
+  apache-php5:
+    build: 
+      context: ./services/dockerized-apache-php5
+    container_name: 'dockerized-apache-php5'
+    restart: 'always'
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes: 
+      - ${DOCUMENT_ROOT-./var/www/html}:/var/www/html
+      - ${APACHE_LOG_DIR-./var/log/apache2}:/var/log/apache2
+
+  apache-php7:
+    build: 
+      context: ./services/apache-php7
+    container_name: 'dockerized-apache-php7'
+    restart: 'always'
+    links:
+      - ${DEFAULT_DB_SERVER-mariadb}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes: 
+      - ${DOCUMENT_ROOT-./var/www/html}:/var/www/html
+      - ${APACHE_LOG_DIR-./var/log/apache2}:/var/log/apache2
+      # - ${PHP_INI-./etc/php/php.ini}:/etc/php/php.ini
+
+  mysql:
+    image: mysql:latest
+    container_name: 'dockerized-mysql'
+    restart: 'always'
+    ports:
+      - "3306:3306"
+    volumes: 
+      - ${MYSQL_DATA_DIR-./var/lib/mysql}:/var/lib/mysql
+      - ${MYSQL_LOG_DIR-./var/log/mysql}:/var/log/mysql
+    environment:
+      MYSQL_USER: ${MYSQL_USER-dockerized}
+      MYSQL_PASSWORD: ${MYSQL_USER_PASS-dockerized}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASS-root}
+      MYSQL_DATABASE: ${MYSQL_DB-dockerized}
+
+  mariadb:
+    image: mariadb:latest
+    container_name: 'dockerized-mariadb'
+    restart: 'always'
+    ports:
+      - "3306:3306"
+    volumes:
+      - ${MARIADB_DATA_DIR-./var/lib/mariadb}:/var/lib/mysql
+      - ${MARIADB_LOG_DIR-./var/log/mariadb}:/var/log/mysql
+    environment:
+      MYSQL_USER: ${MYSQL_USER-dockerized}
+      MYSQL_PASSWORD: ${MYSQL_USER_PASS-dockerized}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASS-root}
+      MYSQL_DATABASE: ${MYSQL_DB-dockerized}
+
+  redis:
+    image: redis:latest
+    container_name: 'dockerized-redis'
+    ports:
+      - "6379:6379"
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: 'dockerized-phpmyadmin'
+    links:
+      - ${DEFAULT_DB_SERVER-mariadb}
+    environment:
+      PMA_HOST: ${DEFAULT_DB_SERVER-mariadb}
+      PMA_PORT: 3306
+    ports:
+      - '80:80'
+    volumes: 
+      - /sessions
