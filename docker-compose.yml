@@ -6,19 +6,19 @@ services:
     container_name: 'dockerized-alpine'
 
   apache-php5:
-    build: 
+    build:
       context: ./services/dockerized-apache-php5
     container_name: 'dockerized-apache-php5'
     restart: 'always'
     ports:
       - "80:80"
       - "443:443"
-    volumes: 
+    volumes:
       - ${DOCUMENT_ROOT-./var/www/html}:/var/www/html
       - ${APACHE_LOG_DIR-./var/log/apache2}:/var/log/apache2
 
   apache-php7:
-    build: 
+    build:
       context: ./services/apache-php7
     container_name: 'dockerized-apache-php7'
     restart: 'always'
@@ -27,18 +27,27 @@ services:
     ports:
       - "80:80"
       - "443:443"
-    volumes: 
+    volumes:
       - ${DOCUMENT_ROOT-./var/www/html}:/var/www/html
       - ${APACHE_LOG_DIR-./var/log/apache2}:/var/log/apache2
       # - ${PHP_INI-./etc/php/php.ini}:/etc/php/php.ini
+
+  nginx-php7:
+    build:
+      context: ./services/nginx-php7
+    container_name: 'dockerized-nginx-php7'
+    restart: 'always'
+    volumes:
+      - ${DOCUMENT_ROOT-./var/www/html}:/var/www/html
+      - ${NGINX_LOG_DIR-./var/log/nginx}:/var/log/nginx
 
   mysql:
     image: mysql:latest
     container_name: 'dockerized-mysql'
     restart: 'always'
-    ports:
-      - "3306:3306"
-    volumes: 
+    # ports:
+    #   - "3306:3306"
+    volumes:
       - ${MYSQL_DATA_DIR-./var/lib/mysql}:/var/lib/mysql
       - ${MYSQL_LOG_DIR-./var/log/mysql}:/var/log/mysql
     environment:
@@ -51,8 +60,8 @@ services:
     image: mariadb:latest
     container_name: 'dockerized-mariadb'
     restart: 'always'
-    ports:
-      - "3306:3306"
+    # ports:
+    #   - "3306:3306"
     volumes:
       - ${MARIADB_DATA_DIR-./var/lib/mariadb}:/var/lib/mysql
       - ${MARIADB_LOG_DIR-./var/log/mariadb}:/var/log/mysql
@@ -78,5 +87,5 @@ services:
       PMA_PORT: 3306
     ports:
       - '80:80'
-    volumes: 
+    volumes:
       - /sessions

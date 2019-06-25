@@ -6,6 +6,7 @@ Get dockerized.
 - alpine
 - apache-php7
 - apache-php5
+- nginx-php7
 - mariadb
 - mysql
 - redis
