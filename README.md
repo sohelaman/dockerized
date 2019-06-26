@@ -9,15 +9,15 @@ Get dockerized.
 - nginx-php7
 - mariadb
 - mysql
+- mongodb
+- postgres
 - redis
-- phpmyadmin
+- memcached
 
 ## Clone the repository and its submodules
 ```
 $ git clone https://github.com/sohelaman/dockerized.git
-$ cd dockerized
-$ git submodule init
-$ git submodule update
+$ cd dockerized && git submodule init && git submodule update
 ```
 
 ## Setup environment
@@ -36,7 +36,7 @@ Or,
 $ sudo docker-compose run apache-php5 mariadb redis
 ```
 
-## Stop all and remove images
+## Stop service(s)
 ```
 $ sudo docker-compose down
 ```

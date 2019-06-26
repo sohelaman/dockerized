@@ -71,21 +71,27 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASS-root}
       MYSQL_DATABASE: ${MYSQL_DB-dockerized}
 
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER-root}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASS-root}
+
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_ROOT_PASS-root}
+
   redis:
-    image: redis:latest
+    image: redis:alpine
     container_name: 'dockerized-redis'
     ports:
       - "6379:6379"
 
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin:latest
-    container_name: 'dockerized-phpmyadmin'
-    links:
-      - ${DEFAULT_DB_SERVER-mariadb}
-    environment:
-      PMA_HOST: ${DEFAULT_DB_SERVER-mariadb}
-      PMA_PORT: 3306
+  memcached:
+    image: memcached:alpine
+    container_name: 'dockerized-memcached'
     ports:
-      - '80:80'
-    volumes:
-      - /sessions
+      - "11211:11211"
