@@ -13,11 +13,11 @@ Get dockerized.
 - redis
 - memcached
 
-### PHP Versions
+**PHP Versions**
 - Supported versions 5.4, 5.5, 5.6, 7.1, 7.2, 7.3.
-- Multiple at a time for Apache. Single for Nginx, atm.
+- The `apache` service runs multiple versions at a time but `nginx`, atm, supports any one at a time.
 
-## Clone the repository and its submodules
+## Clone the repository
 ```
 $ git clone https://github.com/sohelaman/dockerized.git && cd dockerized
 ```
@@ -65,3 +65,4 @@ $ sudo docker-compose ps
 ```
 $ sudo docker-compose images
 ```
+- Images must be rebuilt in case of any changes made in the .env, YML, or other configuration.
