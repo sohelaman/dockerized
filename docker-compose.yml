@@ -15,9 +15,11 @@ services:
       context: ./services/apache
       args:
         - DEFAULT_PHP_VER=${DEFAULT_PHP_VER-7.3}
+        - FPM_INSTALL_PHP_53=${INSTALL_PHP_53-false}
         - FPM_INSTALL_PHP_54=${INSTALL_PHP_54-false}
         - FPM_INSTALL_PHP_55=${INSTALL_PHP_55-false}
         - FPM_INSTALL_PHP_56=${INSTALL_PHP_56-false}
+        - FPM_INSTALL_PHP_70=${INSTALL_PHP_70-false}
         - FPM_INSTALL_PHP_71=${INSTALL_PHP_71-false}
         - FPM_INSTALL_PHP_72=${INSTALL_PHP_72-false}
         - FPM_INSTALL_PHP_73=${INSTALL_PHP_73-false}
