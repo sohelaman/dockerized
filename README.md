@@ -14,6 +14,7 @@ Get dockerized.
 - memcached
 
 **PHP Versions**
+- PHP [packages](https://packages.sury.org/php/) from [DEB.SURY.ORG](https://deb.sury.org/) repository are used.
 - Supported versions: 5.3, 5.4, 5.5, 5.6, 7.0, 7.1, 7.2, and 7.3.
 - The `apache` service can run multiple versions of PHP at a time but the `nginx` service, at this moment, supports any one of the aforementioned versions.
 
@@ -29,6 +30,8 @@ $ git clone https://github.com/sohelaman/dockerized.git && cd dockerized
 $ cp example.env .env
 ```
 - Make necessary changes to the variables inside the .env file.
+- Apache virtual host configurations are kept in the [services/apache/apache2/vhosts/vhosts.conf](services/apache/apache2/vhosts/vhosts.conf) file.
+- Any additional Apache configuration can be put in the [services/apache/apache2/configs/custom.conf](services/apache/apache2/configs/custom.conf) file.
 
 ### Build images
 ```
