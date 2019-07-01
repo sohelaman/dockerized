@@ -11,8 +11,7 @@ server {
     try_files $uri $uri/ =404;
   }
 
-  location ~ \.php$ {
-    include snippets/fastcgi-php.conf;
-    fastcgi_pass unix:/var/run/php/php7.3-fpm.sock;
-  }
+  ## FPM handler
+  ##!!#include /etc/nginx/fpm-handlers/fpm-handler-<php-version>.conf;
+
 }

@@ -1,3 +1,0 @@
-[submodule "services/dockerized-apache-php5"]
-	path = services/dockerized-apache-php5
-	url = https://github.com/sohelaman/dockerized-apache-php5.git

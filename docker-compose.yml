@@ -1,52 +1,51 @@
 version: "3"
 
 services:
+  # tools:
+  #   volumes:
+  #     - ${DOCUMENT_ROOT-./var/www/html}:/var/www/html
+
   alpine:
-    image: alpine:latest
     container_name: 'dockerized-alpine'
+    image: alpine:latest
 
-  apache-php5:
+  apache:
+    container_name: 'dockerized-apache'
     build:
-      context: ./services/dockerized-apache-php5
-    container_name: 'dockerized-apache-php5'
-    restart: 'always'
+      context: ./services/apache
+      args:
+        - DEFAULT_PHP_VER=${DEFAULT_PHP_VER-7.3}
+        - FPM_INSTALL_PHP_54=${INSTALL_PHP_54-false}
+        - FPM_INSTALL_PHP_55=${INSTALL_PHP_55-false}
+        - FPM_INSTALL_PHP_56=${INSTALL_PHP_56-false}
+        - FPM_INSTALL_PHP_71=${INSTALL_PHP_71-false}
+        - FPM_INSTALL_PHP_72=${INSTALL_PHP_72-false}
+        - FPM_INSTALL_PHP_73=${INSTALL_PHP_73-false}
     ports:
       - "80:80"
-      - "443:443"
+    tty: true
     volumes:
       - ${DOCUMENT_ROOT-./var/www/html}:/var/www/html
       - ${APACHE_LOG_DIR-./var/log/apache2}:/var/log/apache2
 
-  apache-php7:
+  nginx:
+    container_name: 'dockerized-nginx'
     build:
-      context: ./services/apache-php7
-    container_name: 'dockerized-apache-php7'
-    restart: 'always'
-    links:
-      - ${DEFAULT_DB_SERVER-mariadb}
+      context: ./services/nginx
+      args:
+        - NGINX_PHP_VER=${NGINX_PHP_VER-7.3}
     ports:
       - "80:80"
-      - "443:443"
-    volumes:
-      - ${DOCUMENT_ROOT-./var/www/html}:/var/www/html
-      - ${APACHE_LOG_DIR-./var/log/apache2}:/var/log/apache2
-      # - ${PHP_INI-./etc/php/php.ini}:/etc/php/php.ini
-
-  nginx-php7:
-    build:
-      context: ./services/nginx-php7
-    container_name: 'dockerized-nginx-php7'
-    restart: 'always'
+    tty: true
     volumes:
       - ${DOCUMENT_ROOT-./var/www/html}:/var/www/html
       - ${NGINX_LOG_DIR-./var/log/nginx}:/var/log/nginx
 
   mysql:
-    image: mysql:latest
     container_name: 'dockerized-mysql'
-    restart: 'always'
-    # ports:
-    #   - "3306:3306"
+    image: mysql:latest
+    ports:
+      - "3306:3306"
     volumes:
       - ${MYSQL_DATA_DIR-./var/lib/mysql}:/var/lib/mysql
       - ${MYSQL_LOG_DIR-./var/log/mysql}:/var/log/mysql
@@ -57,11 +56,10 @@ services:
       MYSQL_DATABASE: ${MYSQL_DB-dockerized}
 
   mariadb:
-    image: mariadb:latest
     container_name: 'dockerized-mariadb'
-    restart: 'always'
-    # ports:
-    #   - "3306:3306"
+    image: mariadb:latest
+    ports:
+      - "3306:3306"
     volumes:
       - ${MARIADB_DATA_DIR-./var/lib/mariadb}:/var/lib/mysql
       - ${MARIADB_LOG_DIR-./var/log/mariadb}:/var/log/mysql
@@ -72,26 +70,26 @@ services:
       MYSQL_DATABASE: ${MYSQL_DB-dockerized}
 
   mongo:
+    container_name: 'dockerized-mongodb'
     image: mongo
-    restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER-root}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASS-root}
 
   postgres:
+    container_name: 'dockerized-postgres'
     image: postgres
-    restart: always
     environment:
       POSTGRES_PASSWORD: ${POSTGRES_ROOT_PASS-root}
 
   redis:
-    image: redis:alpine
     container_name: 'dockerized-redis'
+    image: redis:alpine
     ports:
       - "6379:6379"
 
   memcached:
-    image: memcached:alpine
     container_name: 'dockerized-memcached'
+    image: memcached:alpine
     ports:
       - "11211:11211"

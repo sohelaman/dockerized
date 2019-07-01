@@ -1,0 +1,26 @@
+#!/bin/bash
+
+enabled_versions=$(echo ${FPM_INSTALL_PHP_VERSIONS} | tr ";" "\n")
+for item in $enabled_versions
+do
+  ver_enabled=$(echo "$item" | awk -F: '{print $2}' | sed 's/[ \t]\?//g')
+  if [ "$ver_enabled" = true ]; then
+  	## Extract version string
+  	ver_str=$(echo "$item" | awk -F: '{print $1}' | sed 's/[ \t]\?//g')
+
+  	## Install common extensions
+  	common_exts=(fpm mysql mbstring zip gd xml)
+  	for ext in "${common_exts[@]}"; do apt install -y php${ver_str}-${ext}; done
+
+  	## Update PHP configurations for the version
+  	ver_ini=/etc/php/${ver_str}/fpm/php.ini
+		sed -i "s/^display_errors = .*$/display_errors = On/" ${ver_ini}
+		sed -i "s/^error_reporting = .*$/error_reporting = E_ALL/" ${ver_ini}
+		sed -i "s/^memory_limit = .*$/memory_limit = 256M/" ${ver_ini}
+		sed -i "s/^max_execution_time = .*$/max_execution_time = 600/" ${ver_ini}
+		sed -i "s/^upload_max_filesize = .*$/upload_max_filesize = 256M/" ${ver_ini}
+		sed -i "s/^post_max_size = .*$/post_max_size = 256M/" ${ver_ini}
+		# sed -i "s/^short_open_tag = Off$/short_open_tag = On/" ${ver_ini}
+
+	fi
+done
