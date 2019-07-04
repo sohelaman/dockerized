@@ -4,6 +4,7 @@ Get dockerized.
 
 ## Services
 - alpine
+- debian
 - apache
 - nginx
 - mariadb
@@ -12,11 +13,16 @@ Get dockerized.
 - postgres
 - redis
 - memcached
+- void
 
 **PHP Versions**
 - PHP [packages](https://packages.sury.org/php/) from [DEB.SURY.ORG](https://deb.sury.org/) repository are used.
 - Supported versions: 5.3, 5.4, 5.5, 5.6, 7.0, 7.1, 7.2, and 7.3.
 - The `apache` service can run multiple versions of PHP at a time but the `nginx` service, at this moment, supports any one of the aforementioned versions.
+
+**Notes**
+- The `alpine` service is nothing but the latest `alpine` image; similarly, `debian` is the latest slim Debian Stretch image.
+- The `void` service is for generic tools and utils such as npm, composer, etc.
 
 ## Installation and Usages
 ### Clone the repository
