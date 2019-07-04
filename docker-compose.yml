@@ -1,9 +1,6 @@
 version: "3"
 
 services:
-  # tools:
-  #   volumes:
-  #     - ${DOCUMENT_ROOT-./var/www/html}:/var/www/html
 
   alpine:
     container_name: 'dockerized-alpine'
@@ -95,3 +92,21 @@ services:
     image: memcached:alpine
     ports:
       - "${MEMCACHED_PORT-11211}:11211"
+
+  void:
+    container_name: 'dockerized-void'
+    build:
+      context: ./services/void
+      args:
+        - VOID_USER=${VOID_USER-copernicus}
+        - VOID_USE_BD_MIRROR=${VOID_USE_BD_MIRROR-false}
+        - VOID_ADD_NODEJS=${VOID_ADD_NODEJS-true}
+        - VOID_ADD_RUBY=${VOID_ADD_RUBY-false}
+        - VOID_ADD_JAVA=${VOID_ADD_JAVA-false}
+        - VOID_ADD_COMPOSER=${VOID_ADD_COMPOSER-true}
+        - VOID_ADD_DRUSH=${VOID_ADD_DRUSH-true}
+        - VOID_ADD_WP=${VOID_ADD_WP-true}
+    tty: true
+    stdin_open: true
+    volumes:
+      - ${DOCUMENT_ROOT-./var/www/html}:/var/www/html
