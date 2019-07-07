@@ -4,7 +4,7 @@ MAINTAINER Sohel Aman <sohel@example.com>
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
-	apt-get install -y apt-utils wget vim locales curl \
+	apt-get install -y wget vim locales curl \
 	apt-transport-https lsb-release ca-certificates 
 
 ## Locale
@@ -49,7 +49,10 @@ RUN chmod -R +x /root/dockerized/config/
 RUN /root/dockerized/config/configure.sh
 
 ## Apache modules
-RUN a2enmod rewrite actions fcgid alias proxy_fcgi
+RUN a2enmod rewrite ssl actions fcgid alias proxy_fcgi
+
+## Default SSL cert
+RUN make-ssl-cert generate-default-snakeoil
 
 ## Apache environment variables
 ENV APACHE_RUN_USER www-data
@@ -59,7 +62,7 @@ ENV APACHE_LOCK_DIR /var/lock/apache2
 ENV APACHE_PID_FILE /var/run/apache2.pid
 
 ## Expose ports
-EXPOSE 80
+EXPOSE 80 443
 
 ## Apache custom config
 ADD apache2/configs/custom.conf /etc/apache2/conf-available/custom.conf
