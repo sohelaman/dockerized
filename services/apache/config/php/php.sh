@@ -1,16 +1,19 @@
 #!/bin/bash
 
-enabled_versions=$(echo ${FPM_INSTALL_PHP_VERSIONS} | tr ";" "\n")
-for item in $enabled_versions
+available_versions=$(echo ${FPM_INSTALL_PHP_VERSIONS} | tr ";" "\n")
+for item in $available_versions
 do
-  ver_enabled=$(echo "$item" | awk -F: '{print $2}' | sed 's/[ \t]\?//g')
-  if [ "$ver_enabled" = true ]; then
+  is_enabled=$(echo "$item" | awk -F: '{print $2}' | sed 's/[ \t]\?//g')
+  if [ "$is_enabled" = true ]; then
   	## Extract version string
   	ver_str=$(echo "$item" | awk -F: '{print $1}' | sed 's/[ \t]\?//g')
 
   	## Install common extensions
-  	common_exts=(fpm mysql mbstring zip gd xml)
-  	for ext in "${common_exts[@]}"; do apt install -y php${ver_str}-${ext}; done
+  	common_extensions=(fpm mysql mbstring zip gd xml)
+  	for ext in "${common_extensions[@]}"; do apt-get install -y php${ver_str}-${ext}; done
+
+  	## Additional PHP configs. Path relative to the parent `configure.sh` script.
+    source $(dirname "$0")/php/additional/php-${ver_str}.sh
 
   	## Update PHP configurations for the version
   	ver_ini=/etc/php/${ver_str}/fpm/php.ini

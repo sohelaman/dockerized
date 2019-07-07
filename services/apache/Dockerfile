@@ -1,8 +1,10 @@
 FROM debian:stretch-slim
 MAINTAINER Sohel Aman <sohel@example.com>
 
-RUN apt update && \
-	apt -y install wget vim locales curl \
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && \
+	apt-get install -y apt-utils wget vim locales curl \
 	apt-transport-https lsb-release ca-certificates 
 
 ## Locale
@@ -13,7 +15,7 @@ RUN wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
 RUN echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php.list
 
 ## Install Apache
-RUN apt update && apt -y install apache2 libapache2-mod-fcgid php-xdebug
+RUN apt-get update && apt-get install -y apache2 libapache2-mod-fcgid php-xdebug
 
 ARG DEFAULT_PHP_VER=7.3
 ENV DEFAULT_PHP_VER=${DEFAULT_PHP_VER}
@@ -40,11 +42,11 @@ ARG FPM_INSTALL_PHP_VERSIONS=5.3:${FPM_INSTALL_PHP_53};\
 
 ENV FPM_INSTALL_PHP_VERSIONS=${FPM_INSTALL_PHP_VERSIONS}
 
-## PHP auto-configure
-ADD ./configure-php.sh /root/
-RUN chmod +x /root/configure-php.sh
-RUN /root/configure-php.sh
-RUN rm -f /root/configure-php.sh
+## Auto-configurations
+RUN mkdir /root/dockerized
+COPY ./config /root/dockerized/config
+RUN chmod -R +x /root/dockerized/config/
+RUN /root/dockerized/config/configure.sh
 
 ## Apache modules
 RUN a2enmod rewrite actions fcgid alias proxy_fcgi

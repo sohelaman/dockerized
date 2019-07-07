@@ -1,8 +1,10 @@
 FROM debian:stretch-slim
 MAINTAINER Sohel Aman <sohel@example.com>
 
-RUN apt update && \
-	apt -y install wget vim locales apt-transport-https lsb-release ca-certificates
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && \
+	apt-get install -y wget vim locales apt-transport-https lsb-release ca-certificates
 
 RUN wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
 RUN echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php.list
@@ -14,8 +16,8 @@ RUN locale-gen
 ARG NGINX_PHP_VER=7.3
 ENV NGINX_PHP_VER=${NGINX_PHP_VER}
 
-RUN apt update && \
-	apt -y install nginx php-xdebug \
+RUN apt-get update && \
+	apt-get install -y nginx php-xdebug \
 	php${NGINX_PHP_VER} php${NGINX_PHP_VER}-fpm \
 	php${NGINX_PHP_VER}-mbstring php${NGINX_PHP_VER}-mysql \
 	php${NGINX_PHP_VER}-zip php${NGINX_PHP_VER}-gd php${NGINX_PHP_VER}-xml
