@@ -3,8 +3,6 @@
 Get dockerized.
 
 ## Services
-- alpine
-- debian
 - apache
 - nginx
 - mariadb
@@ -16,13 +14,12 @@ Get dockerized.
 - void
 
 **PHP Versions**
-- PHP [packages](https://packages.sury.org/php/) from [DEB.SURY.ORG](https://deb.sury.org/) repository are used.
+- PHP [packages](https://packages.sury.org/php/) from the [DEB.SURY.ORG](https://deb.sury.org/) repository are used.
 - Supported versions: 5.3, 5.4, 5.5, 5.6, 7.0, 7.1, 7.2, and 7.3.
 - The `apache` service can run multiple versions of PHP at a time but the `nginx` service, at this moment, supports any one of the aforementioned versions.
 
 **Notes**
-- The `alpine` service is nothing but the latest `alpine` image; similarly, `debian` is the latest slim Debian Stretch image.
-- The `void` service is for generic tools and utils such as npm, composer, etc.
+- The `void` service contains generic tools and utilities such as npm, composer, etc.
 
 ## Installation and Usages
 ### Clone the repository
@@ -35,18 +32,22 @@ $ git clone https://github.com/sohelaman/dockerized.git && cd dockerized
 ```
 $ cp example.env .env
 ```
-- Update the variable called `DOCKER_HOST_IP` in the `.env` file. To get your docker host IP run,
+- Update the variable called `DOCKER_HOST_IP` in the `.env` file. To get the docker host IP run,
 ```
 $ ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+'
 ```
 - Make other necessary changes to the variables inside the `.env` file.
-- Apache virtual host configurations are kept in the `services/apache/apache2/vhosts/vhosts.conf` file. [Examples](services/apache/apache2/vhosts/vhosts.example.conf) are provided.
+- Apache virtual host configs are kept in the `services/apache/apache2/vhosts/vhosts.conf` file. [Examples](services/apache/apache2/vhosts/vhosts.example.conf) are provided.
 ```
 $ cp services/apache/apache2/vhosts/vhosts.example.conf services/apache/apache2/vhosts/vhosts.conf
 ```
 - Any additional Apache configuration, if necessary, can be put in the [services/apache/apache2/configs/dockerized.conf](services/apache/apache2/configs/dockerized.conf) file.
 
 ### Build images
+```
+$ sudo docker-compose build apache mariadb
+```
+Or all,
 ```
 $ sudo docker-compose build
 ```
@@ -75,7 +76,7 @@ $ sudo docker-compose down
 ```
 
 ## Notes
-- Images must be rebuilt in case of any changes made in the `.env`, YML, or other configuration.
+- Images should be rebuilt in case of any modifications in the `.env`, YML, etc.
 - Show images
 ```
 $ sudo docker-compose images
@@ -92,4 +93,8 @@ $ sudo docker ps -a
 ```
 $ sudo docker inspect container_id
 $ sudo docker inspect container_id | grep IP
+```
+- Remove stopped containers
+```
+$ sudo docker container prune
 ```
