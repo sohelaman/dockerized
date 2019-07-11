@@ -112,6 +112,20 @@ services:
     ports:
       - "${MEMCACHED_PORT-11211}:11211"
 
+  ftp:
+    container_name: 'dockerized-ftp'
+    build:
+      context: ./services/ftp
+      args:
+        - FTP_USER=${FTP_USER-john}
+        - FTP_PASS=${FTP_PASS-doe}
+    tty: true
+    network_mode: host
+    extra_hosts:
+      - "dockerhost:${DOCKER_HOST_IP}"
+    volumes:
+      - ${FTP_ROOT-./volumes/var/ftp}:/var/ftp
+
   void:
     container_name: 'dockerized-void'
     build:

@@ -11,6 +11,7 @@ Get dockerized.
 - postgres
 - redis
 - memcached
+- ftp
 - void
 
 **PHP Versions**
