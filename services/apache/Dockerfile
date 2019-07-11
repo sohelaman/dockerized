@@ -1,11 +1,11 @@
 FROM debian:stretch-slim
-MAINTAINER Sohel Aman <sohel@example.com>
+LABEL maintainer="Sohel Aman"
 
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
 	apt-get install -y wget vim locales curl \
-	apt-transport-https lsb-release ca-certificates 
+	apt-transport-https lsb-release ca-certificates
 
 ## Locale
 RUN sed -i '/^# en_US.UTF-8 UTF-8$/s/^# //g' /etc/locale.gen
@@ -21,7 +21,7 @@ ARG DEFAULT_PHP_VER=7.3
 ENV DEFAULT_PHP_VER=${DEFAULT_PHP_VER}
 
 ## PHP versions to install
-ARG FPM_INSTALL_PHP_73=true
+ARG FPM_INSTALL_PHP_73=false
 ARG FPM_INSTALL_PHP_72=false
 ARG FPM_INSTALL_PHP_71=false
 ARG FPM_INSTALL_PHP_70=false
@@ -76,7 +76,7 @@ RUN ln -s /etc/apache2/conf-available/fpm-handlers/fpm-handler-${DEFAULT_PHP_VER
 ADD apache2/vhosts/000-default.conf /etc/apache2/sites-available/000-default.conf
 
 ## Other virtual hosts
-ADD apache2/vhosts/vhosts.conf /etc/apache2/sites-enabled/vhosts.conf
+# ADD apache2/vhosts/vhosts.conf /etc/apache2/sites-enabled/vhosts.conf
 
 ## Launcher script
 COPY launcher.sh /root/

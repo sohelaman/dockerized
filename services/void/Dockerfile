@@ -1,5 +1,5 @@
 FROM archlinux/base
-MAINTAINER Sohel Aman <sohel@example.com>
+LABEL maintainer="Sohel Aman"
 
 ARG VOID_USE_BD_MIRROR=false
 RUN if [ ${VOID_USE_BD_MIRROR} = true ]; then \

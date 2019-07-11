@@ -1,5 +1,5 @@
 FROM debian:stretch-slim
-MAINTAINER Sohel Aman <sohel@example.com>
+LABEL maintainer="Sohel Aman"
 
 ARG DEBIAN_FRONTEND=noninteractive
 

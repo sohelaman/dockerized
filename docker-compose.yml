@@ -23,12 +23,13 @@ services:
         - FPM_INSTALL_PHP_70=${INSTALL_PHP_70-false}
         - FPM_INSTALL_PHP_71=${INSTALL_PHP_71-false}
         - FPM_INSTALL_PHP_72=${INSTALL_PHP_72-false}
-        - FPM_INSTALL_PHP_73=${INSTALL_PHP_73-false}
+        - FPM_INSTALL_PHP_73=${INSTALL_PHP_73-true}
     ports:
       - "${APACHE_PORT-80}:80"
       - "${APACHE_PORT_SSL-443}:443"
     tty: true
     volumes:
+      - ./services/apache/apache2/vhosts/vhosts.conf:/etc/apache2/sites-enabled/vhosts.conf
       - ${DOCUMENT_ROOT-./volumes/var/www/html}:/var/www/html
       - ${APACHE_LOG_DIR-./volumes/var/log/apache2}:/var/log/apache2
 
