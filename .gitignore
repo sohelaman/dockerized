@@ -1,5 +1,6 @@
 volumes/
 .env
+services/apache/apache2/vhosts/vhosts.conf
 .vscode/
 .idea/
 todo.todo

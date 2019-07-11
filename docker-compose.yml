@@ -2,6 +2,15 @@ version: "3"
 
 services:
 
+  exp:
+    container_name: 'dockerized-exp'
+    build:
+      context: ./services/exp
+    tty: true
+    stdin_open: true
+    extra_hosts:
+      - "dockerhost:${DOCKER_HOST_IP}"
+
   alpine:
     container_name: 'dockerized-alpine'
     image: alpine:latest
@@ -27,6 +36,8 @@ services:
     ports:
       - "${APACHE_PORT-80}:80"
       - "${APACHE_PORT_SSL-443}:443"
+    extra_hosts:
+      - "dockerhost:${DOCKER_HOST_IP}"
     tty: true
     volumes:
       - ./services/apache/apache2/vhosts/vhosts.conf:/etc/apache2/sites-enabled/vhosts.conf
@@ -41,6 +52,8 @@ services:
         - NGINX_PHP_VER=${NGINX_PHP_VER-7.3}
     ports:
       - "${NGINX_PORT-80}:80"
+    extra_hosts:
+      - "dockerhost:${DOCKER_HOST_IP}"
     tty: true
     volumes:
       - ${DOCUMENT_ROOT-./volumes/var/www/html}:/var/www/html
@@ -118,6 +131,8 @@ services:
     stdin_open: true
     ports:
       - "${VOID_SSH_PORT-2222}:22"
+    extra_hosts:
+      - "dockerhost:${DOCKER_HOST_IP}"
     environment:
       - DOCUMENT_ROOT=${DOCUMENT_ROOT-/var/www/html}
     volumes:

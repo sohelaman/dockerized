@@ -31,13 +31,20 @@ $ git clone https://github.com/sohelaman/dockerized.git && cd dockerized
 ```
 
 ### Setup environment
-- Make a copy of the example.env file as .env for customizations.
+- Make a copy of the `example.env` file as `.env` for customizations.
 ```
 $ cp example.env .env
 ```
-- Make necessary changes to the variables inside the .env file.
-- Apache virtual host configurations are kept in the [services/apache/apache2/vhosts/vhosts.conf](services/apache/apache2/vhosts/vhosts.conf) file.
-- Any additional Apache configuration can be put in the [services/apache/apache2/configs/custom.conf](services/apache/apache2/configs/custom.conf) file.
+- Update the variable called `DOCKER_HOST_IP` in the `.env` file. To get your docker host IP run,
+```
+$ ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+'
+```
+- Make other necessary changes to the variables inside the `.env` file.
+- Apache virtual host configurations are kept in the `services/apache/apache2/vhosts/vhosts.conf` file. [Examples](services/apache/apache2/vhosts/vhosts.example.conf) are provided.
+```
+$ cp services/apache/apache2/vhosts/vhosts.example.conf services/apache/apache2/vhosts/vhosts.conf
+```
+- Any additional Apache configuration, if necessary, can be put in the [services/apache/apache2/configs/dockerized.conf](services/apache/apache2/configs/dockerized.conf) file.
 
 ### Build images
 ```
@@ -68,7 +75,7 @@ $ sudo docker-compose down
 ```
 
 ## Notes
-- Images must be rebuilt in case of any changes made in the .env, YML, or other configuration.
+- Images must be rebuilt in case of any changes made in the `.env`, YML, or other configuration.
 - Show images
 ```
 $ sudo docker-compose images

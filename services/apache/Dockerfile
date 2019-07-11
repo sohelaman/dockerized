@@ -64,9 +64,9 @@ ENV APACHE_PID_FILE /var/run/apache2.pid
 ## Expose ports
 EXPOSE 80 443
 
-## Apache custom config
-ADD apache2/configs/custom.conf /etc/apache2/conf-available/custom.conf
-RUN ln -s /etc/apache2/conf-available/custom.conf /etc/apache2/conf-enabled/custom.conf
+## Additional Apache configs
+ADD apache2/configs/dockerized.conf /etc/apache2/conf-available/dockerized.conf
+RUN ln -s /etc/apache2/conf-available/dockerized.conf /etc/apache2/conf-enabled/dockerized.conf
 
 ## Default FPM handler
 ADD apache2/configs/fpm-handlers /etc/apache2/conf-available/fpm-handlers/
