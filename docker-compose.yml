@@ -124,7 +124,7 @@ services:
     extra_hosts:
       - "dockerhost:${DOCKER_HOST_IP}"
     volumes:
-      - ${FTP_ROOT-./volumes/var/ftp}:/var/ftp
+      - ${FTP_ROOT-./volumes/var/ftp}:/home/${FTP_USER-john}/ftp/files
 
   void:
     container_name: 'dockerized-void'
