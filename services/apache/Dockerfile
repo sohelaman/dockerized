@@ -12,7 +12,7 @@ ARG APACHE_PHP_VER=7.3
 ENV APACHE_PHP_VER=${APACHE_PHP_VER}
 
 ## Apache modules
-RUN a2enmod rewrite ssl actions fcgid alias proxy_fcgi
+RUN a2enmod rewrite ssl actions fcgid alias proxy_fcgi headers
 
 ## Default SSL cert
 RUN make-ssl-cert generate-default-snakeoil

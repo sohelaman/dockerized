@@ -28,7 +28,7 @@ do
 		sed -i "s/^max_execution_time = .*$/max_execution_time = 600/" ${ver_ini}
 		sed -i "s/^upload_max_filesize = .*$/upload_max_filesize = 256M/" ${ver_ini}
 		sed -i "s/^post_max_size = .*$/post_max_size = 256M/" ${ver_ini}
-		# sed -i "s/^short_open_tag = Off$/short_open_tag = On/" ${ver_ini}
+		sed -i "s/^short_open_tag = Off$/short_open_tag = On/" ${ver_ini}
 
 	fi
 done
