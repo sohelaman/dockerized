@@ -5,21 +5,22 @@ Get dockerized.
 ## Services
 - apache
 - nginx
+- fpm
+- ftp
 - mariadb
 - mysql
 - mongodb
 - postgres
 - redis
 - memcached
-- ftp
 - void
 
 **PHP Versions**
 - PHP [packages](https://packages.sury.org/php/) from the [DEB.SURY.ORG](https://deb.sury.org/) repository are used.
 - Supported versions: 5.3, 5.4, 5.5, 5.6, 7.0, 7.1, 7.2, and 7.3.
-- The `apache` service can run multiple versions of PHP at a time but the `nginx` service, at this moment, supports any one of the aforementioned versions.
 
 **Notes**
+- The `fpm` service runs the PHP-FPM servers. Apache and Nginx services are dependent on it.
 - The `void` service contains generic tools and utilities such as npm, composer, etc.
 
 ## Installation and Usages
@@ -38,15 +39,19 @@ $ cp example.env .env
 $ ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+'
 ```
 - Make other necessary changes to the variables inside the `.env` file.
-- Apache virtual host configs are kept in the `services/apache/apache2/vhosts/vhosts.conf` file. [Examples](services/apache/apache2/vhosts/vhosts.example.conf) are provided.
+- Apache virtual host configs are kept in the `services/apache/conf/vhosts.conf` file. [Examples](services/apache/conf/vhosts.example.conf) are provided.
 ```
-$ cp services/apache/apache2/vhosts/vhosts.example.conf services/apache/apache2/vhosts/vhosts.conf
+$ cp services/apache/conf/vhosts.example.conf services/apache/conf/vhosts.conf
 ```
-- Any additional Apache configuration, if necessary, can be put in the [services/apache/apache2/configs/dockerized.conf](services/apache/apache2/configs/dockerized.conf) file.
+- Similarly, Nginx virtual host configs are kept in the `services/nginx/conf/vhosts.conf` file. [Examples](services/nginx/conf/vhosts.example.conf) are provided.
+```
+$ cp services/nginx/conf/vhosts.example.conf services/nginx/conf/vhosts.conf
+```
+- Additional Apache configuration, if necessary, can be put in the [services/apache/conf/dockerized.conf](services/apache/conf/dockerized.conf) file.
 
 ### Build images
 ```
-$ sudo docker-compose build apache mariadb
+$ sudo docker-compose build fpm apache mariadb
 ```
 Or all,
 ```

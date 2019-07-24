@@ -1,6 +1,6 @@
 #!/bin/bash
 
-available_versions=$(echo ${FPM_INSTALL_PHP_VERSIONS} | tr ";" "\n")
+available_versions=$(echo ${FPM_ADD_PHP_VERSIONS} | tr ";" "\n")
 for item in $available_versions
 do
   is_enabled=$(echo "$item" | awk -F: '{print $2}' | sed 's/[ \t]\?//g')
@@ -14,6 +14,11 @@ do
 
   	## Additional PHP configs. Path relative to the parent `configure.sh` script.
     source $(dirname "$0")/php/additional/php-${ver_str}.sh
+
+		## Multiply $ver_str by 10 and add to 9000.
+		fpm_port_num=$(expr $(expr "$ver_str"*"10" | bc | cut -d. -f1) + 9000)
+
+		sed -i "s/^listen = .*sock$/listen = 0.0.0.0:$fpm_port_num/" /etc/php/${ver_str}/fpm/pool.d/www.conf
 
   	## Update PHP configurations for the version
   	ver_ini=/etc/php/${ver_str}/fpm/php.ini

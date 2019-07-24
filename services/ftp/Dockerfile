@@ -28,4 +28,4 @@ RUN echo ${FTP_USER} > /etc/vsftpd.userlist
 RUN mv /etc/vsftpd.conf /etc/vsftpd.conf.bak
 COPY config/vsftpd.conf /etc/vsftpd.conf
 
-ENTRYPOINT service vsftpd start && /bin/bash
+ENTRYPOINT date && hostname -i && service vsftpd start && /bin/bash

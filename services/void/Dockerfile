@@ -1,8 +1,8 @@
 FROM archlinux/base
 LABEL maintainer="Sohel Aman"
 
-ARG VOID_USE_BD_MIRROR=false
-RUN if [ ${VOID_USE_BD_MIRROR} = true ]; then \
+ARG USE_BD_MIRRORS=false
+RUN if [ ${USE_BD_MIRRORS} = true ]; then \
   ## Use BD mirror.
   sed -i '1s/^/Server\ \=\ http\:\/\/mirror\.xeonbd\.com\/archlinux\/\$repo\/os\/\$arch\n/' /etc/pacman.d/mirrorlist \
 ;fi
