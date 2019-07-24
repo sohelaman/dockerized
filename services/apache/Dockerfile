@@ -3,8 +3,6 @@ LABEL maintainer="Sohel Aman"
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-# RUN sed -i '1s/^/deb\ http\:\/\/mirror\.amberit\.com\.bd\/debian stretch main\n/' /etc/apt/sources.list
-
 RUN apt-get update && apt-get install -y wget vim ca-certificates
 
 ## Install Apache
