@@ -1,5 +1,10 @@
 #!/bin/bash
 
+## Python tools TODO
+if [ "$VOID_ADD_PYTHON" = true ]; then
+  # pip install virtualenv
+fi
+
 ## NPM CLI tools
 if [ "$VOID_ADD_NODEJS" = true ]; then
   npm i -g yarn webpack grunt grunt-cli gulp-cli gulp babel-cli ionic foundation-cli

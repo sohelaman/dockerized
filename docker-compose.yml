@@ -57,6 +57,7 @@ services:
       - "dockerhost:${DOCKER_HOST_IP}"
     tty: true
     volumes:
+      - ./services/apache/conf/dockerized.conf:/etc/apache2/conf-enabled/dockerized.conf
       - ./services/apache/conf/vhosts.conf:/etc/apache2/sites-enabled/vhosts.conf
       - ${DOCUMENT_ROOT-./volumes/var/www/html}:/var/www/html
       - ${APACHE_LOG_DIR-./volumes/var/log/apache2}:/var/log/apache2
@@ -77,6 +78,7 @@ services:
       - "dockerhost:${DOCKER_HOST_IP}"
     tty: true
     volumes:
+      - ./services/nginx/conf/dockerized.conf:/etc/nginx/conf.d/dockerized.conf
       - ./services/nginx/conf/vhosts.conf:/etc/nginx/sites-enabled/vhosts.conf
       - ${DOCUMENT_ROOT-./volumes/var/www/html}:/var/www/html
       - ${NGINX_LOG_DIR-./volumes/var/log/nginx}:/var/log/nginx

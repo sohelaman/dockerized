@@ -25,8 +25,8 @@ ENV APACHE_LOCK_DIR /var/lock/apache2
 ENV APACHE_PID_FILE /var/run/apache2.pid
 
 ## Additional Apache configs
-ADD conf/dockerized.conf /etc/apache2/conf-available/dockerized.conf
-RUN ln -s /etc/apache2/conf-available/dockerized.conf /etc/apache2/conf-enabled/dockerized.conf
+# ADD conf/dockerized.conf /etc/apache2/conf-available/dockerized.conf
+# RUN ln -s /etc/apache2/conf-available/dockerized.conf /etc/apache2/conf-enabled/dockerized.conf
 
 ## Default FPM handler
 ADD conf/fpm-handlers /etc/apache2/conf-available/fpm-handlers/

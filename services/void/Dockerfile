@@ -41,11 +41,13 @@ RUN if [ ${VOID_ADD_COMPOSER} = true ]; then \
   pacman -S --noconfirm php composer redis \
 ;fi
 
-## Java JDK 8
+## Java JDK
 ARG VOID_ADD_JDK=false
 ENV VOID_ADD_JDK=${VOID_ADD_JDK}
+ARG VOID_JDK_VERSION=8
+ENV VOID_JDK_VERSION=${VOID_JDK_VERSION}
 RUN if [ ${VOID_ADD_JDK} = true ]; then \
-  pacman -S --noconfirm jdk8-openjdk \
+  pacman -S --noconfirm jdk${VOID_JDK_VERSION}-openjdk \
 ;fi
 
 ## Python 3 and PIP
@@ -90,7 +92,7 @@ RUN pacman --noconfirm -Scc
 ARG DOCUMENT_ROOT=/var/www/html
 WORKDIR ${DOCUMENT_ROOT}
 
-# TODO clean pacman caches
+# TODO dotfiles
 # TODO git config
 # TODO ruby gems path
 
