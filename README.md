@@ -23,7 +23,7 @@ Get dockerized.
 - The `fpm` service runs the PHP-FPM servers. Apache and Nginx services are dependent on it.
 - The `void` service contains generic tools and utilities such as npm, composer, etc.
 
-## Installation and Usages
+## Usages
 ### Clone the repository
 ```
 $ git clone https://github.com/sohelaman/dockerized.git && cd dockerized
@@ -39,68 +39,66 @@ $ cp example.env .env
 $ ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+'
 ```
 - Make other necessary changes to the variables inside the `.env` file.
-- Apache virtual host configs are kept in the `services/apache/conf/vhosts.conf` file. [Examples](services/apache/conf/vhosts.example.conf) are provided.
+- Apache and Nginx virtual hosts are kept in the corresponding `conf/vhosts.conf` file. Examples for both [Apache](services/apache/conf/vhosts.example.conf) and [Nginx](services/nginx/conf/vhosts.example.conf) are provided and can be used as boilerplates.
 ```
 $ cp services/apache/conf/vhosts.example.conf services/apache/conf/vhosts.conf
-```
-- Similarly, Nginx virtual host configs are kept in the `services/nginx/conf/vhosts.conf` file. [Examples](services/nginx/conf/vhosts.example.conf) are provided.
-```
 $ cp services/nginx/conf/vhosts.example.conf services/nginx/conf/vhosts.conf
 ```
-- Additional Apache configuration, if necessary, can be put in the [services/apache/conf/dockerized.conf](services/apache/conf/dockerized.conf) file.
+- Additional Apache and Nginx configuration, if necessary, can be put in the [services/apache/conf/dockerized.conf](services/apache/conf/dockerized.conf) and [services/nginx/conf/dockerized.conf](services/nginx/conf/dockerized.conf) file. Please note that, for Nginx, the `dockerized.conf` file can only include directives for `http` block only; and must not contain any duplicate directive that already exists under the `http` block in the `/etc/nginx/nginx.conf` file of the container.
 
-### Build images
+### Build the image(s)
 ```
-$ sudo docker-compose build fpm apache mariadb
-```
-Or all,
-```
-$ sudo docker-compose build
+$ docker-compose build fpm apache mariadb
 ```
 
 ### Run service(s)
 ```
-$ sudo docker-compose up -d apache
-$ sudo docker-compose start apache
+$ docker-compose up -d apache
+```
+Or multiple,
+```
+$ docker-compose up -d nginx mariadb redis
 ```
 Or,
 ```
-$ sudo docker-compose up -d nginx mariadb redis
-$ sudo docker-compose start nginx mariadb redis
+$ docker-compose start apache
 ```
 
 ### Execute commands in a container
 ```
-$ sudo docker-compose exec apache bash
+$ docker-compose exec apache bash
+$ docker-compose exec nginx hostname -i
 ```
 
 ### Stop service(s)
 ```
-$ sudo docker-compose stop
-$ sudo docker-compose stop apache mariadb
-$ sudo docker-compose down
+$ docker-compose stop apache mariadb
+```
+Or stop and remove all containers, networks, volumes, and images,
+```
+$ docker-compose down
 ```
 
 ## Notes
 - Images should be rebuilt in case of any modifications in the `.env`, YML, etc.
 - Show images
 ```
-$ sudo docker-compose images
+$ docker-compose images
 ```
 - Show running containers
 ```
-$ sudo docker-compose ps
+$ docker-compose ps
 ```
 - Show all containers
 ```
-$ sudo docker ps -a
+$ docker ps -a
 ```
 - Container details
 ```
-$ sudo docker inspect container_id
-$ sudo docker inspect container_id | grep IP
+$ docker inspect container_id
+$ docker inspect container_id | grep IP
 ```
 - Remove stopped containers
 ```
-$ sudo docker container prune
+$ docker container prune
 ```
