@@ -5,10 +5,10 @@ networks:
 
 services:
 
-  exp:
-    container_name: 'dockerized-exp'
+  test:
+    container_name: 'dockerized-test'
     build:
-      context: ./services/exp
+      context: ./services/test
     tty: true
     stdin_open: true
     extra_hosts:
