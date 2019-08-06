@@ -14,7 +14,7 @@ fi
 ## Drush 8
 if [ "$VOID_ADD_DRUSH" = true ]; then
   cd ~
-  curl https://github.com/drush-ops/drush/releases/download/8.2.3/drush.phar -L -o drush.phar
+  curl https://github.com/drush-ops/drush/releases/download/8.3.0/drush.phar -L -o drush.phar
   chmod +x ~/drush.phar && mv ~/drush.phar /usr/local/bin/drush
 fi
 

@@ -166,9 +166,9 @@ services:
         - VOID_ADD_JDK=${VOID_ADD_JDK-false}
         - VOID_ADD_PYTHON=${VOID_ADD_PYTHON-false}
         - VOID_ADD_COMPOSER=${VOID_ADD_COMPOSER-true}
-        - VOID_ADD_DRUSH=${VOID_ADD_DRUSH-true}
-        - VOID_ADD_DRUPALCONSOLE=${VOID_ADD_DRUPALCONSOLE-true}
-        - VOID_ADD_WPCLI=${VOID_ADD_WPCLI-true}
+        - VOID_ADD_DRUSH=${VOID_ADD_DRUSH-false}
+        - VOID_ADD_DRUPALCONSOLE=${VOID_ADD_DRUPALCONSOLE-false}
+        - VOID_ADD_WPCLI=${VOID_ADD_WPCLI-false}
     tty: true
     stdin_open: true
     ports:
