@@ -9,7 +9,7 @@ do
   	ver_str=$(echo "$item" | awk -F: '{print $1}' | sed 's/[ \t]\?//g')
 
   	## Install common extensions
-  	common_extensions=(fpm mysql mbstring zip gd xml redis memcached)
+  	common_extensions=(fpm mysql mbstring zip gd xml redis memcached curl soap odbc bcmath bz2 gettext fileinfo)
   	for ext in "${common_extensions[@]}"; do apt-get install -y php${ver_str}-${ext}; done
 
   	## Additional PHP configs. Path relative to the parent `configure.sh` script.
