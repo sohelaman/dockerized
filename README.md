@@ -3,18 +3,12 @@
 Get dockerized.
 
 ## Services
-- apache
-- nginx
-- fpm
-- ftp
-- mariadb
-- mysql
-- mongodb
-- postgres
-- redis
-- memcached
-- void
-- emby
+| Category |             Services             |
+|----------|:--------------------------------:|
+| Web      | apache, nginx, fpm               |
+| Database | mariadb, mysql, postgre, mongodb |
+| Caching  | redis, memcached                 |
+| Misc     | void, ftp, emby                  |
 
 **PHP Versions**
 - PHP [packages](https://packages.sury.org/php/) from the [DEB.SURY.ORG](https://deb.sury.org/) repository are used.
