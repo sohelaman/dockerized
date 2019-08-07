@@ -14,6 +14,7 @@ Get dockerized.
 - redis
 - memcached
 - void
+- emby
 
 **PHP Versions**
 - PHP [packages](https://packages.sury.org/php/) from the [DEB.SURY.ORG](https://deb.sury.org/) repository are used.
