@@ -6,7 +6,7 @@ Get dockerized.
 | Category |             Services             |
 |----------|:--------------------------------:|
 | Web      | apache, nginx, fpm               |
-| Database | mariadb, mysql, postgre, mongodb |
+| Database | mariadb, mysql, postgres, mongodb |
 | Caching  | redis, memcached                 |
 | Misc     | void, ftp, emby                  |
 
