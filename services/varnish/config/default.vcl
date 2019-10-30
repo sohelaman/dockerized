@@ -15,7 +15,7 @@ vcl 4.0;
 # Default backend definition. Set this to point to your content server.
 backend default {
     .host = "apache"; # `apache` or `nginx`.
-    .port = "80"; # apache or nginx port, i.e. `80` or `443`.
+    .port = "80";
 }
 
 sub vcl_recv {

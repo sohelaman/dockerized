@@ -3,12 +3,12 @@
 Get dockerized.
 
 ## Services
-| Category |             Services             |
-|----------|:--------------------------------:|
-| Web      | apache, nginx, fpm               |
+| Category |             Services              |
+|----------|:---------------------------------:|
+| Web      | apache, nginx, fpm                |
 | Database | mariadb, mysql, postgres, mongodb |
-| Caching  | redis, memcached                 |
-| Misc     | void, ftp, emby                  |
+| Caching  | redis, memcached, varnish         |
+| Misc     | void, ftp, emby                   |
 
 **PHP Versions**
 - PHP [packages](https://packages.sury.org/php/) from the [DEB.SURY.ORG](https://deb.sury.org/) repository are used.
@@ -17,6 +17,7 @@ Get dockerized.
 **Notes**
 - The `fpm` service runs the PHP-FPM servers. Apache and Nginx services are dependent on it.
 - The `void` service contains generic tools and utilities such as npm, composer, etc.
+- The `varnish` service uses `apache` as its backend by default. Backend can be specified in the [default config](services/varnish/config/default.vcl) file.
 
 ## Usages
 ### Clone the repository
