@@ -12,6 +12,8 @@ services:
     stdin_open: true
     extra_hosts:
       - "dockerhost:${DOCKER_HOST_IP}"
+    networks:
+      - skynet
 
 
   alpine:
@@ -105,6 +107,8 @@ services:
       MYSQL_PASSWORD: ${MYSQL_USER_PASS-dockerized}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASS-root}
       MYSQL_DATABASE: ${MYSQL_DB-dockerized}
+    networks:
+      - skynet
 
 
   mariadb:
@@ -120,6 +124,8 @@ services:
       MYSQL_PASSWORD: ${MYSQL_USER_PASS-dockerized}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASS-root}
       MYSQL_DATABASE: ${MYSQL_DB-dockerized}
+    networks:
+      - skynet
 
 
   mongo:
@@ -128,6 +134,8 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER-root}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASS-root}
+    networks:
+      - skynet
 
 
   postgres:
@@ -135,6 +143,8 @@ services:
     image: postgres
     environment:
       POSTGRES_PASSWORD: ${POSTGRES_ROOT_PASS-root}
+    networks:
+      - skynet
 
 
   varnish:
@@ -160,6 +170,8 @@ services:
     image: redis:alpine
     ports:
       - "${REDIS_PORT-6379}:6379"
+    networks:
+      - skynet
 
 
   memcached:
@@ -167,6 +179,8 @@ services:
     image: memcached:alpine
     ports:
       - "${MEMCACHED_PORT-11211}:11211"
+    networks:
+      - skynet
 
 
   ftp:
