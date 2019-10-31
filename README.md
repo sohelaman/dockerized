@@ -3,8 +3,8 @@
 Get dockerized.
 
 ## What's included
-A stack of applications put together using Docker solely to ease web development.
-This stack is built keeping one major point in mind, *portability*. Ever wondered, *I wish I could take my environment everywhere, even in my grave*? If yes, welcome abroad!
+A stack of applications put together using Docker solely to ease PHP based web development.
+This stack is built keeping one major point in mind, *portability*. Ever wondered, *I wish I could take my environment everywhere, even in my grave*? If yes, welcome abroad.
 
 ### Services
 | Category |             Services              |
