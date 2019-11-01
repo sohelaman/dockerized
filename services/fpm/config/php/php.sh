@@ -30,5 +30,13 @@ do
 		sed -i "s/^post_max_size = .*$/post_max_size = 256M/" ${ver_ini}
 		sed -i "s/^short_open_tag = Off$/short_open_tag = On/" ${ver_ini}
 
+    ## xhprof
+    if [[ $ver_str == 7* ]]; then
+      tideways=/usr/lib/tideways_xhprof/tideways_xhprof-${ver_str}.so
+      if [ -f "$tideways" ]; then
+        echo "extension=/usr/lib/tideways_xhprof/tideways_xhprof-${ver_str}.so" >> ${ver_ini}
+      fi
+    fi
+
 	fi
 done

@@ -13,7 +13,11 @@ RUN apt-get update && apt-get install -y wget bc vim apt-transport-https lsb-rel
 RUN wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
 RUN echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php.list
 
-RUN apt-get update && apt-get install -y php-xdebug
+RUN apt-get update && apt-get install -y php-xdebug curl
+
+## Install xhprof
+RUN curl -O -L https://github.com/tideways/php-xhprof-extension/releases/download/v5.0.1/tideways-xhprof_5.0.1_amd64.deb
+RUN dpkg -i tideways-xhprof_5.0.1_amd64.deb
 
 ## PHP versions to install
 ARG ADD_PHP_73=false
