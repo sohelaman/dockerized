@@ -32,9 +32,6 @@ services:
       context: ./services/fpm
       args:
         - USE_BD_MIRRORS=${USE_BD_MIRRORS-false}
-        - ADD_PHP_53=${ADD_PHP_53-false}
-        - ADD_PHP_54=${ADD_PHP_54-false}
-        - ADD_PHP_55=${ADD_PHP_55-false}
         - ADD_PHP_56=${ADD_PHP_56-false}
         - ADD_PHP_70=${ADD_PHP_70-false}
         - ADD_PHP_71=${ADD_PHP_71-false}

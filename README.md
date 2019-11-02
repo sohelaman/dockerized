@@ -4,7 +4,6 @@ Get dockerized.
 
 ## What's included
 A stack of applications put together using Docker solely to ease PHP based web development.
-This stack is built keeping one major point in mind, *portability*. Ever wondered, *I wish I could take my environment everywhere, even in my grave*? If yes, welcome abroad.
 
 ### Services
 | Category |             Services              |
@@ -16,7 +15,7 @@ This stack is built keeping one major point in mind, *portability*. Ever wondere
 
 **PHP versions**
 - PHP [packages](https://packages.sury.org/php/) from the [DEB.SURY.ORG](https://deb.sury.org/) repository are used.
-- Supported PHP versions: 5.3, 5.4, 5.5, 5.6, 7.0, 7.1, 7.2, and 7.3.
+- Supported PHP versions: 5.6, 7.0, 7.1, 7.2, and 7.3.
 
 **Additional information**
 - The `fpm` service runs the PHP-FPM servers. Apache and Nginx services are dependent on it.

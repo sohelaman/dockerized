@@ -25,15 +25,9 @@ ARG ADD_PHP_72=false
 ARG ADD_PHP_71=false
 ARG ADD_PHP_70=false
 ARG ADD_PHP_56=false
-ARG ADD_PHP_55=false
-ARG ADD_PHP_54=false
-ARG ADD_PHP_53=false
 
 ## Export PHP-FPM versions. This will be used in the scripts later.
-ARG FPM_ADD_PHP_VERSIONS=5.3:${FPM_INSTALL_PHP_53};\
-5.4:${ADD_PHP_54};\
-5.5:${ADD_PHP_55};\
-5.6:${ADD_PHP_56};\
+ARG FPM_ADD_PHP_VERSIONS=5.6:${ADD_PHP_56};\
 7.0:${ADD_PHP_70};\
 7.1:${ADD_PHP_71};\
 7.2:${ADD_PHP_72};\
@@ -48,7 +42,7 @@ RUN chmod -R +x /root/dockerized/config/
 RUN /root/dockerized/config/configure.sh
 
 ## Expose ports
-EXPOSE 9053 9054 9055 9056 9070 9071 9072 9073
+EXPOSE 9056 9070 9071 9072 9073
 
 ## Launcher script
 COPY launcher.sh /root/
