@@ -207,6 +207,7 @@ services:
       args:
         - VOID_USER=${VOID_USER-copernicus}
         - USE_BD_MIRRORS=${USE_BD_MIRRORS-false}
+        - VOID_ADD_DEVEL=${VOID_ADD_DEVEL-false}
         - VOID_ADD_NODEJS=${VOID_ADD_NODEJS-true}
         - VOID_ADD_RUBY=${VOID_ADD_RUBY-false}
         - VOID_ADD_JDK=${VOID_ADD_JDK-false}
