@@ -2,19 +2,20 @@
 
 ## Python tools TODO
 if [ "$VOID_ADD_PYTHON" = true ]; then
-  # pip install virtualenv
+  pip install virtualenv
 fi
 
 ## NPM CLI tools
 if [ "$VOID_ADD_NODEJS" = true ]; then
   npm i -g yarn webpack grunt grunt-cli gulp-cli gulp babel-cli ionic foundation-cli
   # npm i -g @angular/cli
+  # curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.1/install.sh | bash
 fi
 
 ## Drush 8
 if [ "$VOID_ADD_DRUSH" = true ]; then
   cd ~
-  curl https://github.com/drush-ops/drush/releases/download/8.3.0/drush.phar -L -o drush.phar
+  curl https://github.com/drush-ops/drush/releases/download/8.3.1/drush.phar -L -o drush.phar
   chmod +x ~/drush.phar && mv ~/drush.phar /usr/local/bin/drush
 fi
 
