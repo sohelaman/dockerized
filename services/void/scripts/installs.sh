@@ -32,3 +32,11 @@ if [ "$VOID_ADD_DRUPALCONSOLE" = true ]; then
   curl https://drupalconsole.com/installer -L -o drupal.phar
   chmod +x ~/drupal.phar && mv ~/drupal.phar /usr/local/bin/drupal
 fi
+
+## php configs
+php_ini=/etc/php/php.ini
+sed -i "s/^;extension=mysqli$/extension=mysqli/" ${php_ini}
+sed -i "s/^;extension=pdo_mysql$/extension=pdo_mysql/" ${php_ini}
+sed -i "s/^memory_limit = .*$/memory_limit = 256M/" ${php_ini}
+sed -i "s/^max_execution_time = .*$/max_execution_time = 600/" ${php_ini}
+sed -i "s/^error_reporting = .*$/error_reporting = E_ALL/" ${php_ini}

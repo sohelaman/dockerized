@@ -104,4 +104,4 @@ WORKDIR ${DOCUMENT_ROOT}
 # TODO ssh keys
 # TODO ruby gems path
 
-# ENTRYPOINT echo 'Welcome to the void.' date && hostname -i
+# ENTRYPOINT fish
