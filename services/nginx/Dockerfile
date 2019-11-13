@@ -15,6 +15,12 @@ RUN mv /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bac
 ## FPM handlers
 ADD conf/fpm-handlers /etc/nginx/fpm-handlers/
 
+## Default SSL cert
+RUN apt-get install -y ca-certificates ssl-cert dialog
+RUN make-ssl-cert generate-default-snakeoil
+## SSL config
+ADD conf/ssl-snakeoil.conf /etc/nginx/ssl-snakeoil.conf
+
 ## Add and enable nginx default host conf
 ADD conf/default /etc/nginx/sites-available/default
 RUN sed -i "s/<php-version>/${NGINX_PHP_VER}/" /etc/nginx/sites-available/default
@@ -22,7 +28,7 @@ RUN sed -i "s/##!!#//" /etc/nginx/sites-available/default
 RUN ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 
 ## Expose ports
-EXPOSE 80
+EXPOSE 80 443
 
 ## start nginx
 ENTRYPOINT date && hostname -i && service nginx start && /bin/bash
