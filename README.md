@@ -21,6 +21,7 @@ A stack of applications put together using Docker solely to ease PHP based web d
 - The `fpm` service runs the PHP-FPM servers. Apache and Nginx services are dependent on it.
 - The `void` service contains generic tools and utilities such as npm, composer, etc.
 - The `varnish` service uses `apache` as its backend by default. Backend can be specified in the [default config](services/varnish/config/default.vcl) file.
+- I don't know why *PHP based web development* might need the `emby` service for any reason but I put it there anyway. It's like playing god. He does several things that don't make any sense, but he does those anyway. Because, he can.
 
 ## Installation
 ### The repository
