@@ -26,7 +26,7 @@ RUN if [ ${VOID_ADD_DEVEL} = true ]; then \
 
 ## various useful packages
 RUN pacman -S --noconfirm vim tmux fish zsh openssh git sudo which awk wget unzip tar htop iputils xsel rsync bat cmatrix neofetch mlocate jq nethogs stress
-RUN pacman -S --noconfirm php apache mariadb-clients
+RUN pacman -S --noconfirm php apache mariadb-clients goaccess
 
 ARG VOID_USER=copernicus
 ENV VOID_USER=${VOID_USER}

@@ -229,6 +229,8 @@ services:
       - DOCUMENT_ROOT=${DOCUMENT_ROOT-/var/www/html}
     volumes:
       - ${DOCUMENT_ROOT-./volumes/var/www/html}:/var/www/html
+      - ${APACHE_LOG_DIR-./volumes/var/log/apache2}:/var/log/apache2
+      - ${NGINX_LOG_DIR-./volumes/var/log/nginx}:/var/log/nginx
       - ./volumes/data/share:/data/share
       - ./volumes/root/.ssh:/root/.ssh
       - ./volumes/home/${VOID_USER-copernicus}/.ssh:/home/${VOID_USER-copernicus}/.ssh

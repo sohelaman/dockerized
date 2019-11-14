@@ -3,7 +3,7 @@ LABEL maintainer="Sohel Aman"
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get install -y vsftpd
+RUN apt-get update && apt-get install -y vsftpd nano
 
 ## Add ftp user
 ARG FTP_USER=john

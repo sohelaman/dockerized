@@ -4,7 +4,7 @@ LABEL maintainer="Sohel Aman"
 ARG DEBIAN_FRONTEND=noninteractive
 
 ## Install Varnish.
-RUN apt-get update && apt-get install -y varnish
+RUN apt-get update && apt-get install -y varnish nano
 
 ## Backup default config.
 RUN mv /etc/varnish/default.vcl /etc/varnish/default.vcl.backup
