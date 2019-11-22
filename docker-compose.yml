@@ -42,6 +42,7 @@ services:
     tty: true
     volumes:
       - ${DOCUMENT_ROOT-./volumes/var/www/html}:/var/www/html
+      - ${CACHE_DIR-./volumes/var/cachedir}:/var/cachedir
       - ./services/fpm/config/php/ini/php5.6.ini:/etc/php/5.6/fpm/php.ini
       - ./services/fpm/config/php/ini/php7.0.ini:/etc/php/7.0/fpm/php.ini
       - ./services/fpm/config/php/ini/php7.1.ini:/etc/php/7.1/fpm/php.ini
@@ -67,6 +68,7 @@ services:
       - ./services/apache/conf/dockerized.conf:/etc/apache2/conf-enabled/dockerized.conf
       - ./services/apache/conf/vhosts.conf:/etc/apache2/sites-enabled/vhosts.conf
       - ${DOCUMENT_ROOT-./volumes/var/www/html}:/var/www/html
+      - ${CACHE_DIR-./volumes/var/cachedir}:/var/cachedir
       - ${APACHE_LOG_DIR-./volumes/var/log/apache2}:/var/log/apache2
     networks:
       - skynet
@@ -90,6 +92,7 @@ services:
       - ./services/nginx/conf/dockerized.conf:/etc/nginx/conf.d/dockerized.conf
       - ./services/nginx/conf/vhosts.conf:/etc/nginx/sites-enabled/vhosts.conf
       - ${DOCUMENT_ROOT-./volumes/var/www/html}:/var/www/html
+      - ${CACHE_DIR-./volumes/var/cachedir}:/var/cachedir
       - ${NGINX_LOG_DIR-./volumes/var/log/nginx}:/var/log/nginx
     networks:
       - skynet
@@ -229,6 +232,7 @@ services:
       - DOCUMENT_ROOT=${DOCUMENT_ROOT-/var/www/html}
     volumes:
       - ${DOCUMENT_ROOT-./volumes/var/www/html}:/var/www/html
+      - ${CACHE_DIR-./volumes/var/cachedir}:/var/cachedir
       - ${APACHE_LOG_DIR-./volumes/var/log/apache2}:/var/log/apache2
       - ${NGINX_LOG_DIR-./volumes/var/log/nginx}:/var/log/nginx
       - ./volumes/data/share:/data/share
