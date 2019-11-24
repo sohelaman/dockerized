@@ -159,7 +159,7 @@ services:
       context: ./services/varnish
       args:
         - VARNISH_PORT=${VARNISH_PORT-8080}
-        - VARNISH_BACKEND=${VARNISH_BACKEND-apache}
+        - VARNISH_MALLOC=${VARNISH_MALLOC-128M}
     ports:
       - "${VARNISH_PORT-8080}:${VARNISH_PORT-8080}"
     extra_hosts:
