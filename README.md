@@ -2,16 +2,19 @@
 
 Get dockerized.
 
-## What's included
-A stack of applications put together using Docker solely to ease PHP based web development.
+## What's this?
+This is essentially a development stack similar to LAMP/MAMP/WAMP, except, it takes a different approach than the traditional software installers. It is built using Docker and Linux images.
+
+## What's included?
+A stack of applications put together solely to ease PHP based web development.
 
 ### Services
 | Category |             Services              |
 |----------|:---------------------------------:|
 | Web      | apache, nginx, fpm                |
-| Database | mariadb, mysql, postgres, mongodb |
+| Database | mariadb, mysql, mongo, postgres   |
 | Caching  | redis, memcached, varnish         |
-| Misc     | void, ftp, emby                   |
+| Misc     | void, ftp, emby, mongo-express    |
 
 **PHP versions**
 - PHP [packages](https://packages.sury.org/php/) from the [DEB.SURY.ORG](https://deb.sury.org/) repository are used.
@@ -23,11 +26,21 @@ A stack of applications put together using Docker solely to ease PHP based web d
 - The `varnish` service uses `apache` as its backend by default. Backend can be specified in the [default config](services/varnish/config/default.vcl) file.
 - I don't know why *PHP based web development* might need the `emby` service for any reason but I put it there anyway. It's like playing god. He does several things that don't make any sense, but he does those anyway. Because, he can.
 
+## Prerequisites
+- Docker is required. Please note that, some Windows versions do not support Docker and some Linux kernel may not come with Docker support out of the box. Please check your Docker installation first.
+- Docker Compose is also required.
+- Basic understanding on shell/bash commands.
+- General understanding on LAMP configurations.
+- Initial build will download a lot from the internet. Unmetered internet connection is recommended.
+
 ## Installation
 ### The repository
+Clone using Git.
 ```
-$ git clone https://github.com/sohelaman/dockerized.git && cd dockerized
+$ git clone https://github.com/sohelaman/dockerized.git
+$ cd dockerized
 ```
+Or, [download](https://github.com/sohelaman/dockerized/archive/master.zip) and extract.
 Every command mentioned beyond this point should be run inside the *dockerized* directory.
 
 ### Setting up the environment
@@ -39,8 +52,15 @@ $ cp example.env .env
 ```
 $ ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+'
 ```
-- Other changes to the variables inside the `.env` file can be made for additional customization.
-- Apache and Nginx virtual host configs need to be kept in the corresponding `conf/vhosts.conf` files. Examples for both [Apache](services/apache/conf/vhosts.example.conf) and [Nginx](services/nginx/conf/vhosts.example.conf) are provided and can be used as boilerplate.
+- The variables inside the `.env` file are self descriptive. Those can be changed per necessity.
+- Existing codebase should be pointed as the `DOCUMENT_ROOT`. This directory will be mounted as `/var/www/html` inside the web servers. So, for the virtual host configs, document roots should be pointed with respect to the `/var/www/html` directory. For example, if the existing codebase looks like the following,
+```
+/home/sohel/sites/
+-- mysite1/
+-- mysite2/
+```
+Then the `DOCUMENT_ROOT` should point to `/home/sohel/sites` and document roots of the virtual host configs should be `/var/www/html/mysite1` and `/var/www/html/mysite2` respectively.
+- Apache and Nginx virtual host configs need to be kept in the corresponding `conf/vhosts.conf` files. Examples for both [Apache](services/apache/conf/vhosts.example.conf) and [Nginx](services/nginx/conf/vhosts.example.conf) are provided.
 ```
 $ cp services/apache/conf/vhosts.example.conf services/apache/conf/vhosts.conf
 $ cp services/nginx/conf/vhosts.example.conf services/nginx/conf/vhosts.conf
@@ -50,6 +70,7 @@ $ cp services/nginx/conf/vhosts.example.conf services/nginx/conf/vhosts.conf
 
 ## Usages
 ### Building the images
+*Initial builds will take longer. Please have patience.*
 ```
 $ docker-compose build fpm apache mariadb redis
 ```
@@ -107,3 +128,6 @@ $ docker inspect container_id | grep IP
 $ docker container prune
 $ docker volume prune
 ```
+
+## Todo
+- Tested only on 64 bit Linux systems. Theoretically, should also work on MS Windows and MacOS, but not yet tested.
