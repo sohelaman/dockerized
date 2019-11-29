@@ -8,16 +8,11 @@ RUN if [ ${USE_BD_MIRRORS} = true ]; then \
 	sed -i '1s/^/deb\ http\:\/\/mirror\.amberit\.com\.bd\/debian stretch main\n/' /etc/apt/sources.list \
 ;fi
 
-RUN apt-get update && apt-get install -y git wget bc vim apt-transport-https lsb-release ca-certificates
+RUN apt-get update && apt-get install -y git wget curl bc vim apt-transport-https lsb-release ca-certificates
 
 RUN wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
 RUN echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php.list
-
-RUN apt-get update && apt-get install -y php-xdebug curl
-
-## Install xhprof
-RUN curl -O -L https://github.com/tideways/php-xhprof-extension/releases/download/v5.0.1/tideways-xhprof_5.0.1_amd64.deb
-RUN dpkg -i tideways-xhprof_5.0.1_amd64.deb
+RUN apt-get update
 
 ## PHP versions to install
 ARG ADD_PHP_73=false
@@ -40,6 +35,10 @@ RUN mkdir /root/dockerized
 COPY ./config /root/dockerized/config
 RUN chmod -R +x /root/dockerized/config/
 RUN /root/dockerized/config/configure.sh
+
+## Install tideways xhprof extension
+RUN curl -O -L https://github.com/tideways/php-xhprof-extension/releases/download/v5.0.1/tideways-xhprof_5.0.1_amd64.deb
+RUN dpkg -i tideways-xhprof_5.0.1_amd64.deb
 
 ## Expose ports
 EXPOSE 9056 9070 9071 9072 9073

@@ -1,5 +1,6 @@
 #!/bin/bash
 
+## Install selected versions of php with extensions.
 available_versions=$(echo ${FPM_ADD_PHP_VERSIONS} | tr ";" "\n")
 for item in $available_versions
 do
@@ -8,9 +9,9 @@ do
   	## Extract version string
   	ver_str=$(echo "$item" | awk -F: '{print $1}' | sed 's/[ \t]\?//g')
 
-  	## Install common extensions
-  	common_extensions=(fpm mysql mongo pgsql mbstring zip gd xml redis memcached curl soap odbc bcmath bz2 gettext fileinfo)
-  	for ext in "${common_extensions[@]}"; do apt-get install -y php${ver_str}-${ext}; done
+  	## Install php extensions
+  	php_extensions=(common cli fpm mysql pgsql opcache mbstring zip gd xml curl json soap odbc bcmath bz2 readline)
+  	for ext in "${php_extensions[@]}"; do apt-get install -y php${ver_str}-${ext}; done
 
   	## Additional PHP configs. Path relative to the parent `configure.sh` script.
     source $(dirname "$0")/php/additional/php-${ver_str}.sh
@@ -49,3 +50,7 @@ do
 
 	fi
 done
+
+## Install common extensions for all versions.
+common_extensions=(xdebug redis memcached mongodb pear)
+for ext in "${common_extensions[@]}"; do apt-get install -y php-${ext}; done

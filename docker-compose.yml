@@ -4,28 +4,6 @@ networks:
   skynet:
 
 services:
-  test:
-    container_name: 'dockerized-test'
-    build:
-      context: ./services/test
-    tty: true
-    stdin_open: true
-    extra_hosts:
-      - "dockerhost:${DOCKER_HOST_IP}"
-    networks:
-      - skynet
-
-
-  alpine:
-    container_name: 'dockerized-alpine'
-    image: alpine:latest
-
-
-  debian:
-    container_name: 'dockerized-debian'
-    image: debian:stretch-slim
-
-
   fpm:
     container_name: 'dockerized-fpm'
     build:
@@ -51,7 +29,6 @@ services:
     networks:
       - skynet
 
-
   apache:
     container_name: 'dockerized-apache'
     build:
@@ -74,7 +51,6 @@ services:
       - skynet
     depends_on:
       - fpm
-
 
   nginx:
     container_name: 'dockerized-nginx'
@@ -99,7 +75,6 @@ services:
     depends_on:
       - fpm
 
-
   mysql:
     container_name: 'dockerized-mysql'
     image: mysql:latest
@@ -115,7 +90,6 @@ services:
       MYSQL_DATABASE: ${MYSQL_DB-dockerized}
     networks:
       - skynet
-
 
   mariadb:
     container_name: 'dockerized-mariadb'
@@ -133,7 +107,6 @@ services:
     networks:
       - skynet
 
-
   mongo:
     container_name: 'dockerized-mongodb'
     image: mongo
@@ -144,7 +117,6 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASS-root}
     networks:
       - skynet
-
 
   mongo-express:
     image: mongo-express
@@ -157,7 +129,6 @@ services:
     networks:
       - skynet
 
-
   postgres:
     container_name: 'dockerized-postgres'
     image: postgres
@@ -168,7 +139,6 @@ services:
       - ${POSTGRES_DATA_DIR-./volumes/var/lib/postgresql/data}:/var/lib/postgresql/data
     networks:
       - skynet
-
 
   varnish:
     container_name: 'dockerized-varnish'
@@ -187,7 +157,6 @@ services:
     networks:
       - skynet
 
-
   redis:
     container_name: 'dockerized-redis'
     image: redis:alpine
@@ -196,7 +165,6 @@ services:
     networks:
       - skynet
 
-
   memcached:
     container_name: 'dockerized-memcached'
     image: memcached:alpine
@@ -204,7 +172,6 @@ services:
       - "${MEMCACHED_PORT-11211}:11211"
     networks:
       - skynet
-
 
   ftp:
     container_name: 'dockerized-ftp'
@@ -219,7 +186,6 @@ services:
       - "dockerhost:${DOCKER_HOST_IP}"
     volumes:
       - ${FTP_ROOT-./volumes/var/ftp}:/home/${FTP_USER-john}/ftp/files
-
 
   void:
     container_name: 'dockerized-void'
@@ -256,7 +222,6 @@ services:
       - ./volumes/root/.ssh:/root/.ssh
       - ./volumes/home/${VOID_USER-copernicus}/.ssh:/home/${VOID_USER-copernicus}/.ssh
 
-
   emby:
     container_name: 'dockerized-emby'
     image: emby/embyserver
@@ -267,3 +232,22 @@ services:
       - ${EMBY_CONFIG-./volumes/emby/config}:/config
       - ${SHARED_DISK1-./volumes/mnt/disk1}:/mnt/disk1
       - ${SHARED_DISK2-./volumes/mnt/disk2}:/mnt/disk2
+
+  alpine:
+    container_name: 'dockerized-alpine'
+    image: alpine:latest
+
+  debian:
+    container_name: 'dockerized-debian'
+    image: debian:stretch-slim
+
+  test:
+    container_name: 'dockerized-test'
+    build:
+      context: ./services/test
+    tty: true
+    stdin_open: true
+    extra_hosts:
+      - "dockerhost:${DOCKER_HOST_IP}"
+    networks:
+      - skynet
