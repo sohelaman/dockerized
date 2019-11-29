@@ -15,18 +15,20 @@ RUN echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc
 RUN apt-get update
 
 ## PHP versions to install
+ARG ADD_PHP_56=false
+ARG ADD_PHP_74=false
 ARG ADD_PHP_73=false
 ARG ADD_PHP_72=false
 ARG ADD_PHP_71=false
 ARG ADD_PHP_70=false
-ARG ADD_PHP_56=false
 
 ## Export PHP-FPM versions. This will be used in the scripts later.
 ARG FPM_ADD_PHP_VERSIONS=5.6:${ADD_PHP_56};\
-7.0:${ADD_PHP_70};\
-7.1:${ADD_PHP_71};\
+7.4:${ADD_PHP_74};\
+7.3:${ADD_PHP_73};\
 7.2:${ADD_PHP_72};\
-7.3:${ADD_PHP_73}
+7.1:${ADD_PHP_71};\
+7.0:${ADD_PHP_70}
 
 ENV FPM_ADD_PHP_VERSIONS=${FPM_ADD_PHP_VERSIONS}
 
@@ -41,7 +43,7 @@ RUN curl -O -L https://github.com/tideways/php-xhprof-extension/releases/downloa
 RUN dpkg -i tideways-xhprof_5.0.1_amd64.deb
 
 ## Expose ports
-EXPOSE 9056 9070 9071 9072 9073
+EXPOSE 9056 9070 9071 9072 9073 9074
 
 ## Launcher script
 COPY launcher.sh /root/
