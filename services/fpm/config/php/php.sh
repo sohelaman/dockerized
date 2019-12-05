@@ -52,5 +52,5 @@ do
 done
 
 ## Install common extensions for all versions.
-common_extensions=(xdebug redis memcached mongodb pear)
+common_extensions=(xdebug redis memcached mongodb pear imagick)
 for ext in "${common_extensions[@]}"; do apt-get install -y php-${ext}; done

@@ -18,6 +18,7 @@ services:
         - ADD_PHP_70=${ADD_PHP_70-false}
     extra_hosts:
       - "dockerhost:${DOCKER_HOST_IP}"
+    # restart: always
     tty: true
     volumes:
       - ${DOCUMENT_ROOT-./volumes/var/www/html}:/var/www/html
