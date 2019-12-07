@@ -36,13 +36,14 @@ Or, [download](https://github.com/sohelaman/dockerized/archive/master.zip) and e
 Every command mentioned beyond this point should be run inside the `dockerized` directory.
 
 ### Setting up the environment
-- The following four files are necessary and steps needed to prepare them are listed,
+- The following four files are necessary and steps needed to prepare them are discussed afterwards,
 ```
-/path/to/Dockerized/
+/path/to/dockerized/
 -- .env
--- conf/apache-vhosts.conf
--- conf/nginx-vhosts.conf
--- conf/php-overrides.ini
+-- conf/
+  -- apache-vhosts.conf
+  -- nginx-vhosts.conf
+  -- php-overrides.ini
 ```
 - Environment variables reside in the `.env` file at the root. This is necessary and should be copied from the provided `example.env` file.
 ```
@@ -60,14 +61,14 @@ $ ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+'
 -- mysite2/
 ```
 Then the `DOCUMENT_ROOT` should point to `/home/sohel/sites` and document roots of the virtual host configs should be `/var/www/html/mysite1` and `/var/www/html/mysite2` respectively.
-- The `conf` directory at the root of this project is for keeping the user configs. Apache and Nginx virtual host configs need to be kept in the `./conf/apache-vhosts.conf` and `./conf/nginx-vhosts.conf` files respectively. Examples for both [Apache](services/apache/conf/vhosts.example.conf) and [Nginx](services/nginx/conf/vhosts.example.conf) are provided.
+- The `conf` directory at the root of this project is for keeping the user configs. Apache and NGINX virtual host configs need to be kept in the `./conf/apache-vhosts.conf` and `./conf/nginx-vhosts.conf` files respectively. Examples for both [Apache](services/apache/conf/vhosts.example.conf) and [NGINX](services/nginx/conf/vhosts.example.conf) are provided.
 ```
 $ cp services/apache/conf/vhosts.example.conf conf/apache-vhosts.conf
 $ cp services/nginx/conf/vhosts.example.conf conf/nginx-vhosts.conf
 ```
 - Each PHP version uses a separate *php.ini* file. These files are located in the [./services/fpm/config/php/ini/](services/fpm/config/php/ini) directory. Any changes made in these files will be reflected in corresponding FPM servers. On top of this, overrides will be imposed. All overrides should be kept in the `./conf/php-overrides.ini` file.
 ```
-$ cp services/fpm/config/php/ini/Dockerized-overrides.ini conf/php-overrides.ini
+$ cp services/fpm/config/php/ini/dockerized-overrides.ini conf/php-overrides.ini
 ```
 These overrides will affect all the PHP versions installed.
 
