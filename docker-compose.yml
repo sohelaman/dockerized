@@ -247,14 +247,6 @@ services:
       - ${SHARED_DISK1-./volumes/mnt/disk1}:/mnt/disk1
       - ${SHARED_DISK2-./volumes/mnt/disk2}:/mnt/disk2
 
-  alpine:
-    container_name: 'dockerized-alpine'
-    image: alpine:latest
-
-  debian:
-    container_name: 'dockerized-debian'
-    image: debian:stretch-slim
-
   test:
     container_name: 'dockerized-test'
     build:

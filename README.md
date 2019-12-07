@@ -1,9 +1,9 @@
-# Dockerized
+# dockerized
 
 Get dockerized.
 
 ## What's this?
-This is essentially a development stack similar to LAMP/MAMP/WAMP, except, it takes a different approach than the traditional software installers. It is built using Docker and Linux images.
+This is essentially a development stack similar to LAMP/MAMP/WAMP, except, it takes a different approach than the traditional software installers. It is built using Docker and Linux images. It consists of essential components of PHP development stack rather than including a whole bunch of tools and packages that are not very frequently used.
 
 ## What's included?
 A stack of applications put together solely to ease PHP based web development.
@@ -16,21 +16,14 @@ A stack of applications put together solely to ease PHP based web development.
 | Caching  | redis, memcached, varnish         |
 | Misc     | void, ftp, emby, mongo-express    |
 
-**PHP versions**
-- PHP [packages](https://packages.sury.org/php/) from the [DEB.SURY.ORG](https://deb.sury.org/) repository are used.
-- Supported PHP versions: 5.6, 7.0, 7.1, 7.2, 7.3, and 7.4.
-
-**Additional information**
-- The `fpm` service runs the PHP-FPM servers. Apache and Nginx services are dependent on it.
-- The `void` service contains generic tools and utilities such as npm, composer, etc.
-- The `varnish` service uses `apache` as its backend by default. Backend can be specified in the [default config](services/varnish/config/default.vcl) file.
+**Supported PHP versions: 5.6, 7.0, 7.1, 7.2, 7.3, and 7.4.**
 
 ## Prerequisites
-- Docker is required. Please note that, some Windows versions do not support Docker and some Linux kernel may not come with Docker support out of the box. Please check your Docker installation first.
-- Docker Compose is also required.
-- Basic understanding on shell/bash commands.
-- General understanding on LAMP configurations.
-- Initial build will download a lot from the internet. Unmetered internet connection is recommended.
+- [Docker](https://docs.docker.com/get-started/) is required. It is important to mention that, some Windows versions do not support Docker and some Linux kernels may not come with Docker support out of the box. Docker installation should be verified first.
+- [Docker Compose](https://docs.docker.com/compose/install/) is also required.
+- Basic understanding on the Unix shell or bash commands and LAMP configurations.
+- Initial build will download a great deal of packages from the internet. Unmetered internet connection is recommended.
+- Depending on the services chosen to build, about 2 to 5 GB of disk space is required.
 
 ## Installation
 ### The repository
@@ -43,9 +36,9 @@ Or, [download](https://github.com/sohelaman/dockerized/archive/master.zip) and e
 Every command mentioned beyond this point should be run inside the `dockerized` directory.
 
 ### Setting up the environment
-- Following four files are necessary and steps needed to create them are discussed.
+- The following four files are necessary and steps needed to prepare them are listed,
 ```
-/path/to/dockerized/
+/path/to/Dockerized/
 -- .env
 -- conf/apache-vhosts.conf
 -- conf/nginx-vhosts.conf
@@ -74,9 +67,9 @@ $ cp services/nginx/conf/vhosts.example.conf conf/nginx-vhosts.conf
 ```
 - Each PHP version uses a separate *php.ini* file. These files are located in the [./services/fpm/config/php/ini/](services/fpm/config/php/ini) directory. Any changes made in these files will be reflected in corresponding FPM servers. On top of this, overrides will be imposed. All overrides should be kept in the `./conf/php-overrides.ini` file.
 ```
-$ cp services/fpm/config/php/ini/dockerized-overrides.ini conf/php-overrides.ini
+$ cp services/fpm/config/php/ini/Dockerized-overrides.ini conf/php-overrides.ini
 ```
-Note that, these overrides will affect all the installed PHP versions.
+These overrides will affect all the PHP versions installed.
 
 ## Usages
 ### Building the images
@@ -114,8 +107,18 @@ Or stop and remove all containers, networks, volumes, and images,
 $ docker-compose down
 ```
 
-## Notes
+## Additional information
 - Images should be rebuilt in case of any modifications in the `.env`, YML, etc.
+- The `fpm` service runs the PHP-FPM servers. Both the `apache` and `nginx` services are dependent on it.
+- The `fpm` service comes with a bunch of PHP extensions preinstalled. However, there is no simpler way to add or remove extensions without manually modifying the installer script or Dockerfile in that service. This has been done intentionally only to keep things simple.
+- PHP packages from the [DEB.SURY.ORG](https://deb.sury.org/) repository are used.
+- The `void` service contains generic tools and utilities such as npm, composer, etc.
+- The `varnish` service uses `apache` as its backend by default. Backend can be specified in the [default config](services/varnish/config/default.vcl) file.
+- The `./volumes` directory does not contain anything necessary for dockerized. However, application logs, data, caches, shared spaces are kept and mounted inside that directory unless specifically changed in the `.env` file. For instance, MySQL data directory is set to be `./volumes/var/lib/mysql` by default.
+- The `emby` service is for running an Emby media server and has no relation to the development stack.
+- The `test` service is basically a useless container, only to be used for experiments and messing around.
+
+## Useful commands
 - Show all the images,
 ```
 $ docker-compose images
@@ -140,4 +143,4 @@ $ docker volume prune
 ```
 
 ## Todo
-- Tested only on 64 bit Linux systems. Theoretically, should also work on MS Windows and MacOS, but not yet tested.
+- Tested only on 64 bit Linux systems. Should work on Windows and MacOS as well but not yet tested.
