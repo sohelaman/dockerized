@@ -18,7 +18,7 @@ services:
         - ADD_PHP_70=${ADD_PHP_70-false}
     extra_hosts:
       - "dockerhost:${DOCKER_HOST_IP}"
-    # restart: always
+    restart: ${RESTART_FPM-no}
     tty: true
     volumes:
       - ${DOCUMENT_ROOT-./volumes/var/www/html}:/var/www/html
@@ -43,6 +43,7 @@ services:
       - "${APACHE_PORT_SSL-443}:443"
     extra_hosts:
       - "dockerhost:${DOCKER_HOST_IP}"
+    restart: ${RESTART_APACHE-no}
     tty: true
     volumes:
       - ./services/apache/conf/dockerized.conf:/etc/apache2/conf-enabled/dockerized.conf
@@ -67,6 +68,7 @@ services:
     extra_hosts:
       - "dockerhost:${DOCKER_HOST_IP}"
     tty: true
+    restart: ${RESTART_NGINX-no}
     volumes:
       - ./services/nginx/conf/dockerized.conf:/etc/nginx/conf.d/dockerized.conf
       - ./services/nginx/conf/vhosts.conf:/etc/nginx/sites-enabled/vhosts.conf
@@ -81,6 +83,7 @@ services:
   mysql:
     container_name: 'dockerized-mysql'
     image: mysql:latest
+    restart: ${RESTART_MYSQL-no}
     ports:
       - "${MYSQL_PORT-3306}:3306"
     volumes:
@@ -97,6 +100,7 @@ services:
   mariadb:
     container_name: 'dockerized-mariadb'
     image: mariadb:latest
+    restart: ${RESTART_MARIADB-no}
     ports:
       - "${MARIADB_PORT-3306}:3306"
     volumes:
@@ -113,6 +117,7 @@ services:
   mongo:
     container_name: 'dockerized-mongodb'
     image: mongo
+    restart: ${RESTART_MONGO-no}
     volumes:
       - ${MONGO_DATA_DIR-./volumes/data/db}:/data/db
     environment:
@@ -135,6 +140,7 @@ services:
   postgres:
     container_name: 'dockerized-postgres'
     image: postgres
+    restart: ${RESTART_MONGO-no}
     environment:
       POSTGRES_USER: ${POSTGRES_ROOT_USER-root}
       POSTGRES_PASSWORD: ${POSTGRES_ROOT_PASS-root}
@@ -162,6 +168,7 @@ services:
 
   redis:
     container_name: 'dockerized-redis'
+    restart: ${RESTART_REDIS-no}
     image: redis:alpine
     ports:
       - "${REDIS_PORT-6379}:6379"
@@ -171,6 +178,7 @@ services:
   memcached:
     container_name: 'dockerized-memcached'
     image: memcached:alpine
+    restart: ${RESTART_MEMCACHED-no}
     ports:
       - "${MEMCACHED_PORT-11211}:11211"
     networks:
@@ -184,6 +192,7 @@ services:
         - FTP_USER=${FTP_USER-john}
         - FTP_PASS=${FTP_PASS-doe}
     tty: true
+    restart: ${RESTART_FTP-no}
     network_mode: host
     extra_hosts:
       - "dockerhost:${DOCKER_HOST_IP}"
@@ -208,6 +217,7 @@ services:
         - VOID_ADD_WPCLI=${VOID_ADD_WPCLI-false}
     tty: true
     stdin_open: true
+    restart: ${RESTART_VOID-no}
     ports:
       - "${VOID_SSH_PORT-2222}:22"
     extra_hosts:
