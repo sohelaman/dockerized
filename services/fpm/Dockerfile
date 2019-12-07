@@ -33,14 +33,15 @@ ARG FPM_ADD_PHP_VERSIONS=5.6:${ADD_PHP_56};\
 ENV FPM_ADD_PHP_VERSIONS=${FPM_ADD_PHP_VERSIONS}
 
 ## Auto-configurations
+ADD config/php/ini/dockerized-overrides.ini /etc/php/php-overrides.ini
 RUN mkdir /root/dockerized
 COPY ./config /root/dockerized/config
 RUN chmod -R +x /root/dockerized/config/
 RUN /root/dockerized/config/configure.sh
 
 ## Install tideways xhprof extension
-RUN curl -O -L https://github.com/tideways/php-xhprof-extension/releases/download/v5.0.1/tideways-xhprof_5.0.1_amd64.deb
-RUN dpkg -i tideways-xhprof_5.0.1_amd64.deb
+RUN curl -O -L https://github.com/tideways/php-xhprof-extension/releases/download/v5.0.2/tideways-xhprof_5.0.2_amd64.deb
+RUN dpkg -i tideways-xhprof_5.0.2_amd64.deb
 
 ## Expose ports
 EXPOSE 9056 9070 9071 9072 9073 9074

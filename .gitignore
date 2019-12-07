@@ -1,6 +1,4 @@
 .env
-services/apache/conf/vhosts.conf
-services/nginx/conf/vhosts.conf
 volumes/
 
 .vscode/

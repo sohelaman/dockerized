@@ -24,7 +24,6 @@ A stack of applications put together solely to ease PHP based web development.
 - The `fpm` service runs the PHP-FPM servers. Apache and Nginx services are dependent on it.
 - The `void` service contains generic tools and utilities such as npm, composer, etc.
 - The `varnish` service uses `apache` as its backend by default. Backend can be specified in the [default config](services/varnish/config/default.vcl) file.
-- I don't know why *PHP based web development* might need the `emby` service for any reason but I put it there anyway. It's like playing god. He does several things that don't make any sense, but he does those anyway. Because, he can.
 
 ## Prerequisites
 - Docker is required. Please note that, some Windows versions do not support Docker and some Linux kernel may not come with Docker support out of the box. Please check your Docker installation first.
@@ -41,9 +40,17 @@ $ git clone https://github.com/sohelaman/dockerized.git
 $ cd dockerized
 ```
 Or, [download](https://github.com/sohelaman/dockerized/archive/master.zip) and extract.
-Every command mentioned beyond this point should be run inside the *dockerized* directory.
+Every command mentioned beyond this point should be run inside the `dockerized` directory.
 
 ### Setting up the environment
+- Following four files are necessary and steps needed to create them are discussed.
+```
+/path/to/dockerized/
+-- .env
+-- conf/apache-vhosts.conf
+-- conf/nginx-vhosts.conf
+-- conf/php-overrides.ini
+```
 - Environment variables reside in the `.env` file at the root. This is necessary and should be copied from the provided `example.env` file.
 ```
 $ cp example.env .env
@@ -60,13 +67,16 @@ $ ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+'
 -- mysite2/
 ```
 Then the `DOCUMENT_ROOT` should point to `/home/sohel/sites` and document roots of the virtual host configs should be `/var/www/html/mysite1` and `/var/www/html/mysite2` respectively.
-- Apache and Nginx virtual host configs need to be kept in the corresponding `conf/vhosts.conf` files. Examples for both [Apache](services/apache/conf/vhosts.example.conf) and [Nginx](services/nginx/conf/vhosts.example.conf) are provided.
+- The `conf` directory at the root of this project is for keeping the user configs. Apache and Nginx virtual host configs need to be kept in the `./conf/apache-vhosts.conf` and `./conf/nginx-vhosts.conf` files respectively. Examples for both [Apache](services/apache/conf/vhosts.example.conf) and [Nginx](services/nginx/conf/vhosts.example.conf) are provided.
 ```
-$ cp services/apache/conf/vhosts.example.conf services/apache/conf/vhosts.conf
-$ cp services/nginx/conf/vhosts.example.conf services/nginx/conf/vhosts.conf
+$ cp services/apache/conf/vhosts.example.conf conf/apache-vhosts.conf
+$ cp services/nginx/conf/vhosts.example.conf conf/nginx-vhosts.conf
 ```
-- Additional Apache and Nginx configuration, if necessary, can be put in the [services/apache/conf/dockerized.conf](services/apache/conf/dockerized.conf) and [services/nginx/conf/dockerized.conf](services/nginx/conf/dockerized.conf) file. It is important to mention that, for Nginx, the `dockerized.conf` file can only include directives for `http` block only; and must not contain any duplicate directive that already exists under the `http` block in the `/etc/nginx/nginx.conf` file of the container.
-- Each PHP version uses a separate *php.ini* file. These files are located in the [services/fpm/config/php/ini](services/fpm/config/php/ini) directory. These files already include a few development friendly configs. Changes made in these files will be reflected in corresponding FPM servers when containers reload.
+- Each PHP version uses a separate *php.ini* file. These files are located in the [./services/fpm/config/php/ini/](services/fpm/config/php/ini) directory. Any changes made in these files will be reflected in corresponding FPM servers. On top of this, overrides will be imposed. All overrides should be kept in the `./conf/php-overrides.ini` file.
+```
+$ cp services/fpm/config/php/ini/dockerized-overrides.ini conf/php-overrides.ini
+```
+Note that, these overrides will affect all the installed PHP versions.
 
 ## Usages
 ### Building the images
