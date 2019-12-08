@@ -18,76 +18,68 @@ RUN sed -i '/^# en_US.UTF-8 UTF-8$/s/^# //g' /etc/locale.gen
 RUN locale-gen
 
 ## install base-devel
-ARG VOID_ADD_DEVEL=false
-ENV VOID_ADD_DEVEL=${VOID_ADD_DEVEL}
-RUN if [ ${VOID_ADD_DEVEL} = true ]; then \
-  pacman -S --noconfirm base-devel \
-;fi
+# RUN pacman -S --noconfirm base-devel
 
-## various useful packages
-RUN pacman -S --noconfirm vim tmux fish zsh openssh git sudo which awk wget unzip tar htop iputils xsel rsync bat cmatrix neofetch mlocate jq nethogs stress
-RUN pacman -S --noconfirm php apache mariadb-clients goaccess
+## some useful packages
+RUN pacman -S --noconfirm which awk iputils sudo wget unzip tar rsync openssh
+RUN pacman -S --noconfirm vim tmux fish zsh git htop xsel bat cmatrix mlocate jq nethogs bmon
+RUN pacman -S --noconfirm powerline powerline-fonts powerline-vim
+RUN pacman -S --noconfirm php apache mariadb-clients goaccess composer
 
+## add user
 ARG VOID_USER=copernicus
-ENV VOID_USER=${VOID_USER}
-RUN useradd -rm -g users -G wheel -s $(which fish) ${VOID_USER}
+RUN useradd -rm -g users -G wheel -s $(which bash) ${VOID_USER}
 RUN sed -i "s/^# %wheel ALL=(ALL) NOPASSWD: ALL$/%wheel ALL=(ALL) NOPASSWD: ALL/" /etc/sudoers
 
-## nodejs, npm, and others
-ARG VOID_ADD_NODEJS=false
-ENV VOID_ADD_NODEJS=${VOID_ADD_NODEJS}
-RUN if [ ${VOID_ADD_NODEJS} = true ]; then \
-  pacman -S --noconfirm nodejs npm \
-;fi
-
-
-## php composer
-ARG VOID_ADD_COMPOSER=false
-ENV VOID_ADD_COMPOSER=${VOID_ADD_COMPOSER}
-RUN if [ ${VOID_ADD_COMPOSER} = true ]; then \
-  pacman -S --noconfirm php composer redis \
-;fi
-
-## java JDK
-ARG VOID_ADD_JDK=false
-ENV VOID_ADD_JDK=${VOID_ADD_JDK}
-ARG VOID_JDK_VERSION=8
-ENV VOID_JDK_VERSION=${VOID_JDK_VERSION}
-RUN if [ ${VOID_ADD_JDK} = true ]; then \
-  pacman -S --noconfirm jdk${VOID_JDK_VERSION}-openjdk \
-;fi
+## php configs
+ARG PHP_INI_FILE=/etc/php/php.ini
+RUN sed -i "s/^;extension=mysqli$/extension=mysqli/" ${PHP_INI_FILE} \
+    && sed -i "s/^;extension=pdo_mysql$/extension=pdo_mysql/" ${PHP_INI_FILE} \
+    && sed -i "s/^memory_limit = .*$/memory_limit = 256M/" ${PHP_INI_FILE} \
+    && sed -i "s/^max_execution_time = .*$/max_execution_time = 600/" ${PHP_INI_FILE} \
+    && sed -i "s/^error_reporting = .*$/error_reporting = E_ALL/" ${PHP_INI_FILE}
 
 ## python and pip
-ARG VOID_ADD_PYTHON=false
-ENV VOID_ADD_PYTHON=${VOID_ADD_PYTHON}
-RUN if [ ${VOID_ADD_PYTHON} = true ]; then \
-  pacman -S --noconfirm python python-pip \
-;fi
+RUN pacman -S --noconfirm python python-pip
+RUN pip install virtualenv
+
+## nodejs, npm, and others
+RUN pacman -S --noconfirm nodejs npm
+RUN npm i -g yarn webpack parcel-bundler grunt grunt-cli gulp-cli gulp babel-cli ionic foundation-cli
 
 ## ruby and gem
-ARG VOID_ADD_RUBY=false
-ENV VOID_ADD_RUBY=${VOID_ADD_RUBY}
-RUN if [ ${VOID_ADD_RUBY} = true ]; then \
-  pacman -S --noconfirm ruby rubygems \
-;fi
+RUN pacman -S --noconfirm ruby rubygems
 
-## drush
-ARG VOID_ADD_DRUSH=false
-ENV VOID_ADD_DRUSH=${VOID_ADD_DRUSH}
+## java JDK
+ARG VOID_JDK_VERSION=8
+RUN pacman -S --noconfirm jdk${VOID_JDK_VERSION}-openjdk
 
-## wp-cli
-ARG VOID_ADD_WPCLI=false
-ENV VOID_ADD_WPCLI=${VOID_ADD_WPCLI}
+## laravel
+RUN composer global require laravel/installer
 
 ## drupalconsole
-ARG VOID_ADD_DRUPALCONSOLE=false
-ENV VOID_ADD_DRUPALCONSOLE=${VOID_ADD_DRUPALCONSOLE}
+RUN curl https://drupalconsole.com/installer -L -o drupal.phar \
+    && chmod +x drupal.phar \
+    && mv drupal.phar /usr/local/bin/drupal
 
-## additional installation
-COPY scripts/installs.sh /root/installs.sh
-RUN chmod +x /root/installs.sh
-RUN /root/installs.sh
-RUN rm /root/installs.sh
+## drush latest
+RUN composer global require drush/drush
+
+## drush 8
+RUN curl https://github.com/drush-ops/drush/releases/download/8.3.2/drush.phar -L -o drush.phar \
+    && chmod +x drush.phar \
+    && mv drush.phar /usr/local/bin/drush8
+
+## wp-cli
+RUN curl https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -L -o wp-cli.phar \
+    && chmod +x wp-cli.phar \
+    && mv wp-cli.phar /usr/local/bin/wp
+
+## post-installation
+COPY scripts/post-install.sh /root/post-install.sh
+RUN chmod +x /root/post-install.sh
+RUN /root/post-install.sh
+RUN rm /root/post-install.sh
 
 ## clean pacman caches
 RUN pacman --noconfirm -Scc
@@ -103,5 +95,3 @@ WORKDIR ${DOCUMENT_ROOT}
 # TODO git config
 # TODO ssh keys
 # TODO ruby gems path
-
-# ENTRYPOINT fish

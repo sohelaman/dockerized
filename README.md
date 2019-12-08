@@ -9,12 +9,12 @@ This is essentially a development stack similar to LAMP/MAMP/WAMP, except, it ta
 A stack of applications put together solely to ease PHP based web development.
 
 ### Services
-| Category |             Services              |
-|----------|:---------------------------------:|
-| Web      | apache, nginx, fpm                |
-| Database | mariadb, mysql, mongo, postgres   |
-| Caching  | redis, memcached, varnish         |
-| Misc     | void, ftp, emby, mongo-express    |
+| Category |                   Services                   |
+|----------|:--------------------------------------------:|
+| Web      | apache, nginx, fpm                           |
+| Database | mariadb, mysql, postgres, mongo, couchdb     |
+| Caching  | redis, memcached, varnish                    |
+| Misc     | portainer, void, ftp, emby, mongo-express    |
 
 **Supported PHP versions: 5.6, 7.0, 7.1, 7.2, 7.3, and 7.4.**
 
@@ -116,6 +116,7 @@ $ docker-compose down
 - The `void` service contains generic tools and utilities such as npm, composer, etc.
 - The `varnish` service uses `apache` as its backend by default. Backend can be specified in the [default config](services/varnish/config/default.vcl) file.
 - The `./volumes` directory does not contain anything necessary for dockerized. However, application logs, data, caches, shared spaces are kept and mounted inside that directory unless specifically changed in the `.env` file. For instance, MySQL data directory is set to be `./volumes/var/lib/mysql` by default.
+- The `portainer` service is a management GUI for Docker.
 - The `emby` service is for running an Emby media server and has no relation to the development stack.
 - The `test` service is basically a useless container, only to be used for experiments and messing around.
 

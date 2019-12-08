@@ -115,6 +115,32 @@ services:
     networks:
       - skynet
 
+  postgres:
+    container_name: 'dockerized-postgres'
+    image: postgres
+    restart: ${RESTART_MONGO-no}
+    environment:
+      POSTGRES_USER: ${POSTGRES_ROOT_USER-root}
+      POSTGRES_PASSWORD: ${POSTGRES_ROOT_PASS-root}
+    volumes:
+      - ${POSTGRES_DATA_DIR-./volumes/var/lib/postgresql/data}:/var/lib/postgresql/data
+    networks:
+      - skynet
+
+  couchdb:
+    container_name: 'dockerized-couchdb'
+    image: couchdb
+    restart: ${RESTART_COUCHDB-no}
+    ports:
+      - "5984:5984"
+    volumes:
+      - ${COUCHDB_DATA_DIR-./volumes/couchdb/data}:/opt/couchdb/data
+    environment:
+      COUCHDB_USER: ${COUCHDB_ADMIN_USER-root}
+      COUCHDB_PASSWORD: ${COUCHDB_ADMIN_PASSWORD-root}
+    networks:
+      - skynet
+
   mongo:
     container_name: 'dockerized-mongodb'
     image: mongo
@@ -138,15 +164,21 @@ services:
     networks:
       - skynet
 
-  postgres:
-    container_name: 'dockerized-postgres'
-    image: postgres
-    restart: ${RESTART_MONGO-no}
-    environment:
-      POSTGRES_USER: ${POSTGRES_ROOT_USER-root}
-      POSTGRES_PASSWORD: ${POSTGRES_ROOT_PASS-root}
-    volumes:
-      - ${POSTGRES_DATA_DIR-./volumes/var/lib/postgresql/data}:/var/lib/postgresql/data
+  redis:
+    container_name: 'dockerized-redis'
+    restart: ${RESTART_REDIS-no}
+    image: redis:alpine
+    ports:
+      - "${REDIS_PORT-6379}:6379"
+    networks:
+      - skynet
+
+  memcached:
+    container_name: 'dockerized-memcached'
+    image: memcached:alpine
+    restart: ${RESTART_MEMCACHED-no}
+    ports:
+      - "${MEMCACHED_PORT-11211}:11211"
     networks:
       - skynet
 
@@ -167,24 +199,6 @@ services:
     networks:
       - skynet
 
-  redis:
-    container_name: 'dockerized-redis'
-    restart: ${RESTART_REDIS-no}
-    image: redis:alpine
-    ports:
-      - "${REDIS_PORT-6379}:6379"
-    networks:
-      - skynet
-
-  memcached:
-    container_name: 'dockerized-memcached'
-    image: memcached:alpine
-    restart: ${RESTART_MEMCACHED-no}
-    ports:
-      - "${MEMCACHED_PORT-11211}:11211"
-    networks:
-      - skynet
-
   ftp:
     container_name: 'dockerized-ftp'
     build:
@@ -200,6 +214,27 @@ services:
     volumes:
       - ${FTP_ROOT-./volumes/var/ftp}:/home/${FTP_USER-john}/ftp/files
 
+  emby:
+    container_name: 'dockerized-emby'
+    image: emby/embyserver
+    ports:
+      - "8096:8096"
+      - "8920:8920"
+    volumes:
+      - ${EMBY_CONFIG-./volumes/emby/config}:/config
+      - ${SHARED_DISK1-./volumes/mnt/disk1}:/mnt/disk1
+      - ${SHARED_DISK2-./volumes/mnt/disk2}:/mnt/disk2
+
+  portainer:
+    container_name: 'dockerized-portainer'
+    image: portainer/portainer
+    restart: ${RESTART_PORTAINER-always}
+    ports:
+      - "${PORTAINER_PORT-9000}:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${PORTAINER_DATA_DIR-./volumes/data/portainer}:/data
+
   void:
     container_name: 'dockerized-void'
     build:
@@ -207,15 +242,7 @@ services:
       args:
         - VOID_USER=${VOID_USER-copernicus}
         - USE_BD_MIRRORS=${USE_BD_MIRRORS-false}
-        - VOID_ADD_DEVEL=${VOID_ADD_DEVEL-false}
-        - VOID_ADD_NODEJS=${VOID_ADD_NODEJS-true}
-        - VOID_ADD_RUBY=${VOID_ADD_RUBY-false}
-        - VOID_ADD_JDK=${VOID_ADD_JDK-false}
-        - VOID_ADD_PYTHON=${VOID_ADD_PYTHON-false}
-        - VOID_ADD_COMPOSER=${VOID_ADD_COMPOSER-true}
-        - VOID_ADD_DRUSH=${VOID_ADD_DRUSH-false}
-        - VOID_ADD_DRUPALCONSOLE=${VOID_ADD_DRUPALCONSOLE-false}
-        - VOID_ADD_WPCLI=${VOID_ADD_WPCLI-false}
+        - VOID_JDK_VERSION=${VOID_JDK_VERSION-8}
     tty: true
     stdin_open: true
     restart: ${RESTART_VOID-no}
@@ -236,21 +263,12 @@ services:
       - ./volumes/root/.ssh:/root/.ssh
       - ./volumes/home/${VOID_USER-copernicus}/.ssh:/home/${VOID_USER-copernicus}/.ssh
 
-  emby:
-    container_name: 'dockerized-emby'
-    image: emby/embyserver
-    ports:
-      - "8096:8096"
-      - "8920:8920"
-    volumes:
-      - ${EMBY_CONFIG-./volumes/emby/config}:/config
-      - ${SHARED_DISK1-./volumes/mnt/disk1}:/mnt/disk1
-      - ${SHARED_DISK2-./volumes/mnt/disk2}:/mnt/disk2
-
   test:
     container_name: 'dockerized-test'
     build:
       context: ./services/test
+      args:
+        - MY_VAR=${MY_VAR-lorem}
     tty: true
     stdin_open: true
     extra_hosts:
