@@ -62,13 +62,13 @@ RUN curl https://drupalconsole.com/installer -L -o drupal.phar \
     && chmod +x drupal.phar \
     && mv drupal.phar /usr/local/bin/drupal
 
-## drush latest
-RUN composer global require drush/drush
+## drush latest [conflict]
+# RUN composer global require drush/drush
 
 ## drush 8
 RUN curl https://github.com/drush-ops/drush/releases/download/8.3.2/drush.phar -L -o drush.phar \
     && chmod +x drush.phar \
-    && mv drush.phar /usr/local/bin/drush8
+    && mv drush.phar /usr/local/bin/drush
 
 ## wp-cli
 RUN curl https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -L -o wp-cli.phar \
