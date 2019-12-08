@@ -21,10 +21,10 @@ RUN locale-gen
 # RUN pacman -S --noconfirm base-devel
 
 ## some useful packages
-RUN pacman -S --noconfirm which awk iputils sudo wget unzip tar rsync openssh
-RUN pacman -S --noconfirm vim tmux fish zsh git htop xsel bat cmatrix mlocate jq nethogs bmon
+RUN pacman -S --noconfirm which awk iputils inetutils sudo wget unzip tar rsync openssh mtr pydf nnn
+RUN pacman -S --noconfirm vim tmux fish zsh git htop xsel bat cmatrix mlocate jq nethogs bmon ranger aria2 youtube-dl
 RUN pacman -S --noconfirm powerline powerline-fonts powerline-vim
-RUN pacman -S --noconfirm php apache mariadb-clients goaccess composer
+RUN pacman -S --noconfirm php apache composer mariadb-clients goaccess monit httpie
 
 ## add user
 ARG VOID_USER=copernicus
@@ -46,6 +46,11 @@ RUN pip install virtualenv
 ## nodejs, npm, and others
 RUN pacman -S --noconfirm nodejs npm
 RUN npm i -g yarn webpack parcel-bundler grunt grunt-cli gulp-cli gulp babel-cli ionic foundation-cli
+RUN export NG_CLI_ANALYTICS=true && npm i -g @angular/cli
+RUN npm i -g loadtest hget
+# RUN npm i -g nodemon forever pm2
+
+## TODO nvm - need to install nvm before nodejs, then install global packages for specific version.
 
 ## ruby and gem
 RUN pacman -S --noconfirm ruby rubygems

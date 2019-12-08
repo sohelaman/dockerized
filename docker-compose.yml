@@ -118,7 +118,7 @@ services:
   postgres:
     container_name: 'dockerized-postgres'
     image: postgres
-    restart: ${RESTART_MONGO-no}
+    restart: ${RESTART_POSTGRES-no}
     environment:
       POSTGRES_USER: ${POSTGRES_ROOT_USER-root}
       POSTGRES_PASSWORD: ${POSTGRES_ROOT_PASS-root}
@@ -213,6 +213,18 @@ services:
       - "dockerhost:${DOCKER_HOST_IP}"
     volumes:
       - ${FTP_ROOT-./volumes/var/ftp}:/home/${FTP_USER-john}/ftp/files
+
+  mailtrap:
+    container_name: 'dockerized-mailtrap'
+    image: eaudeweb/mailtrap
+    restart: ${RESTART_MAILTRAP-no}
+    ports:
+      - "${MAILTRAP_ADMIN_PORT-8088}:80"
+    environment:
+      MT_USER: ${MAILTRAP_ADMIN_USER-mailtrap}
+      MT_PASSWD: ${MAILTRAP_ADMIN_PASS-mailtrap}
+    networks:
+      - skynet
 
   emby:
     container_name: 'dockerized-emby'

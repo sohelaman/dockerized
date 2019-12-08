@@ -9,12 +9,12 @@ This is essentially a development stack similar to LAMP/MAMP/WAMP, except, it ta
 A stack of applications put together solely to ease PHP based web development.
 
 ### Services
-| Category |                   Services                   |
-|----------|:--------------------------------------------:|
-| Web      | apache, nginx, fpm                           |
-| Database | mariadb, mysql, postgres, mongo, couchdb     |
-| Caching  | redis, memcached, varnish                    |
-| Misc     | portainer, void, ftp, emby, mongo-express    |
+| Category | Services                                             |
+|----------|------------------------------------------------------|
+| Web      | apache, nginx, fpm                                   |
+| Database | mariadb, mysql, postgres, mongo, couchdb             |
+| Caching  | redis, memcached, varnish                            |
+| Misc     | void, portainer, mailtrap, ftp, emby, mongo-express  |
 
 **Supported PHP versions: 5.6, 7.0, 7.1, 7.2, 7.3, and 7.4.**
 
@@ -113,12 +113,67 @@ $ docker-compose down
 - The `fpm` service runs the PHP-FPM servers. Both the `apache` and `nginx` services are dependent on it.
 - The `fpm` service comes with a bunch of PHP extensions preinstalled. However, there is no simpler way to add or remove extensions without manually modifying the installer script or Dockerfile in that service. This has been done intentionally only to keep things simple.
 - PHP packages from the [DEB.SURY.ORG](https://deb.sury.org/) repository are used.
-- The `void` service contains generic tools and utilities such as npm, composer, etc.
 - The `varnish` service uses `apache` as its backend by default. Backend can be specified in the [default config](services/varnish/config/default.vcl) file.
 - The `./volumes` directory does not contain anything necessary for dockerized. However, application logs, data, caches, shared spaces are kept and mounted inside that directory unless specifically changed in the `.env` file. For instance, MySQL data directory is set to be `./volumes/var/lib/mysql` by default.
+- The `mailtrap` service is a dummy SMTP mail server. *CAUTION!* Mailtrap storage is not persistant. Emails will be lost if container restarts.
 - The `portainer` service is a management GUI for Docker.
-- The `emby` service is for running an Emby media server and has no relation to the development stack.
-- The `test` service is basically a useless container, only to be used for experiments and messing around.
+- The `emby` service is for running an Emby media server.
+- The `test` service is basically a useless container, only to be used for experiments.
+- The `void` service contains several utilities such as,
+  - Zsh shell, Fish shell
+  - Composer
+  - MariaDB/MySQL client
+  - Drush 8, DrupalConsole, WP-CLI, Laravel CLI
+  - NodeJS, NPM, Yarn
+  - Webpack, Gulp, Grunt, Parcel, Babel
+  - Ionic CLI, Angular CLI, Foundation CLI
+  - Python, PIP
+  - Ruby, Gem
+  - OpenJDK
+  - GoAccess
+  - HTTPie
+
+## Default credentials
+Otherwise changed in the `.env` file, the following table shows predefined credentials.
+
+| Service       	|    User    	|  Password  	| Admin UI              	|
+|---------------	|:----------:	|:----------:	|-----------------------	|
+| ftp           	|    john    	|     doe    	| -                     	|
+| portainer     	|      -     	|      -     	| http://localhost:9000 	|
+| mailtrap      	|  mailtrap  	|  mailtrap  	| http://localhost:8088 	|
+| mysql/mariadb 	|    root    	|    root    	| -                     	|
+| mysql/mariadb 	| dockerized 	| dockerized 	| -                     	|
+| postgres      	|    root    	|    root    	| -                     	|
+| couchdb       	|    root    	|    root    	| http://localhost:5984 	|
+| mongo         	|    root    	|    root    	| -                     	|
+| mongo-express 	|      -     	|      -     	| http://localhost:8081 	|
+| emby          	|      -     	|      -     	| http://localhost:8096 	|
+
+
+## Default port map
+The following table shows ports used. If a service does not expose its port, then it is not accessible from outside (i.e. from the docker host).
+
+| Service       	| Exposed Ports 	| Internal Ports 	| Purpose       	|
+|---------------	|:-------------:	|:--------------:	|---------------	|
+| fpm           	|       -       	|      90XX      	| App           	|
+| apache        	|    80, 443    	|     80, 443    	| App           	|
+| nginx         	|    80, 443    	|     80, 443    	| App           	|
+| mysql         	|      3306     	|      3306      	| App           	|
+| mariadb       	|      3306     	|      3306      	| App           	|
+| postgres      	|       -       	|      5432      	| App           	|
+| couchdb       	|      5984     	|      5984      	| App, Admin UI 	|
+| mongo         	|       -       	|      27017     	| App           	|
+| mongo-express 	|      8081     	|      8081      	| Admin UI      	|
+| redis         	|      6379     	|      6379      	| App           	|
+| memcached     	|     11211     	|      11211     	| App           	|
+| varnish       	|      8080     	|      8080      	| App           	|
+| ftp           	|       -       	|     20, 21     	| App           	|
+| mailtrap      	|      8088     	|       80       	| Admin UI      	|
+| mailtrap      	|       -       	|       25       	| SMTP          	|
+| emby          	|   8096, 8920  	|   8096, 8920   	| Admin UI      	|
+| portainer     	|      9000     	|      9000      	| Admin UI      	|
+| void          	|      2222     	|       22       	| SSH           	|
+
 
 ## Useful commands
 - Show all the images,
