@@ -115,7 +115,7 @@ $ docker-compose down
 - PHP packages from the [DEB.SURY.ORG](https://deb.sury.org/) repository are used.
 - The `varnish` service uses `apache` as its backend by default. Backend can be specified in the [default config](services/varnish/config/default.vcl) file.
 - The `./volumes` directory does not contain anything necessary for dockerized. However, application logs, data, caches, shared spaces are kept and mounted inside that directory unless specifically changed in the `.env` file. For instance, MySQL data directory is set to be `./volumes/var/lib/mysql` by default.
-- The `mailtrap` service is a dummy SMTP mail server. *CAUTION!* Mailtrap storage is not persistant. Emails will be lost if container restarts.
+- The `mailtrap` service is a dummy SMTP mail server. *CAUTION!* Mailtrap storage is not persistent. Emails will be lost if container restarts.
 - The `portainer` service is a management GUI for Docker.
 - The `emby` service is for running an Emby media server.
 - The `test` service is basically a useless container, only to be used for experiments.
@@ -151,7 +151,7 @@ Otherwise changed in the `.env` file, the following table shows predefined crede
 
 
 ## Default port map
-The following table shows ports used. If a service does not expose its port, then it is not accessible from outside (i.e. from the docker host).
+The following table shows ports used. If a service does not expose its port, then it is not accessible from the outside (i.e. from the docker host).
 
 | Service       	| Exposed Ports 	| Internal Ports 	| Purpose       	|
 |---------------	|:-------------:	|:--------------:	|---------------	|
