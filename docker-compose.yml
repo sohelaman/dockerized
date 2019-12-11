@@ -134,7 +134,7 @@ services:
     ports:
       - "5984:5984"
     volumes:
-      - ${COUCHDB_DATA_DIR-./volumes/couchdb/data}:/opt/couchdb/data
+      - ${COUCHDB_DATA_DIR-./volumes/data/couchdb}:/opt/couchdb/data
     environment:
       COUCHDB_USER: ${COUCHDB_ADMIN_USER-root}
       COUCHDB_PASSWORD: ${COUCHDB_ADMIN_PASSWORD-root}
@@ -146,7 +146,7 @@ services:
     image: mongo
     restart: ${RESTART_MONGO-no}
     volumes:
-      - ${MONGO_DATA_DIR-./volumes/data/db}:/data/db
+      - ${MONGO_DATA_DIR-./volumes/data/mongodb}:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER-root}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASS-root}
@@ -208,6 +208,11 @@ services:
         - FTP_PASS=${FTP_PASS-doe}
     tty: true
     restart: ${RESTART_FTP-no}
+    # ports:
+    #   - "20:20"
+    #   - "21:21"
+    # networks:
+    #   - skynet
     network_mode: host
     extra_hosts:
       - "dockerhost:${DOCKER_HOST_IP}"
@@ -242,7 +247,7 @@ services:
     image: portainer/portainer
     restart: ${RESTART_PORTAINER-always}
     ports:
-      - "${PORTAINER_PORT-9000}:9000"
+      - "${PORTAINER_PORT-9900}:9000"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${PORTAINER_DATA_DIR-./volumes/data/portainer}:/data

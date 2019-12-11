@@ -139,7 +139,7 @@ Otherwise changed in the `.env` file, the following table shows predefined crede
 | Service       	|    User    	|  Password  	| Admin UI              	|
 |---------------	|:----------:	|:----------:	|-----------------------	|
 | ftp           	|    john    	|     doe    	| -                     	|
-| portainer     	|      -     	|      -     	| http://localhost:9000 	|
+| portainer     	|      -     	|      -     	| http://localhost:9900 	|
 | mailtrap      	|  mailtrap  	|  mailtrap  	| http://localhost:8088 	|
 | mysql/mariadb 	|    root    	|    root    	| -                     	|
 | mysql/mariadb 	| dockerized 	| dockerized 	| -                     	|
@@ -171,7 +171,7 @@ The following table shows ports used. If a service does not expose its port, the
 | mailtrap      	|      8088     	|       80       	| Admin UI      	|
 | mailtrap      	|       -       	|       25       	| SMTP          	|
 | emby          	|   8096, 8920  	|   8096, 8920   	| Admin UI      	|
-| portainer     	|      9000     	|      9000      	| Admin UI      	|
+| portainer     	|      9900     	|      9000      	| Admin UI      	|
 | void          	|      2222     	|       22       	| SSH           	|
 
 
