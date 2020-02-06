@@ -10,7 +10,7 @@ do
   	ver_str=$(echo "$item" | awk -F: '{print $1}' | sed 's/[ \t]\?//g')
 
   	## Install php extensions
-  	php_extensions=(cli fpm common mysql pgsql opcache mbstring zip gd xml curl json soap odbc bcmath bz2 readline)
+  	php_extensions=(cli fpm common mysql pgsql opcache mbstring zip gd xml curl json soap odbc bcmath bz2 intl readline)
   	for ext in "${php_extensions[@]}"; do apt-get install -y php${ver_str}-${ext}; done
 
   	## Additional PHP configs. Path relative to the parent `configure.sh` script.
@@ -23,7 +23,7 @@ do
 		sed -i "s/^listen = .*sock$/listen = 0.0.0.0:$fpm_port_num/" /etc/php/${ver_str}/fpm/pool.d/www.conf
 
 		## PHP ini file for this version.
-  	ver_ini=/etc/php/${ver_str}/fpm/php.ini
+		ver_ini=/etc/php/${ver_str}/fpm/php.ini
 
 		## Backup php.ini files. Will be mounted by docker compose.
 		mv $ver_ini $ver_ini.backup
