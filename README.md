@@ -200,4 +200,4 @@ $ docker volume prune
 ```
 
 ## Todo
-- Tested only on 64 bit Linux systems. Should work on Windows and MacOS as well but not yet tested.
+- Tested only on 64 bit Linux systems. Testing needed in Microsoft Windows and Apple MacOS.
