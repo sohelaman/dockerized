@@ -3,7 +3,7 @@
 Get dockerized.
 
 ## What's this?
-This is essentially a development stack similar to LAMP/MAMP/WAMP, except, it takes a different approach than the traditional software installers. It is built using Docker and Linux images. It consists of essential components of PHP development stack rather than including a whole bunch of tools and packages that are not very frequently used.
+This is essentially a LAMP stack built using Docker and Linux images.
 
 ## What's included?
 A stack of applications put together solely to ease PHP based web development.
@@ -14,13 +14,13 @@ A stack of applications put together solely to ease PHP based web development.
 | Web      | apache, nginx, fpm                                   |
 | Database | mariadb, mysql, postgres, mongo, couchdb             |
 | Caching  | redis, memcached, varnish                            |
-| Misc     | void, portainer, mailtrap, ftp, emby, mongo-express  |
+| Misc     | void, portainer, maildev, ftp, emby, mongo-express   |
 
 **Supported PHP versions: 5.6, 7.0, 7.1, 7.2, 7.3, and 7.4.**
 
 ## Prerequisites
-- [Docker](https://docs.docker.com/get-started/) is required. It is important to mention that, some Windows versions do not support Docker and some Linux kernels may not come with Docker support out of the box. Docker installation should be verified first.
-- [Docker Compose](https://docs.docker.com/compose/install/) is also required.
+- [Docker](https://docs.docker.com/get-started/) is required. It is important to mention that, some MS Windows editions do not support Docker at all and some Linux kernels may not come with Docker support out of the box.
+- [Docker Compose](https://docs.docker.com/compose/install/) is required.
 - Basic understanding on the Unix shell or bash commands and LAMP configurations.
 - Initial build will download a great deal of packages from the internet. Unmetered internet connection is recommended.
 - Depending on the services chosen to build, about 2 to 5 GB of disk space is required.
@@ -115,7 +115,7 @@ $ docker-compose down
 - PHP packages from the [DEB.SURY.ORG](https://deb.sury.org/) repository are used.
 - The `varnish` service uses `apache` as its backend by default. Backend can be specified in the [default config](services/varnish/config/default.vcl) file.
 - The `./volumes` directory does not contain anything necessary for dockerized. However, application logs, data, caches, shared spaces are kept and mounted inside that directory unless specifically changed in the `.env` file. For instance, MySQL data directory is set to be `./volumes/var/lib/mysql` by default.
-- The `mailtrap` service is a dummy SMTP mail server. *CAUTION!* Mailtrap storage is not persistent. Emails will be lost if container restarts.
+- The `maildev` service is an SMTP mail server. *CAUTION!* Maildev storage is not persistent. Emails will be lost if the container restarts.
 - The `portainer` service is a management GUI for Docker.
 - The `emby` service is for running an Emby media server.
 - The `test` service is basically a useless container, only to be used for experiments.
@@ -140,7 +140,7 @@ Otherwise changed in the `.env` file, the following table shows predefined crede
 |---------------	|:----------:	|:----------:	|-----------------------	|
 | ftp           	|    john    	|     doe    	| -                     	|
 | portainer     	|      -     	|      -     	| http://localhost:9900 	|
-| mailtrap      	|  mailtrap  	|  mailtrap  	| http://localhost:8088 	|
+| maildev       	|  maildev  	|  maildev  	| http://localhost:8088 	|
 | mysql/mariadb 	|    root    	|    root    	| -                     	|
 | mysql/mariadb 	| dockerized 	| dockerized 	| -                     	|
 | postgres      	|    root    	|    root    	| -                     	|
@@ -168,8 +168,8 @@ The following table shows ports used. If a service does not expose its port, the
 | memcached     	|     11211     	|      11211     	| App           	|
 | varnish       	|      8080     	|      8080      	| App           	|
 | ftp           	|       -       	|     20, 21     	| App           	|
-| mailtrap      	|      8088     	|       80       	| Admin UI      	|
-| mailtrap      	|       -       	|       25       	| SMTP          	|
+| maildev       	|      8088     	|       80       	| Admin UI      	|
+| maildev       	|       -       	|       25       	| SMTP          	|
 | emby          	|   8096, 8920  	|   8096, 8920   	| Admin UI      	|
 | portainer     	|      9900     	|      9000      	| Admin UI      	|
 | void          	|      2222     	|       22       	| SSH           	|

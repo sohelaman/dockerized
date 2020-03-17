@@ -10,7 +10,7 @@ do
   	ver_str=$(echo "$item" | awk -F: '{print $1}' | sed 's/[ \t]\?//g')
 
   	## Install php extensions
-  	php_extensions=(cli fpm common mysql pgsql opcache mbstring zip gd xml curl json soap odbc bcmath bz2 intl readline)
+  	php_extensions=(cli fpm common mysql pgsql opcache mbstring zip gd xml curl json soap odbc bcmath bz2 intl readline ldap)
   	for ext in "${php_extensions[@]}"; do apt-get install -y php${ver_str}-${ext}; done
 
   	## Additional PHP configs. Path relative to the parent `configure.sh` script.

@@ -4,6 +4,14 @@ networks:
   skynet:
 
 services:
+  alpine:
+    container_name: 'dockerized-alpine'
+    image: alpine:latest
+    tty: true
+    stdin_open: true
+    networks:
+      - skynet
+
   fpm:
     container_name: 'dockerized-fpm'
     build:
@@ -219,15 +227,13 @@ services:
     volumes:
       - ${FTP_ROOT-./volumes/var/ftp}:/home/${FTP_USER-john}/ftp/files
 
-  mailtrap:
-    container_name: 'dockerized-mailtrap'
-    image: eaudeweb/mailtrap
-    restart: ${RESTART_MAILTRAP-no}
+  maildev:
+    container_name: 'dockerized-maildev'
+    image: djfarrelly/maildev
+    restart: ${RESTART_MAILDEV-always}
     ports:
-      - "${MAILTRAP_ADMIN_PORT-8088}:80"
-    environment:
-      MT_USER: ${MAILTRAP_ADMIN_USER-mailtrap}
-      MT_PASSWD: ${MAILTRAP_ADMIN_PASS-mailtrap}
+      - "${MAILDEV_ADMIN_PORT-8088}:80"
+      - "${MAILDEV_EMAIL_PORT-25}:25"
     networks:
       - skynet
 
