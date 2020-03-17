@@ -1,74 +1,37 @@
-FROM archlinux/base
+FROM alpine:latest
 LABEL maintainer="Sohel Aman"
 
-ARG USE_BD_MIRRORS=false
-RUN if [ ${USE_BD_MIRRORS} = true ]; then \
-  ## use BD mirror.
-  sed -i '1s/^/Server\ \=\ http\:\/\/mirror\.xeonbd\.com\/archlinux\/\$repo\/os\/\$arch\n/' /etc/pacman.d/mirrorlist \
-;fi
+RUN apk update
 
-## Sync pacman
-RUN pacman -Syy
+RUN apk add busybox-extras bash fish vim tmux htop git util-linux
+RUN apk add python3 py3-pip nodejs npm ruby gcc
+RUN apk add php php-pdo_mysql php-mysqli php-pdo_mysql php-xml php-curl php-tokenizer php-dom php-gd php-zip php-bz2 php-pear php-gettext php-fileinfo
+RUN apk add nano curl rsync openssh less mtr nnn mlocate entr goaccess jq ranger nethogs bmon youtube-dl aria2 monit httpie
+RUN apk add mysql-client composer
 
-## update system
-RUN pacman -Syu --noconfirm
+## essential npm packages
+RUN npm i -g yarn loadtest hget express forever nodemon pm2
+RUN npm i -g webpack webpack-cli parcel-bundler grunt grunt-cli gulp-cli gulp babel-cli @ionic/cli @vue/cli @vue/cli-init firebase-tools
+RUN export NG_CLI_ANALYTICS=true && npm i -g @angular/cli
 
-## locale
-RUN sed -i '/^# en_US.UTF-8 UTF-8$/s/^# //g' /etc/locale.gen
-RUN locale-gen
-
-## install base-devel
-# RUN pacman -S --noconfirm base-devel
-
-## some useful packages
-RUN pacman -S --noconfirm which awk iputils inetutils sudo wget unzip tar rsync openssh mtr pydf nnn
-RUN pacman -S --noconfirm vim tmux fish zsh git htop xsel bat cmatrix mlocate jq nethogs bmon ranger aria2 youtube-dl
-RUN pacman -S --noconfirm powerline powerline-fonts powerline-vim
-RUN pacman -S --noconfirm php apache composer mariadb-clients goaccess monit httpie
-
-## add user
-ARG VOID_USER=copernicus
-RUN useradd -rm -g users -G wheel -s $(which bash) ${VOID_USER}
-RUN sed -i "s/^# %wheel ALL=(ALL) NOPASSWD: ALL$/%wheel ALL=(ALL) NOPASSWD: ALL/" /etc/sudoers
+RUN pip3 install virtualenv
 
 ## php configs
-ARG PHP_INI_FILE=/etc/php/php.ini
-RUN sed -i "s/^;extension=mysqli$/extension=mysqli/" ${PHP_INI_FILE} \
-    && sed -i "s/^;extension=pdo_mysql$/extension=pdo_mysql/" ${PHP_INI_FILE} \
-    && sed -i "s/^memory_limit = .*$/memory_limit = 256M/" ${PHP_INI_FILE} \
+ARG PHP_INI_FILE=/etc/php7/php.ini
+RUN sed -i "s/^memory_limit = .*$/memory_limit = 256M/" ${PHP_INI_FILE} \
     && sed -i "s/^max_execution_time = .*$/max_execution_time = 600/" ${PHP_INI_FILE} \
     && sed -i "s/^error_reporting = .*$/error_reporting = E_ALL/" ${PHP_INI_FILE}
 
-## python and pip
-RUN pacman -S --noconfirm python python-pip
-RUN pip install virtualenv
+## ibm cloud cli
+RUN curl -fsSL https://clis.cloud.ibm.com/install/linux | sh
 
-## nodejs, npm, and others
-RUN pacman -S --noconfirm nodejs npm
-RUN npm i -g yarn webpack parcel-bundler grunt grunt-cli gulp-cli gulp babel-cli ionic foundation-cli
-RUN export NG_CLI_ANALYTICS=true && npm i -g @angular/cli
-RUN npm i -g loadtest hget
-# RUN npm i -g nodemon forever pm2
-
-## TODO nvm - need to install nvm before nodejs, then install global packages for specific version.
-
-## ruby and gem
-RUN pacman -S --noconfirm ruby rubygems
-
-## java JDK
-ARG VOID_JDK_VERSION=8
-RUN pacman -S --noconfirm jdk${VOID_JDK_VERSION}-openjdk
-
-## laravel
-RUN composer global require laravel/installer
+## heroku cli
+RUN curl https://cli-assets.heroku.com/install.sh | sh
 
 ## drupalconsole
 RUN curl https://drupalconsole.com/installer -L -o drupal.phar \
     && chmod +x drupal.phar \
     && mv drupal.phar /usr/local/bin/drupal
-
-## drush latest [conflict]
-# RUN composer global require drush/drush
 
 ## drush 8
 RUN curl https://github.com/drush-ops/drush/releases/download/8.3.2/drush.phar -L -o drush.phar \
@@ -80,23 +43,18 @@ RUN curl https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.ph
     && chmod +x wp-cli.phar \
     && mv wp-cli.phar /usr/local/bin/wp
 
-## post-installation
-COPY scripts/post-install.sh /root/post-install.sh
-RUN chmod +x /root/post-install.sh
-RUN /root/post-install.sh
-RUN rm /root/post-install.sh
+## pantheon terminus
+RUN curl https://github.com/pantheon-systems/terminus/releases/download/2.3.0/terminus.phar -L -o terminus.phar \
+    && chmod +x terminus.phar \
+    && mv terminus.phar /usr/local/bin/terminus
 
-## clean pacman caches
-RUN pacman --noconfirm -Scc
+## configs
+RUN mkdir -p /root/.config/fish && echo "set fish_greeting" >> /root/.config/fish/config.fish
+COPY conf/.tmux.conf /root/.tmux.conf
+COPY conf/.vimrc /root/.vimrc
 
-## user and working dir
-# USER ${VOID_USER}
-# WORKDIR /home/${VOID_USER}
+## ports for various usage
+EXPOSE 1111 3333 5555
 
 ARG DOCUMENT_ROOT=/var/www/html
 WORKDIR ${DOCUMENT_ROOT}
-
-# TODO dotfiles
-# TODO git config
-# TODO ssh keys
-# TODO ruby gems path

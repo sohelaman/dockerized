@@ -6,6 +6,7 @@ networks:
 services:
   alpine:
     container_name: 'dockerized-alpine'
+    hostname: 'alpine'
     image: alpine:latest
     tty: true
     stdin_open: true
@@ -14,6 +15,7 @@ services:
 
   fpm:
     container_name: 'dockerized-fpm'
+    hostname: 'fpm'
     build:
       context: ./services/fpm
       args:
@@ -43,6 +45,7 @@ services:
 
   apache:
     container_name: 'dockerized-apache'
+    hostname: 'apache'
     build:
       context: ./services/apache
       args:
@@ -67,6 +70,7 @@ services:
 
   nginx:
     container_name: 'dockerized-nginx'
+    hostname: 'nginx'
     build:
       context: ./services/nginx
       args:
@@ -91,6 +95,7 @@ services:
 
   mysql:
     container_name: 'dockerized-mysql'
+    hostname: 'mysql'
     image: mysql:latest
     restart: ${RESTART_MYSQL-no}
     ports:
@@ -108,6 +113,7 @@ services:
 
   mariadb:
     container_name: 'dockerized-mariadb'
+    hostname: 'mariadb'
     image: mariadb:latest
     restart: ${RESTART_MARIADB-no}
     ports:
@@ -174,6 +180,7 @@ services:
 
   redis:
     container_name: 'dockerized-redis'
+    hostname: 'redis'
     restart: ${RESTART_REDIS-no}
     image: redis:alpine
     ports:
@@ -192,6 +199,7 @@ services:
 
   varnish:
     container_name: 'dockerized-varnish'
+    hostname: 'varnish'
     build:
       context: ./services/varnish
       args:
@@ -209,6 +217,7 @@ services:
 
   ftp:
     container_name: 'dockerized-ftp'
+    hostname: 'ftp'
     build:
       context: ./services/ftp
       args:
@@ -260,21 +269,18 @@ services:
 
   void:
     container_name: 'dockerized-void'
+    hostname: 'void'
     build:
       context: ./services/void
-      args:
-        - VOID_USER=${VOID_USER-copernicus}
-        - USE_BD_MIRRORS=${USE_BD_MIRRORS-false}
-        - VOID_JDK_VERSION=${VOID_JDK_VERSION-8}
     tty: true
     stdin_open: true
-    restart: ${RESTART_VOID-no}
+    restart: ${RESTART_VOID-always}
     ports:
-      - "${VOID_SSH_PORT-2222}:22"
+      - "1111:1111"
+      - "3333:3333"
+      - "5555:5555"
     extra_hosts:
       - "dockerhost:${DOCKER_HOST_IP}"
-    networks:
-      - skynet
     environment:
       - DOCUMENT_ROOT=${DOCUMENT_ROOT-/var/www/html}
     volumes:
@@ -283,11 +289,12 @@ services:
       - ${APACHE_LOG_DIR-./volumes/var/log/apache2}:/var/log/apache2
       - ${NGINX_LOG_DIR-./volumes/var/log/nginx}:/var/log/nginx
       - ./volumes/data/share:/data/share
-      - ./volumes/root/.ssh:/root/.ssh
-      - ./volumes/home/${VOID_USER-copernicus}/.ssh:/home/${VOID_USER-copernicus}/.ssh
+    networks:
+      - skynet
 
   test:
     container_name: 'dockerized-test'
+    hostname: 'test'
     build:
       context: ./services/test
       args:

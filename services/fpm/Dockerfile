@@ -8,7 +8,7 @@ RUN if [ ${USE_BD_MIRRORS} = true ]; then \
 	sed -i '1s/^/deb\ http\:\/\/mirror\.amberit\.com\.bd\/debian stretch main\n/' /etc/apt/sources.list \
 ;fi
 
-RUN apt-get update && apt-get install -y git wget curl bc vim apt-transport-https lsb-release ca-certificates
+RUN apt-get update && apt-get install -y git wget curl bc vim composer apt-transport-https lsb-release ca-certificates
 
 RUN wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
 RUN echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php.list

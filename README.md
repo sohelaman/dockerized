@@ -3,7 +3,7 @@
 Get dockerized.
 
 ## What's this?
-This is essentially a LAMP stack built using Docker and Linux images.
+This is essentially a Docker based LAMP stack.
 
 ## What's included?
 A stack of applications put together solely to ease PHP based web development.
@@ -120,16 +120,16 @@ $ docker-compose down
 - The `emby` service is for running an Emby media server.
 - The `test` service is basically a useless container, only to be used for experiments.
 - The `void` service contains several utilities such as,
-  - Zsh shell, Fish shell
+  - Fish shell
   - Composer
   - MariaDB/MySQL client
-  - Drush 8, DrupalConsole, WP-CLI, Laravel CLI
+  - Drush 8, DrupalConsole, WP-CLI
+  - Heroku CLI, IBM Cloud CLI, Pantheon Terminus CLI
   - NodeJS, NPM, Yarn
   - Webpack, Gulp, Grunt, Parcel, Babel
-  - Ionic CLI, Angular CLI, Foundation CLI
-  - Python, PIP
+  - Ionic CLI, Angular CLI, Vue CLI
+  - Python 3, PIP
   - Ruby, Gem
-  - OpenJDK
   - GoAccess
   - HTTPie
 
@@ -153,26 +153,26 @@ Otherwise changed in the `.env` file, the following table shows predefined crede
 ## Default port map
 The following table shows ports used. If a service does not expose its port, then it is not accessible from the outside (i.e. from the docker host).
 
-| Service       	| Exposed Ports 	| Internal Ports 	| Purpose       	|
-|---------------	|:-------------:	|:--------------:	|---------------	|
-| fpm           	|       -       	|      90XX      	| App           	|
-| apache        	|    80, 443    	|     80, 443    	| App           	|
-| nginx         	|    80, 443    	|     80, 443    	| App           	|
-| mysql         	|      3306     	|      3306      	| App           	|
-| mariadb       	|      3306     	|      3306      	| App           	|
-| postgres      	|       -       	|      5432      	| App           	|
-| couchdb       	|      5984     	|      5984      	| App, Admin UI 	|
-| mongo         	|       -       	|      27017     	| App           	|
-| mongo-express 	|      8081     	|      8081      	| Admin UI      	|
-| redis         	|      6379     	|      6379      	| App           	|
-| memcached     	|     11211     	|      11211     	| App           	|
-| varnish       	|      8080     	|      8080      	| App           	|
-| ftp           	|       -       	|     20, 21     	| App           	|
-| maildev       	|      8088     	|       80       	| Admin UI      	|
-| maildev       	|       -       	|       25       	| SMTP          	|
-| emby          	|   8096, 8920  	|   8096, 8920   	| Admin UI      	|
-| portainer     	|      9900     	|      9000      	| Admin UI      	|
-| void          	|      2222     	|       22       	| SSH           	|
+| Service       	| Exposed Ports   	| Internal Ports  	| Purpose       	|
+|---------------	|:---------------:	|:---------------:	|---------------	|
+| fpm           	|         -       	|       90XX      	| App           	|
+| apache        	|      80, 443    	|      80, 443    	| App           	|
+| nginx         	|      80, 443    	|      80, 443    	| App           	|
+| mysql         	|       3306      	|       3306      	| App           	|
+| mariadb       	|       3306      	|       3306      	| App           	|
+| postgres      	|        -        	|       5432      	| App           	|
+| couchdb       	|       5984      	|       5984      	| App, Admin UI 	|
+| mongo         	|        -        	|       27017     	| App           	|
+| mongo-express 	|       8081      	|       8081      	| Admin UI      	|
+| redis         	|       6379      	|       6379      	| App           	|
+| memcached     	|      11211      	|       11211     	| App           	|
+| varnish       	|       8080      	|       8080      	| App           	|
+| ftp           	|        -        	|      20, 21     	| App           	|
+| maildev       	|       8088      	|        80       	| Admin UI      	|
+| maildev       	|        -        	|        25       	| SMTP          	|
+| emby          	|    8096, 8920   	|    8096, 8920   	| Admin UI      	|
+| portainer     	|       9900      	|       9000      	| Admin UI      	|
+| void          	| 1111, 3333, 5555  | 1111, 3333, 5555  | Any           	|
 
 
 ## Useful commands
