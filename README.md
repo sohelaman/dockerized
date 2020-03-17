@@ -19,10 +19,10 @@ A stack of applications put together solely to ease PHP based web development.
 **Supported PHP versions: 5.6, 7.0, 7.1, 7.2, 7.3, and 7.4.**
 
 ## Prerequisites
-- [Docker](https://docs.docker.com/get-started/) is required. It is important to mention that, some MS Windows editions do not support Docker at all and some Linux kernels may not come with Docker support out of the box.
+- [Docker](https://docs.docker.com/get-started/) is required. It is important to mention that, some Microsoft Windows editions do not support Docker at all and some Linux kernels may not come with Docker support out of the box.
 - [Docker Compose](https://docs.docker.com/compose/install/) is required.
 - Basic understanding on the Unix shell or bash commands and LAMP configurations.
-- Initial build will download a great deal of packages from the internet. Unmetered internet connection is recommended.
+- Initial builds will download a great deal of packages from the internet. Unmetered internet connection is recommended.
 - Depending on the services chosen to build, about 2 to 5 GB of disk space is required.
 
 ## Installation
@@ -122,7 +122,7 @@ $ docker-compose down
 - The `void` service contains several utilities such as,
   - Fish shell
   - Composer
-  - MariaDB/MySQL client
+  - MySQL client
   - Drush 8, DrupalConsole, WP-CLI
   - Heroku CLI, IBM Cloud CLI, Pantheon Terminus CLI
   - NodeJS, NPM, Yarn
@@ -140,7 +140,7 @@ Otherwise changed in the `.env` file, the following table shows predefined crede
 |---------------	|:----------:	|:----------:	|-----------------------	|
 | ftp           	|    john    	|     doe    	| -                     	|
 | portainer     	|      -     	|      -     	| http://localhost:9900 	|
-| maildev       	|  maildev  	|  maildev  	| http://localhost:8088 	|
+| maildev       	|      -     	|      -     	| http://localhost:8088 	|
 | mysql/mariadb 	|    root    	|    root    	| -                     	|
 | mysql/mariadb 	| dockerized 	| dockerized 	| -                     	|
 | postgres      	|    root    	|    root    	| -                     	|
@@ -200,4 +200,4 @@ $ docker volume prune
 ```
 
 ## Todo
-- Tested only on 64 bit Linux systems. Testing needed in Microsoft Windows and Apple MacOS.
+- Tested only on 64 bit Linux systems. Testing needed on Microsoft Windows and Apple MacOS.
