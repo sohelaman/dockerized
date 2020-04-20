@@ -8,7 +8,7 @@ RUN if [ ${USE_BD_MIRRORS} = true ]; then \
 	sed -i '1s/^/deb\ http\:\/\/mirror\.amberit\.com\.bd\/debian stretch main\n/' /etc/apt/sources.list \
 ;fi
 
-RUN apt-get update && apt-get install -y git wget curl bc vim composer apt-transport-https lsb-release ca-certificates
+RUN apt-get update && apt-get install -y lsb-release apt-transport-https ca-certificates bc wget curl vim tmux fish
 
 RUN wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
 RUN echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php.list
@@ -37,11 +37,10 @@ ADD config/php/ini/dockerized-overrides.ini /etc/php/php-overrides.ini
 RUN mkdir /root/dockerized
 COPY ./config /root/dockerized/config
 RUN chmod -R +x /root/dockerized/config/
-RUN /root/dockerized/config/configure.sh
+RUN /root/dockerized/config/php/setup.sh
 
-## Install tideways xhprof extension
-RUN curl -O -L https://github.com/tideways/php-xhprof-extension/releases/download/v5.0.2/tideways-xhprof_5.0.2_amd64.deb
-RUN dpkg -i tideways-xhprof_5.0.2_amd64.deb
+## Doing it post-install to prevent it installing default php packages as deps.
+RUN apt-get install -y composer
 
 ## Expose ports
 EXPOSE 9056 9070 9071 9072 9073 9074
@@ -49,6 +48,9 @@ EXPOSE 9056 9070 9071 9072 9073 9074
 ## Launcher script
 COPY launcher.sh /root/
 RUN chmod +x /root/launcher.sh
+
+ARG DOCUMENT_ROOT=/var/www/html
+WORKDIR ${DOCUMENT_ROOT}
 
 ## Bootup
 ENTRYPOINT /bin/bash /root/launcher.sh && /bin/bash

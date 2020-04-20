@@ -12,7 +12,7 @@ A stack of applications put together solely to ease PHP based web development.
 | Category | Services                                             |
 |----------|------------------------------------------------------|
 | Web      | apache, nginx, fpm                                   |
-| Database | mariadb, mysql, postgres, mongo, couchdb             |
+| Database | mariadb, mysql, mssql, postgres, mongo, couchdb      |
 | Caching  | redis, memcached, varnish                            |
 | Misc     | void, portainer, maildev, ftp, emby, mongo-express   |
 
@@ -115,6 +115,7 @@ $ docker-compose down
 - PHP packages from the [DEB.SURY.ORG](https://deb.sury.org/) repository are used.
 - The `varnish` service uses `apache` as its backend by default. Backend can be specified in the [default config](services/varnish/config/default.vcl) file.
 - The `./volumes` directory does not contain anything necessary for dockerized. However, application logs, data, caches, shared spaces are kept and mounted inside that directory unless specifically changed in the `.env` file. For instance, MySQL data directory is set to be `./volumes/var/lib/mysql` by default.
+- The `mssql` service data is not persistent. *CAUTION!* Data will be lost if the named volume `mssqldata` is removed or reinitiated.
 - The `maildev` service is an SMTP mail server. *CAUTION!* Maildev storage is not persistent. Emails will be lost if the container restarts.
 - The `portainer` service is a management GUI for Docker.
 - The `emby` service is for running an Emby media server.
@@ -143,6 +144,7 @@ Otherwise changed in the `.env` file, the following table shows predefined crede
 | maildev       	|      -     	|      -     	| http://localhost:8088 	|
 | mysql/mariadb 	|    root    	|    root    	| -                     	|
 | mysql/mariadb 	| dockerized 	| dockerized 	| -                     	|
+| mssql           |     sa     	| D0ckerized 	| -                     	|
 | postgres      	|    root    	|    root    	| -                     	|
 | couchdb       	|    root    	|    root    	| http://localhost:5984 	|
 | mongo         	|    root    	|    root    	| -                     	|
@@ -160,6 +162,7 @@ The following table shows ports used. If a service does not expose its port, the
 | nginx         	|      80, 443    	|      80, 443    	| App           	|
 | mysql         	|       3306      	|       3306      	| App           	|
 | mariadb       	|       3306      	|       3306      	| App           	|
+| mssql         	|       1433      	|       1433      	| App           	|
 | postgres      	|        -        	|       5432      	| App           	|
 | couchdb       	|       5984      	|       5984      	| App, Admin UI 	|
 | mongo         	|        -        	|       27017     	| App           	|

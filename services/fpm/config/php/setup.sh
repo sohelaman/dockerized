@@ -2,19 +2,19 @@
 
 ## Install selected versions of php with extensions.
 available_versions=$(echo ${FPM_ADD_PHP_VERSIONS} | tr ";" "\n")
-for item in $available_versions
-do
-  is_enabled=$(echo "$item" | awk -F: '{print $2}' | sed 's/[ \t]\?//g')
-  if [ "$is_enabled" = true ]; then
-  	## Extract version string
-  	ver_str=$(echo "$item" | awk -F: '{print $1}' | sed 's/[ \t]\?//g')
+for item in $available_versions; do
+	is_enabled=$(echo "$item" | awk -F: '{print $2}' | sed 's/[ \t]\?//g')
 
-  	## Install php extensions
-  	php_extensions=(cli fpm common mysql pgsql opcache mbstring zip gd xml curl json soap odbc bcmath bz2 intl readline ldap)
-  	for ext in "${php_extensions[@]}"; do apt-get install -y php${ver_str}-${ext}; done
+	if [ "$is_enabled" = true ]; then
+		## Extract version string
+		ver_str=$(echo "$item" | awk -F: '{print $1}' | sed 's/[ \t]\?//g')
 
-  	## Additional PHP configs. Path relative to the parent `configure.sh` script.
-    source $(dirname "$0")/php/additional/php-${ver_str}.sh
+		## Install php extensions
+		php_extensions=(cli fpm common mysql pgsql opcache mbstring zip gd xml curl json soap odbc bcmath bz2 intl readline ldap)
+		for ext in "${php_extensions[@]}"; do apt-get install -y php${ver_str}-${ext}; done
+
+		## Additional PHP configs. Path relative to the parent `setup.sh` script.
+		source $(dirname "$0")/additional/php-${ver_str}.sh
 
 		## Multiply $ver_str by 10 and add to 9000.
 		fpm_port_num=$(expr $(expr "$ver_str"*"10" | bc | cut -d. -f1) + 9000)
@@ -30,15 +30,6 @@ do
 
 		## Additional php.ini overrides.
 		ln -s /etc/php/php-overrides.ini /etc/php/${ver_str}/fpm/conf.d/90-dockerized-overrides.ini
-
-    ## Xhprof
-    # if [[ $ver_str == 7* ]]; then
-    #   tideways=/usr/lib/tideways_xhprof/tideways_xhprof-${ver_str}.so
-    #   if [ -f "$tideways" ]; then
-    #     echo "extension=/usr/lib/tideways_xhprof/tideways_xhprof-${ver_str}.so" >> ${ver_ini}
-    #   fi
-    # fi
-
 	fi
 done
 

@@ -97,6 +97,7 @@ services:
     container_name: 'dockerized-mysql'
     hostname: 'mysql'
     image: mysql:latest
+    command: --default-authentication-plugin=mysql_native_password
     restart: ${RESTART_MYSQL-no}
     ports:
       - "${MYSQL_PORT-3306}:3306"
@@ -126,6 +127,20 @@ services:
       MYSQL_PASSWORD: ${MYSQL_USER_PASS-dockerized}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASS-root}
       MYSQL_DATABASE: ${MYSQL_DB-dockerized}
+    networks:
+      - skynet
+
+  mssql:
+    container_name: 'dockerized-mssql'
+    hostname: 'mssql'
+    image: mcr.microsoft.com/mssql/server:latest
+    ports:
+      - "${MSSQL_PORT-1433}:1433"
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: ${MSSQL_SA_PASSWORD-D0ckerized}
+    volumes:
+      - mssqldata:/var/opt/mssql
     networks:
       - skynet
 
@@ -281,6 +296,10 @@ services:
       - "5555:5555"
     extra_hosts:
       - "dockerhost:${DOCKER_HOST_IP}"
+    # dns:
+    #   - 1.1.1.1
+    #   - 8.8.8.8
+    #   - 8.8.4.4
     environment:
       - DOCUMENT_ROOT=${DOCUMENT_ROOT-/var/www/html}
     volumes:
@@ -305,3 +324,7 @@ services:
       - "dockerhost:${DOCKER_HOST_IP}"
     networks:
       - skynet
+
+
+volumes:
+  mssqldata:
