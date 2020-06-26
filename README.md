@@ -53,6 +53,12 @@ $ cp example.env .env
 ```
 $ ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+'
 ```
+- For Linux/UNIX systems only, the host user and group should be set using the `DOCKER_HOST_USER`, `DOCKER_HOST_USER_ID`, and `DOCKER_HOST_GROUP_ID` variables. Following commands can be used to determine these,
+```
+$ whoami    # for DOCKER_HOST_USER
+$ id -u     # for DOCKER_HOST_USER_ID
+$ id -g     # for DOCKER_HOST_GROUP_ID
+```
 - The variables inside the `.env` file are self descriptive. Those can be changed per necessity.
 - Existing codebase should be pointed as the `DOCUMENT_ROOT`. This directory will be mounted as `/var/www/html` inside the web servers. So, for the virtual host configs, document roots should be pointed with respect to the `/var/www/html` directory. For example, if the existing codebase looks like the following,
 ```

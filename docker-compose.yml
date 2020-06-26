@@ -20,6 +20,9 @@ services:
       context: ./services/fpm
       args:
         - USE_BD_MIRRORS=${USE_BD_MIRRORS-false}
+        - DOCKER_HOST_USER=${DOCKER_HOST_USER-john}
+        - DOCKER_HOST_USER_ID=${DOCKER_HOST_USER_ID-1000}
+        - DOCKER_HOST_GROUP_ID=${DOCKER_HOST_GROUP_ID-1000}
         - ADD_PHP_56=${ADD_PHP_56-false}
         - ADD_PHP_74=${ADD_PHP_74-true}
         - ADD_PHP_73=${ADD_PHP_73-true}
@@ -287,6 +290,10 @@ services:
     hostname: 'void'
     build:
       context: ./services/void
+      args:
+        - DOCKER_HOST_USER=${DOCKER_HOST_USER-john}
+        - DOCKER_HOST_USER_ID=${DOCKER_HOST_USER_ID-1000}
+        - DOCKER_HOST_GROUP_ID=${DOCKER_HOST_GROUP_ID-1000}
     tty: true
     stdin_open: true
     restart: ${RESTART_VOID-always}
@@ -294,6 +301,7 @@ services:
       - "1111:1111"
       - "3333:3333"
       - "5555:5555"
+      - "7777:7777"
     extra_hosts:
       - "dockerhost:${DOCKER_HOST_IP}"
     # dns:
@@ -317,11 +325,17 @@ services:
     build:
       context: ./services/test
       args:
-        - MY_VAR=${MY_VAR-lorem}
+        - DOCKER_HOST_USER=${DOCKER_HOST_USER-john}
+        - DOCKER_HOST_USER_ID=${DOCKER_HOST_USER_ID-1000}
+        - DOCKER_HOST_GROUP_ID=${DOCKER_HOST_GROUP_ID-1000}
     tty: true
     stdin_open: true
     extra_hosts:
       - "dockerhost:${DOCKER_HOST_IP}"
+    environment:
+      - DOCUMENT_ROOT=${DOCUMENT_ROOT-/var/www/html}
+    volumes:
+      - ${DOCUMENT_ROOT-./volumes/var/www/html}:/var/www/html
     networks:
       - skynet
 

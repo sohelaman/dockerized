@@ -8,11 +8,21 @@ RUN if [ ${USE_BD_MIRRORS} = true ]; then \
 	sed -i '1s/^/deb\ http\:\/\/mirror\.amberit\.com\.bd\/debian stretch main\n/' /etc/apt/sources.list \
 ;fi
 
-RUN apt-get update && apt-get install -y lsb-release apt-transport-https ca-certificates bc wget curl vim tmux fish locales
+RUN apt-get update && apt-get install -y sudo lsb-release apt-transport-https ca-certificates bc wget curl vim tmux fish locales
 
 RUN sed -i '/en_US\.UTF\-8\ UTF\-8/s/^#\s*//g' /etc/locale.gen
 RUN locale-gen
 
+## Create user - same group name and user name
+ARG DOCKER_HOST_USER_ID
+ARG DOCKER_HOST_GROUP_ID
+ARG DOCKER_HOST_USER
+RUN addgroup --gid ${DOCKER_HOST_GROUP_ID} ${DOCKER_HOST_USER}
+RUN adduser --disabled-password --gecos '' --uid ${DOCKER_HOST_USER_ID} --gid ${DOCKER_HOST_GROUP_ID} ${DOCKER_HOST_USER}
+RUN echo "${DOCKER_HOST_USER} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/${DOCKER_HOST_USER} \
+	&& chmod 0440 /etc/sudoers.d/${DOCKER_HOST_USER}
+
+## Add PHP repo
 RUN wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
 RUN echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php.list
 RUN apt-get update
@@ -51,6 +61,8 @@ EXPOSE 9056 9070 9071 9072 9073 9074
 ## Launcher script
 COPY launcher.sh /root/
 RUN chmod +x /root/launcher.sh
+
+# USER ${DOCKER_HOST_USER}	# does not work. /root/launcher.sh silently fails.
 
 ARG DOCUMENT_ROOT=/var/www/html
 WORKDIR ${DOCUMENT_ROOT}

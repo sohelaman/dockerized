@@ -1,4 +1,3 @@
-## Static versions used
-- Tideways Xhprof in `services/fpm/Dockerfile`
-- Drush in `services/void/Dockerfile`
-- Terminus in `services/void/Dockerfile`
+## Statics
+- Drush 8 version in `services/void/Dockerfile`
+- Terminus version in `services/void/Dockerfile`
