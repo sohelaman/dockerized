@@ -9,14 +9,17 @@ This is essentially a Docker based LAMP stack.
 A stack of applications put together solely to ease PHP based web development.
 
 ### Services
-| Category | Services                                             |
-|----------|------------------------------------------------------|
-| Web      | apache, nginx, fpm                                   |
-| Database | mariadb, mysql, mssql, postgres, mongo, couchdb      |
-| Caching  | redis, memcached, varnish                            |
-| Misc     | void, portainer, maildev, ftp, emby, mongo-express   |
+| Category | Services                                                    |
+|----------|-------------------------------------------------------------|
+| Web      | apache, nginx, fpm                                          |
+| Database | mariadb, mysql, mssql, postgres, mongo, couchdb             |
+| Caching  | redis, memcached, varnish                                   |
+| Misc     | void, portainer, theia, maildev, ftp, emby, mongo-express   |
 
 **Supported PHP versions: 5.6, 7.0, 7.1, 7.2, 7.3, and 7.4.**
+
+
+dockerized is inspired from [Laradock](https://laradock.io/) and supports a smaller set tools but simpler environment.
 
 ## Prerequisites
 - [Docker](https://docs.docker.com/get-started/) is required. It is important to mention that, some Microsoft Windows editions do not support Docker at all and some Linux kernels may not come with Docker support out of the box.
@@ -124,6 +127,10 @@ $ docker-compose down
 - The `mssql` service data is not persistent. *CAUTION!* Data will be lost if the named volume `mssqldata` is removed or reinitiated.
 - The `maildev` service is an SMTP mail server. *CAUTION!* Maildev storage is not persistent. Emails will be lost if the container restarts.
 - The `portainer` service is a management GUI for Docker.
+- The `theia` service is a browser based IDE.
+  - `THEIA_WORKSPACE` points to the current project (opened at startup).
+  - `THEIA_WORKSPACES` should point the directory that contains all the projects.
+  - By default, TheiaIDE should be accessible from [http://localhost:3030](http://localhost:3030)
 - The `emby` service is for running an Emby media server.
 - The `test` service is basically a useless container, only to be used for experiments.
 - The `void` service contains several utilities such as,
@@ -181,6 +188,7 @@ The following table shows ports used. If a service does not expose its port, the
 | maildev       	|        -        	|        25       	| SMTP          	|
 | emby          	|    8096, 8920   	|    8096, 8920   	| Admin UI      	|
 | portainer     	|       9900      	|       9000      	| Admin UI      	|
+| theia          	|       3030      	|       3000      	| App           	|
 | void          	| 1111, 3333, 5555  | 1111, 3333, 5555  | Any           	|
 
 

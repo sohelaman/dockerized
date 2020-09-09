@@ -285,6 +285,16 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${PORTAINER_DATA_DIR-./volumes/data/portainer}:/data
 
+  theia:
+    container_name: 'dockerized-theia'
+    image: theiaide/theia-php
+    restart: ${RESTART_THEIA-no}
+    ports:
+      - "${THEIA_PORT-3030}:3000"
+    volumes:
+      - ${THEIA_WORKSPACES}:/home/workspaces
+      - ${THEIA_WORKSPACE-./}:/home/project:cached
+
   void:
     container_name: 'dockerized-void'
     hostname: 'void'
