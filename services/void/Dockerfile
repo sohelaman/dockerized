@@ -16,7 +16,8 @@ RUN echo "${DOCKER_HOST_USER} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/${DOCKER
 ## install programs
 RUN apk add python3 py3-pip nodejs npm ruby gcc
 RUN apk add php php-pdo_mysql php-mysqli php-pdo_mysql php-xml php-curl php-tokenizer php-dom php-gd php-zip php-bz2 php-pear php-gettext php-fileinfo
-RUN apk add nano curl rsync openssh less mtr mlocate entr goaccess jq ranger nethogs bmon youtube-dl aria2 monit httpie fzf fd ripgrep asciinema exa ncdu vifm p7zip unrar
+RUN apk add nano curl rsync openssh less mtr mlocate entr goaccess jq ranger nethogs bmon youtube-dl aria2 monit httpie fzf fd asciinema exa ncdu p7zip unrar
+#RUN apk add vifm ripgrep
 RUN apk add mysql-client composer
 
 ## npm packages
