@@ -16,10 +16,10 @@ A stack of applications put together solely to ease PHP based web development.
 | Caching  | redis, memcached, varnish                                   |
 | Misc     | void, portainer, theia, maildev, ftp, emby, mongo-express   |
 
-**Supported PHP versions: 5.6, 7.0, 7.1, 7.2, 7.3, and 7.4.**
+**Supported PHP versions: 5.6, 7.0, 7.1, 7.2, 7.3, 7.4, and 8.0.**
 
 
-dockerized is inspired from [Laradock](https://laradock.io/) and supports a smaller set tools but simpler environment.
+dockerized is inspired from [Laradock](https://laradock.io/) and supports a smaller set of tools but simpler environment.
 
 ## Prerequisites
 - [Docker](https://docs.docker.com/get-started/) is required. It is important to mention that, some Microsoft Windows editions do not support Docker at all and some Linux kernels may not come with Docker support out of the box.
