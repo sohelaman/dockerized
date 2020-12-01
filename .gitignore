@@ -4,4 +4,4 @@ volumes/
 .vscode/
 .idea/
 todo.todo
-build.log
+*.log

@@ -12,7 +12,7 @@ A stack of applications put together solely to ease PHP based web development.
 | Category | Services                                                    |
 |----------|-------------------------------------------------------------|
 | Web      | apache, nginx, fpm                                          |
-| Database | mariadb, mysql, mssql, postgres, mongo, couchdb             |
+| Database | mariadb, mysql, mssql, postgres, mongodb, couchdb           |
 | Caching  | redis, memcached, varnish                                   |
 | Misc     | void, portainer, theia, maildev, ftp, emby, mongo-express   |
 
@@ -160,7 +160,7 @@ Otherwise changed in the `.env` file, the following table shows predefined crede
 | mssql           |     sa     	| D0ckerized 	| -                     	|
 | postgres      	|    root    	|    root    	| -                     	|
 | couchdb       	|    root    	|    root    	| http://localhost:5984 	|
-| mongo         	|    root    	|    root    	| -                     	|
+| mongodb        	|    root    	|    root    	| -                     	|
 | mongo-express 	|      -     	|      -     	| http://localhost:8081 	|
 | emby          	|      -     	|      -     	| http://localhost:8096 	|
 
@@ -178,7 +178,7 @@ The following table shows ports used. If a service does not expose its port, the
 | mssql         	|       1433      	|       1433      	| App           	|
 | postgres      	|        -        	|       5432      	| App           	|
 | couchdb       	|       5984      	|       5984      	| App, Admin UI 	|
-| mongo         	|        -        	|       27017     	| App           	|
+| mongodb        	|        -        	|       27017     	| App           	|
 | mongo-express 	|       8081      	|       8081      	| Admin UI      	|
 | redis         	|       6379      	|       6379      	| App           	|
 | memcached     	|      11211      	|       11211     	| App           	|

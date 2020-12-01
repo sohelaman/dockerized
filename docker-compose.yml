@@ -6,7 +6,7 @@ networks:
 services:
   alpine:
     container_name: 'dockerized-alpine'
-    hostname: 'alpine'
+    hostname: 'dockerized-alpine'
     image: alpine:latest
     tty: true
     stdin_open: true
@@ -15,7 +15,7 @@ services:
 
   fpm:
     container_name: 'dockerized-fpm'
-    hostname: 'fpm'
+    hostname: 'dockerized-fpm'
     build:
       context: ./services/fpm
       args:
@@ -50,7 +50,7 @@ services:
 
   apache:
     container_name: 'dockerized-apache'
-    hostname: 'apache'
+    hostname: 'dockerized-apache'
     build:
       context: ./services/apache
       args:
@@ -75,7 +75,7 @@ services:
 
   nginx:
     container_name: 'dockerized-nginx'
-    hostname: 'nginx'
+    hostname: 'dockerized-nginx'
     build:
       context: ./services/nginx
       args:
@@ -100,7 +100,7 @@ services:
 
   mysql:
     container_name: 'dockerized-mysql'
-    hostname: 'mysql'
+    hostname: 'dockerized-mysql'
     image: mysql:latest
     command: --default-authentication-plugin=mysql_native_password
     restart: ${RESTART_MYSQL-no}
@@ -119,7 +119,7 @@ services:
 
   mariadb:
     container_name: 'dockerized-mariadb'
-    hostname: 'mariadb'
+    hostname: 'dockerized-mariadb'
     image: mariadb:latest
     restart: ${RESTART_MARIADB-no}
     ports:
@@ -137,7 +137,7 @@ services:
 
   mssql:
     container_name: 'dockerized-mssql'
-    hostname: 'mssql'
+    hostname: 'dockerized-mssql'
     image: mcr.microsoft.com/mssql/server:latest
     ports:
       - "${MSSQL_PORT-1433}:1433"
@@ -151,6 +151,7 @@ services:
 
   postgres:
     container_name: 'dockerized-postgres'
+    hostname: 'dockerized-postgres'
     image: postgres
     restart: ${RESTART_POSTGRES-no}
     environment:
@@ -163,6 +164,7 @@ services:
 
   couchdb:
     container_name: 'dockerized-couchdb'
+    hostname: 'dockerized-couchdb'
     image: couchdb
     restart: ${RESTART_COUCHDB-no}
     ports:
@@ -175,8 +177,9 @@ services:
     networks:
       - skynet
 
-  mongo:
+  mongodb:
     container_name: 'dockerized-mongodb'
+    hostname: 'dockerized-mongodb'
     image: mongo
     restart: ${RESTART_MONGO-no}
     volumes:
@@ -188,6 +191,8 @@ services:
       - skynet
 
   mongo-express:
+    container_name: 'dockerized-mongo-express'
+    hostname: 'dockerized-mongo-express'
     image: mongo-express
     ports:
       - 8081:8081
@@ -200,7 +205,7 @@ services:
 
   redis:
     container_name: 'dockerized-redis'
-    hostname: 'redis'
+    hostname: 'dockerized-redis'
     restart: ${RESTART_REDIS-no}
     image: redis:alpine
     ports:
@@ -210,6 +215,7 @@ services:
 
   memcached:
     container_name: 'dockerized-memcached'
+    hostname: 'dockerized-memcached'
     image: memcached:alpine
     restart: ${RESTART_MEMCACHED-no}
     ports:
@@ -219,7 +225,7 @@ services:
 
   varnish:
     container_name: 'dockerized-varnish'
-    hostname: 'varnish'
+    hostname: 'dockerized-varnish'
     build:
       context: ./services/varnish
       args:
@@ -237,7 +243,7 @@ services:
 
   ftp:
     container_name: 'dockerized-ftp'
-    hostname: 'ftp'
+    hostname: 'dockerized-ftp'
     build:
       context: ./services/ftp
       args:
@@ -258,6 +264,7 @@ services:
 
   maildev:
     container_name: 'dockerized-maildev'
+    hostname: 'dockerized-maildev'
     image: djfarrelly/maildev
     restart: ${RESTART_MAILDEV-always}
     ports:
@@ -268,6 +275,7 @@ services:
 
   emby:
     container_name: 'dockerized-emby'
+    hostname: 'dockerized-emby'
     image: emby/embyserver
     ports:
       - "8096:8096"
@@ -279,6 +287,7 @@ services:
 
   portainer:
     container_name: 'dockerized-portainer'
+    hostname: 'dockerized-portainer'
     image: portainer/portainer
     restart: ${RESTART_PORTAINER-always}
     ports:
@@ -289,6 +298,7 @@ services:
 
   theia:
     container_name: 'dockerized-theia'
+    hostname: 'dockerized-theia'
     image: theiaide/theia-php
     restart: ${RESTART_THEIA-no}
     ports:
@@ -299,7 +309,7 @@ services:
 
   void:
     container_name: 'dockerized-void'
-    hostname: 'void'
+    hostname: 'dockerized-void'
     build:
       context: ./services/void
       args:
@@ -333,7 +343,7 @@ services:
 
   test:
     container_name: 'dockerized-test'
-    hostname: 'test'
+    hostname: 'dockerized-test'
     build:
       context: ./services/test
       args:
