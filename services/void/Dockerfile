@@ -16,18 +16,19 @@ RUN echo "${DOCKER_HOST_USER} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/${DOCKER
 ## install programs
 RUN apk add python3 py3-pip nodejs npm ruby gcc
 RUN apk add php php-pdo_mysql php-mysqli php-pdo_mysql php-xml php-curl php-tokenizer php-dom php-gd php-zip php-bz2 php-pear php-gettext php-fileinfo
-RUN apk add nano curl rsync openssh less mtr mlocate entr goaccess jq ranger nethogs bmon youtube-dl aria2 monit httpie fzf fd asciinema exa ncdu p7zip unrar
+RUN apk add nano curl rsync openssh less mtr mlocate entr goaccess jq ranger nethogs bmon youtube-dl aria2 monit httpie fzf fd asciinema exa ncdu p7zip unrar figlet
 #RUN apk add vifm ripgrep
-RUN apk add mysql-client composer
+RUN apk add chromium mysql-client composer
 
 ## npm packages
 RUN npm i -g yarn hget express forever nodemon pm2 raml2html tldr
 RUN npm i -g --unsafe-perm loadtest
 RUN npm i -g webpack webpack-cli parcel-bundler grunt grunt-cli gulp-cli gulp babel-cli @ionic/cli @vue/cli @vue/cli-init firebase-tools
 RUN export NG_CLI_ANALYTICS=true && npm i -g @angular/cli
+RUN npm i -g is-up-cli surge fx serve speed-test overtime-cli
 
 ## pip packages
-RUN pip3 install virtualenv
+# RUN pip3 install virtualenv icdiff
 
 ## php configs
 ARG PHP_INI_FILE=/etc/php7/php.ini
@@ -46,10 +47,14 @@ RUN curl https://drupalconsole.com/installer -L -o drupal.phar \
     && chmod +x drupal.phar \
     && mv drupal.phar /usr/local/bin/drupal
 
+RUN curl https://github.com/asciimoo/wuzz/releases/download/v0.4.0/wuzz_linux_amd64 -L -o wuzz_linux_amd64 \
+    && chmod +x wuzz_linux_amd64 \
+    && mv wuzz_linux_amd64 /usr/local/bin/wuzz
+
 ## drush 8
-RUN curl https://github.com/drush-ops/drush/releases/download/8.3.5/drush.phar -L -o drush.phar \
-    && chmod +x drush.phar \
-    && mv drush.phar /usr/local/bin/drush
+RUN curl https://github.com/drush-ops/drush/releases/download/8.4.5/drush.phar -L -o drush.phar \
+   && chmod +x drush.phar \
+   && mv drush.phar /usr/local/bin/drush
 
 ## wp-cli
 RUN curl https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -L -o wp-cli.phar \
@@ -57,9 +62,9 @@ RUN curl https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.ph
     && mv wp-cli.phar /usr/local/bin/wp
 
 ## pantheon terminus
-RUN curl https://github.com/pantheon-systems/terminus/releases/download/2.4.0/terminus.phar -L -o terminus.phar \
-    && chmod +x terminus.phar \
-    && mv terminus.phar /usr/local/bin/terminus
+RUN curl https://github.com/pantheon-systems/terminus/releases/download/2.4.1/terminus.phar -L -o terminus.phar \
+   && chmod +x terminus.phar \
+   && mv terminus.phar /usr/local/bin/terminus
 
 ## configs
 RUN mkdir -p /root/.config/fish && echo "set fish_greeting" >> /root/.config/fish/config.fish
