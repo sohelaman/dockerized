@@ -15,6 +15,7 @@ services:
 
   fpm:
     container_name: 'dockerized-fpm'
+    image: 'sohelaman/dockerized-fpm:latest'
     hostname: 'dockerized-fpm'
     build:
       context: ./services/fpm
@@ -50,6 +51,7 @@ services:
 
   apache:
     container_name: 'dockerized-apache'
+    image: 'sohelaman/dockerized-apache:latest'
     hostname: 'dockerized-apache'
     build:
       context: ./services/apache
@@ -76,6 +78,7 @@ services:
   nginx:
     container_name: 'dockerized-nginx'
     hostname: 'dockerized-nginx'
+    image: 'sohelaman/dockerized-nginx:latest'
     build:
       context: ./services/nginx
       args:
@@ -225,6 +228,7 @@ services:
 
   varnish:
     container_name: 'dockerized-varnish'
+    image: 'sohelaman/dockerized-varnish:latest'
     hostname: 'dockerized-varnish'
     build:
       context: ./services/varnish
@@ -243,6 +247,7 @@ services:
 
   ftp:
     container_name: 'dockerized-ftp'
+    image: 'sohelaman/dockerized-ftp:latest'
     hostname: 'dockerized-ftp'
     build:
       context: ./services/ftp
@@ -309,6 +314,7 @@ services:
 
   void:
     container_name: 'dockerized-void'
+    image: 'sohelaman/dockerized-void:latest'
     hostname: 'dockerized-void'
     build:
       context: ./services/void
@@ -343,6 +349,7 @@ services:
 
   test:
     container_name: 'dockerized-test'
+    image: 'sohelaman/dockerized-test:latest'
     hostname: 'dockerized-test'
     build:
       context: ./services/test
