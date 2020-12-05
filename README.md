@@ -13,8 +13,9 @@ A stack of applications put together solely to ease PHP based web development.
 |----------|-------------------------------------------------------------|
 | Web      | apache, nginx, fpm                                          |
 | Database | mariadb, mysql, mssql, postgres, mongodb, couchdb           |
+| SDK      | dotnet                                                      |
 | Caching  | redis, memcached, varnish                                   |
-| Misc     | void, portainer, theia, maildev, ftp, emby, mongo-express   |
+| Utility  | void, portainer, theia, maildev, ftp, emby, mongo-express   |
 
 **Supported PHP versions: 5.6, 7.0, 7.1, 7.2, 7.3, 7.4, and 8.0.**
 
@@ -124,6 +125,7 @@ $ docker-compose down
 - PHP packages from the [DEB.SURY.ORG](https://deb.sury.org/) repository are used.
 - The `varnish` service uses `apache` as its backend by default. Backend can be specified in the [default config](services/varnish/config/default.vcl) file.
 - The `./volumes` directory does not contain anything necessary for dockerized. However, application logs, data, caches, shared spaces are kept and mounted inside that directory unless specifically changed in the `.env` file. For instance, MySQL data directory is set to be `./volumes/var/lib/mysql` by default.
+- The `dotnet` service includes .NET SDK and runtimes.
 - The `mssql` service data is not persistent. *CAUTION!* Data will be lost if the named volume `mssqldata` is removed or reinitiated.
 - The `maildev` service is an SMTP mail server. *CAUTION!* Maildev storage is not persistent. Emails will be lost if the container restarts.
 - The `portainer` service is a management GUI for Docker.
@@ -173,6 +175,7 @@ The following table shows ports used. If a service does not expose its port, the
 | fpm           	|         -       	|       90XX      	| App           	|
 | apache        	|      80, 443    	|      80, 443    	| App           	|
 | nginx         	|      80, 443    	|      80, 443    	| App           	|
+| dotnet         	|    5000, 5001    	|    5000, 5001    	| App           	|
 | mysql         	|       3306      	|       3306      	| App           	|
 | mariadb       	|       3306      	|       3306      	| App           	|
 | mssql         	|       1433      	|       1433      	| App           	|

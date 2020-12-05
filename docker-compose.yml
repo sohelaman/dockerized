@@ -3,6 +3,11 @@ version: "3"
 networks:
   skynet:
 
+
+volumes:
+  mssqldata:
+
+
 services:
   alpine:
     container_name: 'dockerized-alpine'
@@ -100,6 +105,31 @@ services:
       - skynet
     depends_on:
       - fpm
+
+  dotnet:
+    container_name: 'dockerized-dotnet'
+    image: 'sohelaman/dockerized-dotnet:latest'
+    hostname: 'dockerized-dotnet'
+    build:
+      context: ./services/dotnet
+      args:
+        - DOCKER_HOST_USER=${DOCKER_HOST_USER-john}
+        - DOCKER_HOST_USER_ID=${DOCKER_HOST_USER_ID-1000}
+        - DOCKER_HOST_GROUP_ID=${DOCKER_HOST_GROUP_ID-1000}
+    tty: true
+    stdin_open: true
+    ports:
+      - "5000:5000"
+      - "5001:5001"
+    extra_hosts:
+      - "dockerhost:${DOCKER_HOST_IP}"
+    environment:
+      - DOTNET_CLI_TELEMETRY_OPTOUT=true
+      - DOCUMENT_ROOT=${DOCUMENT_ROOT-/var/www/html}
+    volumes:
+      - ${DOCUMENT_ROOT-./volumes/var/www/html}:/var/www/html
+    networks:
+      - skynet
 
   mysql:
     container_name: 'dockerized-mysql'
@@ -367,7 +397,3 @@ services:
       - ${DOCUMENT_ROOT-./volumes/var/www/html}:/var/www/html
     networks:
       - skynet
-
-
-volumes:
-  mssqldata:
