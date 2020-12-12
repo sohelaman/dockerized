@@ -141,7 +141,7 @@ $ docker-compose down
   - MySQL client
   - Drush 8, DrupalConsole, WP-CLI
   - Heroku CLI, IBM Cloud CLI, Pantheon Terminus CLI
-  - NodeJS, NPM, Yarn
+  - Deno, NodeJS, NPM, Yarn
   - Webpack, Gulp, Grunt, Parcel, Babel
   - Ionic CLI, Angular CLI, Vue CLI
   - Python 3, PIP
