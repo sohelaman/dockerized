@@ -130,6 +130,7 @@ $ docker-compose down
 - The `maildev` service is an SMTP mail server. *CAUTION!* Maildev storage is not persistent. Emails will be lost if the container restarts.
 - The `portainer` service is a management GUI for Docker.
 - The `theia` service is a browser based IDE.
+- The `gitea` service is a local git server.
   - `THEIA_WORKSPACE` points to the current project (opened at startup).
   - `THEIA_WORKSPACES` should point the directory that contains all the projects.
   - By default, TheiaIDE should be accessible from [http://localhost:3030](http://localhost:3030)
@@ -164,6 +165,7 @@ Otherwise changed in the `.env` file, the following table shows predefined crede
 | couchdb       	|    root    	|    root    	| http://localhost:5984 	|
 | mongodb        	|    root    	|    root    	| -                     	|
 | mongo-express 	|      -     	|      -     	| http://localhost:8081 	|
+| gitea          	|      -     	|      -     	| http://localhost:10080 	|
 | emby          	|      -     	|      -     	| http://localhost:8096 	|
 
 
@@ -190,6 +192,7 @@ The following table shows ports used. If a service does not expose its port, the
 | maildev       	|       8088      	|        80       	| Admin UI      	|
 | maildev       	|        -        	|        25       	| SMTP          	|
 | emby          	|    8096, 8920   	|    8096, 8920   	| Admin UI      	|
+| gitea          	|   10080, 10022    |     3000, 22    	| Admin UI, SSH   |
 | portainer     	|       9900      	|       9000      	| Admin UI      	|
 | theia          	|       3030      	|       3000      	| App           	|
 | void          	| 1111, 3333, 5555  | 1111, 3333, 5555  | Any           	|

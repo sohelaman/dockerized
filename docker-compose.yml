@@ -2,6 +2,8 @@ version: "3"
 
 networks:
   skynet:
+  gitea:
+    external: false
 
 
 volumes:
@@ -341,6 +343,23 @@ services:
     volumes:
       - ${THEIA_WORKSPACES}:/home/workspaces
       - ${THEIA_WORKSPACE-./}:/home/project:cached
+
+  gitea:
+    container_name: dockerized-gitea
+    image: gitea/gitea
+    environment:
+      - USER_UID=${DOCKER_HOST_USER_ID-1000}
+      - USER_GID=${DOCKER_HOST_GROUP_ID-1000}
+    restart: ${RESTART_GITEA-no}
+    networks:
+      - gitea
+    volumes:
+      - ${GITEA_DATA-./volumes/data/gitea}:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "${GITEA_WEB_PORT-10080}:3000"
+      - "${GITEA_SSH_PORT-10022}:22"
 
   void:
     container_name: 'dockerized-void'
