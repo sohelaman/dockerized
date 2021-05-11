@@ -1,0 +1,7 @@
+#
+# MySQL server configuration overrides by dockerized.
+#
+
+[mysqld]
+max_allowed_packet=32M
+sort_buffer_size=1M
