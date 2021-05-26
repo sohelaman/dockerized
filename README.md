@@ -83,7 +83,7 @@ $ cp services/fpm/config/php/ini/dockerized-overrides.ini conf/php-overrides.ini
 These overrides will affect all the PHP versions installed.
 - MySQL configuration overrides,
 ```
-$ cp services/mysql/config/dockerized-overrides.cnf conf/mysql-overrides.ini
+$ cp services/mysql/config/dockerized-overrides.cnf conf/mysql-overrides.cnf
 ```
 ## Usages
 ### Building the images
