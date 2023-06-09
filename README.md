@@ -17,7 +17,7 @@ A stack of applications put together solely to ease PHP based web development.
 | Caching  | redis, memcached, varnish                                   |
 | Utility  | void, portainer, theia, maildev, ftp, emby, mongo-express   |
 
-**Supported PHP versions: 5.6, 7.0, 7.1, 7.2, 7.3, 7.4, and 8.0.**
+**Supported PHP versions: 5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1 and 8.2.**
 
 
 dockerized is inspired from [Laradock](https://laradock.io/) and supports a smaller set of tools but simpler environment.
