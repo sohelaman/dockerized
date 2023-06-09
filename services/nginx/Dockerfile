@@ -5,7 +5,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y nginx vim
 
-ARG NGINX_PHP_VER=7.3
+ARG NGINX_PHP_VER=8.2
 ENV NGINX_PHP_VER=${NGINX_PHP_VER}
 
 ## Remove existing conf
