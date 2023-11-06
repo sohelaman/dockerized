@@ -197,6 +197,8 @@ services:
     environment:
       POSTGRES_USER: ${POSTGRES_ROOT_USER-root}
       POSTGRES_PASSWORD: ${POSTGRES_ROOT_PASS-root}
+    ports:
+      - "5432:5432"
     volumes:
       - ${POSTGRES_DATA_DIR-./volumes/var/lib/postgresql/data}:/var/lib/postgresql/data
     networks:
