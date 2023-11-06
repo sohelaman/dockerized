@@ -8,6 +8,7 @@ networks:
 
 volumes:
   mssqldata:
+  oracledata:
 
 
 services:
@@ -203,6 +204,26 @@ services:
       - ${POSTGRES_DATA_DIR-./volumes/var/lib/postgresql/data}:/var/lib/postgresql/data
     networks:
       - skynet
+
+  oracle:
+    image: gvenzl/oracle-xe:21
+    environment:
+      ORACLE_PASSWORD: ${ORACLE_SYS_PASS-oracle}
+      APP_USER: ${ORACLE_APP_USER-oracleusr}
+      APP_USER_PASSWORD: ${ORACLE_APP_PASS-oraclepass}
+    ports:
+      - 1521:1521
+    volumes:
+      - oracledata:/opt/oracle/oradata
+
+  oracle11g:
+    image: oracleinanutshell/oracle-xe-11g:latest
+    environment:
+      ORACLE_ALLOW_REMOTE: true
+    ports:
+      - 49161:1521
+      - 5500:5500
+      - 1515:8080
 
   couchdb:
     container_name: 'dockerized-couchdb'

@@ -9,13 +9,13 @@ This is essentially a Docker based LAMP stack.
 A stack of applications put together solely to ease PHP based web development.
 
 ### Services
-| Category | Services                                                    |
-|----------|-------------------------------------------------------------|
-| Web      | apache, nginx, fpm                                          |
-| Database | mariadb, mysql, mssql, postgres, mongodb, couchdb           |
-| SDK      | dotnet                                                      |
-| Caching  | redis, memcached, varnish                                   |
-| Utility  | void, portainer, theia, maildev, ftp, emby, mongo-express   |
+| Category | Services                                                              |
+|----------|-----------------------------------------------------------------------|
+| Web      | apache, nginx, fpm                                                    |
+| Database | mariadb, mysql, mssql, postgres, mongodb, couchdb, oracle, oracle11g  |
+| SDK      | dotnet                                                                |
+| Caching  | redis, memcached, varnish                                             |
+| Utility  | void, portainer, theia, maildev, ftp, emby, mongo-express             |
 
 **Supported PHP versions: 5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1 and 8.2.**
 
@@ -130,6 +130,8 @@ $ docker-compose down
 - The `./volumes` directory does not contain anything necessary for dockerized. However, application logs, data, caches, shared spaces are kept and mounted inside that directory unless specifically changed in the `.env` file. For instance, MySQL data directory is set to be `./volumes/var/lib/mysql` by default.
 - The `dotnet` service includes .NET SDK and runtimes.
 - The `mssql` service data is not persistent. *CAUTION!* Data will be lost if the named volume `mssqldata` is removed or reinitiated.
+- The `oracle` service data is not persistent. *CAUTION!* Data will be lost if the named volume `oracledata` is removed or reinitiated.
+- To reset `oracle` SYS and SYSTEM passwords: `docker exec <container id> resetPassword <new password>`.
 - The `maildev` service is an SMTP mail server. *CAUTION!* Maildev storage is not persistent. Emails will be lost if the container restarts.
 - The `portainer` service is a management GUI for Docker.
 - The `theia` service is a browser based IDE.
@@ -156,20 +158,23 @@ $ docker-compose down
 ## Default credentials
 Otherwise changed in the `.env` file, the following table shows predefined credentials.
 
-| Service       	|    User    	|  Password  	| Admin UI              	|
-|---------------	|:----------:	|:----------:	|-----------------------	|
-| ftp           	|    john    	|     doe    	| -                     	|
-| portainer     	|      -     	|      -     	| http://localhost:9900 	|
-| maildev       	|      -     	|      -     	| http://localhost:8088 	|
-| mysql/mariadb 	|    root    	|    root    	| -                     	|
-| mysql/mariadb 	| dockerized 	| dockerized 	| -                     	|
-| mssql           |     sa     	| D0ckerized 	| -                     	|
-| postgres      	|    root    	|    root    	| -                     	|
-| couchdb       	|    root    	|    root    	| http://localhost:5984 	|
-| mongodb        	|    root    	|    root    	| -                     	|
-| mongo-express 	|      -     	|      -     	| http://localhost:8081 	|
-| gitea          	|      -     	|      -     	| http://localhost:10080 	|
-| emby          	|      -     	|      -     	| http://localhost:8096 	|
+| Service       	|    User    	|  Password  	| Admin UI              	                |
+|---------------	|:----------:	|:----------:	|------------------------------------	    |
+| ftp           	|    john    	|     doe    	| -                     	                |
+| portainer     	|      -     	|      -     	| http://localhost:9900 	                |
+| maildev       	|      -     	|      -     	| http://localhost:8088 	                |
+| mysql/mariadb 	|    root    	|    root    	| -                     	                |
+| mysql/mariadb 	| dockerized 	| dockerized 	| -                     	                |
+| mssql           |     sa     	| D0ckerized 	| -                     	                |
+| oracle          |   system    |   oracle  	| SID: XE                                 |
+| oracle11g       |   system    |   oracle  	| SID: XE                                 |
+| oracle11g       |   ADMIN     |   admin   	| http://localhost:1515/apex/apex_admin   |
+| postgres      	|    root    	|    root    	| -                     	                |
+| couchdb       	|    root    	|    root    	| http://localhost:5984 	                |
+| mongodb        	|    root    	|    root    	| -                     	                |
+| mongo-express 	|      -     	|      -     	| http://localhost:8081 	                |
+| gitea          	|      -     	|      -     	| http://localhost:10080 	                |
+| emby          	|      -     	|      -     	| http://localhost:8096 	                |
 
 
 ## Default port map
@@ -184,6 +189,8 @@ The following table shows ports used. If a service does not expose its port, the
 | mysql         	|       3306      	|       3306      	| App           	|
 | mariadb       	|       3306      	|       3306      	| App           	|
 | mssql         	|       1433      	|       1433      	| App           	|
+| oracle         	|       1521      	|       1521      	| App           	|
+| oracle11g     	|    49161, 1515    |    1521, 8080     | App, Admin UI   |
 | postgres      	|        -        	|       5432      	| App           	|
 | couchdb       	|       5984      	|       5984      	| App, Admin UI 	|
 | mongodb        	|        -        	|       27017     	| App           	|
