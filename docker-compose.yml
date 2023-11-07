@@ -8,7 +8,6 @@ networks:
 
 volumes:
   mssqldata:
-  oracledata:
 
 
 services:
@@ -206,6 +205,18 @@ services:
       - skynet
 
   oracle:
+    image: container-registry.oracle.com/database/free:latest
+    environment:
+      ORACLE_PWD: ${ORACLE_PASSWORD-oracle}
+      ORACLE_CHARACTERSET: ${ORACLE_CHARSET-AL32UTF8}
+    ports:
+      - 1521:1521
+    volumes:
+      - ${ORACLE_DATA_DIR-./volumes/opt/oracle/oradata}:/opt/oracle/oradata
+      # - ${ORACLE_STARTUP_DIR-./volumes/opt/oracle/scripts/startup}:/opt/oracle/scripts/startup
+      # - ${ORACLE_STARTUP_DIR-./volumes/opt/oracle/scripts/setup}:/opt/oracle/scripts/setup
+
+  oracle21c:
     image: gvenzl/oracle-xe:21
     environment:
       ORACLE_PASSWORD: ${ORACLE_SYS_PASS-oracle}
@@ -214,7 +225,7 @@ services:
     ports:
       - 1521:1521
     volumes:
-      - oracledata:/opt/oracle/oradata
+      - ./volumes/opt/oracle21/oradata:/opt/oracle/oradata
 
   oracle11g:
     image: oracleinanutshell/oracle-xe-11g:latest
@@ -411,6 +422,7 @@ services:
       - "13579:13579"
       - "31415:31415"
     extra_hosts:
+      # - "host.docker.internal:host-gateway"
       - "dockerhost:${DOCKER_HOST_IP}"
     # dns:
     #   - 1.1.1.1

@@ -166,7 +166,8 @@ Otherwise changed in the `.env` file, the following table shows predefined crede
 | mysql/mariadb 	|    root    	|    root    	| -                     	                |
 | mysql/mariadb 	| dockerized 	| dockerized 	| -                     	                |
 | mssql           |     sa     	| D0ckerized 	| -                     	                |
-| oracle          |   system    |   oracle  	| SID: XE                                 |
+| oracle          | system,sys  |   oracle  	| SID: FREE                                 |
+| oracle21c       |   system    |   oracle  	| SID: XE                                 |
 | oracle11g       |   system    |   oracle  	| SID: XE                                 |
 | oracle11g       |   ADMIN     |   admin   	| http://localhost:1515/apex/apex_admin   |
 | postgres      	|    root    	|    root    	| -                     	                |
@@ -190,6 +191,7 @@ The following table shows ports used. If a service does not expose its port, the
 | mariadb       	|       3306      	|       3306      	| App           	|
 | mssql         	|       1433      	|       1433      	| App           	|
 | oracle         	|       1521      	|       1521      	| App           	|
+| oracle21c       |       1521      	|       1521      	| App           	|
 | oracle11g     	|    49161, 1515    |    1521, 8080     | App, Admin UI   |
 | postgres      	|        -        	|       5432      	| App           	|
 | couchdb       	|       5984      	|       5984      	| App, Admin UI 	|
