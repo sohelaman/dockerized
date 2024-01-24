@@ -31,16 +31,16 @@ services:
         - DOCKER_HOST_USER=${DOCKER_HOST_USER-john}
         - DOCKER_HOST_USER_ID=${DOCKER_HOST_USER_ID-1000}
         - DOCKER_HOST_GROUP_ID=${DOCKER_HOST_GROUP_ID-1000}
-        - ADD_PHP_56=${ADD_PHP_56-false}
         - ADD_PHP_83=${ADD_PHP_83-true}
         - ADD_PHP_82=${ADD_PHP_82-true}
         - ADD_PHP_81=${ADD_PHP_81-true}
-        - ADD_PHP_80=${ADD_PHP_80-false}
+        - ADD_PHP_80=${ADD_PHP_80-true}
         - ADD_PHP_74=${ADD_PHP_74-true}
-        - ADD_PHP_73=${ADD_PHP_73-false}
-        - ADD_PHP_72=${ADD_PHP_72-false}
-        - ADD_PHP_71=${ADD_PHP_71-false}
-        - ADD_PHP_70=${ADD_PHP_70-false}
+        - ADD_PHP_73=${ADD_PHP_73-true}
+        - ADD_PHP_72=${ADD_PHP_72-true}
+        - ADD_PHP_71=${ADD_PHP_71-true}
+        - ADD_PHP_70=${ADD_PHP_70-true}
+        - ADD_PHP_56=${ADD_PHP_56-true}
     extra_hosts:
       - "dockerhost:${DOCKER_HOST_IP}"
     restart: ${RESTART_FPM-no}
@@ -49,7 +49,6 @@ services:
       - ${DOCUMENT_ROOT-./volumes/var/www/html}:/var/www/html
       - ${CACHE_DIR-./volumes/var/cachedir}:/var/cachedir
       - ./conf/php-overrides.ini:/etc/php/php-overrides.ini
-      - ./services/fpm/config/php/ini/php5.6.ini:/etc/php/5.6/fpm/php.ini
       - ./services/fpm/config/php/ini/php8.3.ini:/etc/php/8.3/fpm/php.ini
       - ./services/fpm/config/php/ini/php8.2.ini:/etc/php/8.2/fpm/php.ini
       - ./services/fpm/config/php/ini/php8.1.ini:/etc/php/8.1/fpm/php.ini
@@ -59,6 +58,7 @@ services:
       - ./services/fpm/config/php/ini/php7.2.ini:/etc/php/7.2/fpm/php.ini
       - ./services/fpm/config/php/ini/php7.1.ini:/etc/php/7.1/fpm/php.ini
       - ./services/fpm/config/php/ini/php7.0.ini:/etc/php/7.0/fpm/php.ini
+      - ./services/fpm/config/php/ini/php5.6.ini:/etc/php/5.6/fpm/php.ini
     networks:
       - skynet
 
