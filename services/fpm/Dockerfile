@@ -25,6 +25,7 @@ RUN apt update
 
 ## PHP versions to install
 ARG ADD_PHP_56=false
+ARG ADD_PHP_83=false
 ARG ADD_PHP_82=false
 ARG ADD_PHP_81=false
 ARG ADD_PHP_80=false
@@ -36,6 +37,7 @@ ARG ADD_PHP_70=false
 
 ## Export PHP-FPM versions. This will be used in the scripts later.
 ARG FPM_ADD_PHP_VERSIONS=5.6:${ADD_PHP_56};\
+8.3:${ADD_PHP_83};\
 8.2:${ADD_PHP_82};\
 8.1:${ADD_PHP_81};\
 8.0:${ADD_PHP_80};\
@@ -58,7 +60,7 @@ RUN /root/dockerized/config/php/setup.sh
 RUN apt install -y composer
 
 ## Expose ports
-EXPOSE 9056 9070 9071 9072 9073 9074 9080 9081 9082
+EXPOSE 9056 9070 9071 9072 9073 9074 9080 9081 9082 9083
 
 ## Launcher script
 COPY launcher.sh /root/
