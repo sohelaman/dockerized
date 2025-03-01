@@ -1,4 +1,3 @@
-version: "3"
 
 networks:
   skynet:
@@ -8,6 +7,7 @@ networks:
 
 volumes:
   mssqldata:
+  ollamadada:
 
 
 services:
@@ -142,8 +142,8 @@ services:
   mysql:
     container_name: 'dockerized-mysql'
     hostname: 'dockerized-mysql'
-    image: mysql:latest
-    command: --default-authentication-plugin=mysql_native_password
+    image: mysql:8.4  # tags 8.0 or 8.4
+    # command: --default-authentication-plugin=mysql_native_password  ## not working
     restart: ${RESTART_MYSQL-no}
     ports:
       - "${MYSQL_PORT-3306}:3306"
@@ -152,10 +152,10 @@ services:
       - ${MYSQL_DATA_DIR-./volumes/var/lib/mysql}:/var/lib/mysql
       - ${MYSQL_LOG_DIR-./volumes/var/log/mysql}:/var/log/mysql
     environment:
-      MYSQL_USER: ${MYSQL_USER-dockerized}
-      MYSQL_PASSWORD: ${MYSQL_USER_PASS-dockerized}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASS-root}
-      MYSQL_DATABASE: ${MYSQL_DB-dockerized}
+      # MYSQL_USER: ${MYSQL_USER-dockerized}
+      # MYSQL_PASSWORD: ${MYSQL_USER_PASS-dockerized}
+      # MYSQL_DATABASE: ${MYSQL_DB-dockerized}
     networks:
       - skynet
 
@@ -401,6 +401,21 @@ services:
     ports:
       - "${GITEA_WEB_PORT-10080}:3000"
       - "${GITEA_SSH_PORT-10022}:22"
+
+  ollama:
+    container_name: dockerized-ollama
+    image: ollama/ollama
+    volumes:
+      - ollamadada:/root/.ollama
+    ports:
+      - "11434:11434"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
 
   void:
     container_name: 'dockerized-void'

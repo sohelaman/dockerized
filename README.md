@@ -233,6 +233,11 @@ $ docker inspect container_id | grep IP
 $ docker container prune
 $ docker volume prune
 ```
+- Ollama run a model,
+```
+$ docker compose exec ollama ollama pull deepseek-r1
+$ docker compose exec ollama ollama run deepseek-r1
+```
 
 ## Todo
 - Tested only on 64 bit Linux systems. Testing needed on Microsoft Windows and Apple MacOS.
