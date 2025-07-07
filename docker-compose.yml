@@ -417,6 +417,12 @@ services:
               count: all
               capabilities: [gpu]
 
+  registry:
+    container_name: dockerized-registry
+    image: registry:latest
+    ports:
+      - "443:5000"
+
   void:
     container_name: 'dockerized-void'
     image: 'sohelaman/dockerized-void:latest'
