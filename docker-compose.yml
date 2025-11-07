@@ -423,6 +423,22 @@ services:
     ports:
       - "443:5000"
 
+  llama-cpp:
+    image: sohelaman/dockerized-llama-cpp:cpu-latest
+    build:
+      context: ./services/llama-cpp
+    hostname: dockerized-llama-cpp
+    container_name: dockerized-llama-cpp
+    ports:
+      - "${LLAMA_CPP_PORT-8080}:8080"
+    volumes:
+      - ${LLAMA_CPP_GGUF-./models/default.gguf}:/models/default.gguf
+      - ${LLAMA_CPP_MMPROJ-./models/placeholder.gguf}:/models/mmproj.gguf
+    environment:
+      LLAMA_CPP_VISION: ${LLAMA_CPP_VISION-false}
+      LLAMA_ARG_CTX_SIZE: ${LLAMA_CPP_CONTEXT-4096}
+    restart: unless-stopped
+
   void:
     container_name: 'dockerized-void'
     image: 'sohelaman/dockerized-void:latest'
