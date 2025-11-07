@@ -1,0 +1,51 @@
+services:
+  alpine:
+    container_name: 'dockerized-alpine'
+    hostname: 'dockerized-alpine'
+    image: alpine:latest
+    tty: true
+    stdin_open: true
+
+  llama-cpp-bin-cpu:
+    image: ghcr.io/ggerganov/llama.cpp:full
+    container_name: llama-cpp-bin-cpu
+    hostname: llama-cpp-bin-cpu
+    ports:
+      - "${LLAMA_CPP_PORT-8080}:8080"
+    volumes:
+      - ${LLAMA_CPP_GGUF-./models/default.gguf}:/models/default.gguf
+      - ${LLAMA_CPP_MMPROJ-./models/placeholder.gguf}:/models/mmproj.gguf
+    command: >
+      --server
+      -m /models/default.gguf
+      -c ${LLAMA_CPP_CONTEXT-4096}
+      --host 0.0.0.0
+      --port 8080
+    # --mmproj /models/mmproj.gguf
+    restart: unless-stopped
+
+  llama-cpp-bin-cuda:
+    image: ghcr.io/ggerganov/llama.cpp:full-cuda
+    container_name: llama-cpp-bin-cuda
+    hostname: llama-cpp-bin-cuda
+    ports:
+      - "${LLAMA_CPP_PORT-8080}:8080"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    volumes:
+      - ${LLAMA_CPP_GGUF-./models/default.gguf}:/models/default.gguf
+      - ${LLAMA_CPP_MMPROJ-./models/placeholder.gguf}:/models/mmproj.gguf
+    command: >
+      --server
+      -m /models/default.gguf
+      -c ${LLAMA_CPP_CONTEXT-4096}
+      --host 0.0.0.0
+      --port 8080
+    # --mmproj /models/mmproj.gguf
+    # -ngl 16       ## command option: number of GPU layers
+    restart: unless-stopped
