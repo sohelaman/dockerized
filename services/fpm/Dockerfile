@@ -60,8 +60,8 @@ COPY ./config /root/dockerized/config
 RUN chmod -R +x /root/dockerized/config/
 RUN /root/dockerized/config/php/setup.sh
 
-## Doing it post-install to prevent it installing default php packages as deps.
-RUN apt install -y composer
+# Install Composer 2
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 ## Expose ports
 EXPOSE 9056 9070 9071 9072 9073 9074 9080 9081 9082 9083 9084 9085
