@@ -31,16 +31,18 @@ services:
         - DOCKER_HOST_USER=${DOCKER_HOST_USER-john}
         - DOCKER_HOST_USER_ID=${DOCKER_HOST_USER_ID-1000}
         - DOCKER_HOST_GROUP_ID=${DOCKER_HOST_GROUP_ID-1000}
-        - ADD_PHP_83=${ADD_PHP_83-true}
-        - ADD_PHP_82=${ADD_PHP_82-true}
-        - ADD_PHP_81=${ADD_PHP_81-true}
-        - ADD_PHP_80=${ADD_PHP_80-true}
-        - ADD_PHP_74=${ADD_PHP_74-true}
-        - ADD_PHP_73=${ADD_PHP_73-true}
-        - ADD_PHP_72=${ADD_PHP_72-true}
-        - ADD_PHP_71=${ADD_PHP_71-true}
-        - ADD_PHP_70=${ADD_PHP_70-true}
         - ADD_PHP_56=${ADD_PHP_56-true}
+        - ADD_PHP_70=${ADD_PHP_70-true}
+        - ADD_PHP_71=${ADD_PHP_71-true}
+        - ADD_PHP_72=${ADD_PHP_72-true}
+        - ADD_PHP_73=${ADD_PHP_73-true}
+        - ADD_PHP_74=${ADD_PHP_74-true}
+        - ADD_PHP_80=${ADD_PHP_80-true}
+        - ADD_PHP_81=${ADD_PHP_81-true}
+        - ADD_PHP_82=${ADD_PHP_82-true}
+        - ADD_PHP_83=${ADD_PHP_83-true}
+        - ADD_PHP_84=${ADD_PHP_84-true}
+        - ADD_PHP_85=${ADD_PHP_85-true}
     extra_hosts:
       - "dockerhost:${DOCKER_HOST_IP}"
     restart: ${RESTART_FPM-no}
@@ -49,16 +51,18 @@ services:
       - ${DOCUMENT_ROOT-./volumes/var/www/html}:/var/www/html
       - ${CACHE_DIR-./volumes/var/cachedir}:/var/cachedir
       - ./conf/php-overrides.ini:/etc/php/php-overrides.ini
-      - ./services/fpm/config/php/ini/php8.3.ini:/etc/php/8.3/fpm/php.ini
-      - ./services/fpm/config/php/ini/php8.2.ini:/etc/php/8.2/fpm/php.ini
-      - ./services/fpm/config/php/ini/php8.1.ini:/etc/php/8.1/fpm/php.ini
-      - ./services/fpm/config/php/ini/php8.0.ini:/etc/php/8.0/fpm/php.ini
-      - ./services/fpm/config/php/ini/php7.4.ini:/etc/php/7.4/fpm/php.ini
-      - ./services/fpm/config/php/ini/php7.3.ini:/etc/php/7.3/fpm/php.ini
-      - ./services/fpm/config/php/ini/php7.2.ini:/etc/php/7.2/fpm/php.ini
-      - ./services/fpm/config/php/ini/php7.1.ini:/etc/php/7.1/fpm/php.ini
-      - ./services/fpm/config/php/ini/php7.0.ini:/etc/php/7.0/fpm/php.ini
       - ./services/fpm/config/php/ini/php5.6.ini:/etc/php/5.6/fpm/php.ini
+      - ./services/fpm/config/php/ini/php7.0.ini:/etc/php/7.0/fpm/php.ini
+      - ./services/fpm/config/php/ini/php7.1.ini:/etc/php/7.1/fpm/php.ini
+      - ./services/fpm/config/php/ini/php7.2.ini:/etc/php/7.2/fpm/php.ini
+      - ./services/fpm/config/php/ini/php7.3.ini:/etc/php/7.3/fpm/php.ini
+      - ./services/fpm/config/php/ini/php7.4.ini:/etc/php/7.4/fpm/php.ini
+      - ./services/fpm/config/php/ini/php8.0.ini:/etc/php/8.0/fpm/php.ini
+      - ./services/fpm/config/php/ini/php8.1.ini:/etc/php/8.1/fpm/php.ini
+      - ./services/fpm/config/php/ini/php8.2.ini:/etc/php/8.2/fpm/php.ini
+      - ./services/fpm/config/php/ini/php8.3.ini:/etc/php/8.3/fpm/php.ini
+      - ./services/fpm/config/php/ini/php8.4.ini:/etc/php/8.4/fpm/php.ini
+      - ./services/fpm/config/php/ini/php8.5.ini:/etc/php/8.5/fpm/php.ini
     networks:
       - skynet
 
@@ -69,7 +73,7 @@ services:
     build:
       context: ./services/apache
       args:
-        - APACHE_PHP_VER=${APACHE_PHP_VER-8.3}
+        - APACHE_PHP_VER=${APACHE_PHP_VER-8.5}
     ports:
       - "${APACHE_PORT-80}:80"
       - "${APACHE_PORT_SSL-443}:443"
@@ -95,7 +99,7 @@ services:
     build:
       context: ./services/nginx
       args:
-        - NGINX_PHP_VER=${NGINX_PHP_VER-8.3}
+        - NGINX_PHP_VER=${NGINX_PHP_VER-8.5}
     ports:
       - "${NGINX_PORT-80}:80"
       - "${NGINX_PORT_SSL-443}:443"

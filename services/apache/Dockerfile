@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y wget vim ca-certificates
 ## Install Apache
 RUN apt-get update && apt-get install -y apache2 libapache2-mod-fcgid
 
-ARG APACHE_PHP_VER=8.2
+ARG APACHE_PHP_VER=8.5
 ENV APACHE_PHP_VER=${APACHE_PHP_VER}
 
 ## Apache modules

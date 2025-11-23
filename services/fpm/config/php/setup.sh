@@ -10,7 +10,7 @@ for item in $available_versions; do
 		ver_str=$(echo "$item" | awk -F: '{print $1}' | sed 's/[ \t]\?//g')
 
 		## Install php extensions
-		if [[ "$ver_str" == "8.3" || "$ver_str" == "8.2" || "$ver_str" == "8.1" || "$ver_str" == "8.0" ]]; then
+		if [[ "$ver_str" == "8.5" || "$ver_str" == "8.4" || "$ver_str" == "8.3" || "$ver_str" == "8.2" || "$ver_str" == "8.1" || "$ver_str" == "8.0" ]]; then
 			php_extensions=(cli fpm common mysql pgsql opcache mbstring zip gd xml curl soap odbc bcmath bz2 intl readline ldap)
 		else
 			php_extensions=(cli fpm common mysql pgsql opcache mbstring zip gd xml curl json soap odbc bcmath bz2 intl readline ldap)
